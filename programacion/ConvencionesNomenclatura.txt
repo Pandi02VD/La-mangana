@@ -1,0 +1,15 @@
+Convenciones simples de nomenclatura en PHP.
+
+1. Nombre de clases: Se escriben con mayúsculas las primeras letras de cada palabra y posteriormente se ponen las llaves que limitan el contenido de la clase.
+1. Ejemplo:class MiClase{}
+
+2. Nombre de métodos: Se escriben con mayúsculas las primeras letras de cada palabra, exepto la primera palabra y justo después se ponen los paréntesis en donde van los parámetros de dicho método o función, para finalizar con las llaves que contienen las instruccones del método.
+2. Ejemplo: function miMetodo(){}
+
+3. Nombre de las variables: Se escriben igual que los métodos y al principio llevan el símbolo de $.
+3. Ejemplo: $miVariable;
+
+4. Nombre de las constantes: En los lenguajes de programación de alto nivel se acostumbra a escribir las constantes con mayúsculas. Debes escribir antes la palabra reservada final.
+4. Ejemplo: final $MICONSTANTE;
+ 
+Para tener salto de linea automatico "alt + z".

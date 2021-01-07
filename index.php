@@ -4,3 +4,4 @@
     require_once 'controlador/Controlador.php';
     $main = new Controlador();
     $main -> plantilla();
+?>

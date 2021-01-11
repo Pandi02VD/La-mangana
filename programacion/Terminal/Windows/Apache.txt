@@ -1,0 +1,10 @@
+Para utilizar el servidor apache desde la terminal de windows, solo si utiliza xampp.
+
+1. Abrir una terminal (en el caso de Visual Studio Code) con las teclas CTRL + Ñ.
+2. Para iniciar el servidor apache teclee el siguiente comando: > C:\xampp\apache_start.bat
+3. Aparecerá el mensaje de que apache se esta ejecutando "apache 2 is starting"
+4. Para detener la ejecuación del servidor apache teclee CTRL + C
+5. Aparecerá un mensaje de confirmación, teclas s para terminar o n para cancelar (si el mensaje está en español, en caso contrario para terminar presione y o n para cancelar)
+6. Para cerrar la terminal teclee: > exit
+
+NOTA: El símbolo > solo es representativo de la terminal, no tiene que escribirlo.

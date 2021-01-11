@@ -1,3 +1,5 @@
+<?php session_start();?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,10 +8,8 @@
     <title>La mangana</title>
 </head>
 <body>
-    <nav>
-        
-    </nav>
     <?php
+        include "vista/modulo/Navegacion.php";
         $contrl = new Controlador();
         $contrl -> traerPaginaCtl();
     ?>

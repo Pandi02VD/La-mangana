@@ -1,8 +1,5 @@
 <?php 
     $usuarios = Controlador::seleccionarUsuariosCtl();
-    // if (isset($_SESSION["ingresado"])) {
-        
-    // }
 ?>
 <h1>Inicio</h1>
 
@@ -12,8 +9,8 @@
     <table>
         <tr>
             <th>Nombre</th>
-            <th>Usuario</th>
-            <th>Contraseña</th>
+            <!-- <th>Usuario</th>
+            <th>Contraseña</th> -->
             <th>Tipo</th>
             <th>Fecha</th>
             <th>Estado</th>
@@ -41,8 +38,6 @@
             
         <tr>
             <td style="background: pink"><?=$value["nombre"]?></td>
-            <td style="background: pink"><?=$value["usuario"]?></td>
-            <td style="background: pink"><?=$value["contrasena"]?></td>
             <td style="background: pink"><?=$tipo?></td>
             <td style="background: pink"><?php echo $value["fecha"]?></td>
             <td style="background: pink"><?=$status?></td>

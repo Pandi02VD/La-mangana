@@ -24,19 +24,36 @@
         public function iniciarSesionCtl(){
             if (isset($_POST["usuario"]) && isset($_POST["contrasena"])) {
                 $respuesta = CRUD::iniciarSesionBD($_POST["usuario"], $_POST["contrasena"]);
-                if ($respuesta["nombre"] == null) {
+                if ($respuesta["usuario"] == null) {
                     echo '<span>Error</span>';
                 }elseif ($respuesta["usuario"] == $_POST["usuario"] && $respuesta["contrasena"] == $_POST["contrasena"]) {
-                    $_SESSION["ingresado"] = $respuesta["nombre"];
-                    echo '
-                        <script>
-                        if(window.history.replaceState){
-                            window.history.replaceState(null, null, window.location.href);
-                        }
-                            window.location = "index.php?pagina=Inicio";
-                        </script>
-                        ';
+                    $datosUsuario = CRUD::seleccionarUsuarioSesionBD($respuesta["iduser"]);
+                    $conectarUsuario = CRUD::conectarUsuarioBD($respuesta["iduser"]);
+                    if ($datosUsuario["nombre"] == null) {
+                        echo '<span>Error</span>';
+                    }elseif ($datosUsuario["iduser"] == $respuesta["iduser"]) {
+                        $_SESSION["ingresado"] = $datosUsuario["nombre"];
+                        $_SESSION["usuario"] = $datosUsuario["iduser"];
+                        echo '
+                            <script>
+                            if(window.history.replaceState){
+                                window.history.replaceState(null, null, window.location.href);
+                            }
+                                window.location = "index.php?pagina=Inicio";
+                            </script>
+                            ';
+                    }
                 }
             }
+        }
+
+        public function conectarUsuarioCtl($usuario){
+            $conectar = CRUD::conectarUsuarioBD($usuario);
+            return $conectar;
+        }
+        
+        public function desconectarUsuarioCtl($usuario){
+            $desconectar = CRUD::desconectarUsuarioBD($usuario);
+            return $desconectar;
         }
     }

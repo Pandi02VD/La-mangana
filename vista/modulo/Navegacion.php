@@ -11,6 +11,7 @@
         <li> -->
             <?php if(isset($_SESSION["ingresado"])) : ?>
             <a href="index.php?pagina=Salir">Salir</a>
+            <span>Hola <?=$_SESSION["ingresado"]?> </span>
             <?php endif ?>
         <!-- </li>
     </ul> -->

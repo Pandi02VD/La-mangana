@@ -13,6 +13,7 @@
     
     <div>
         <input type="submit" value="Iniciar">
+        <a href="index.php?pagina=CrearCuenta">No tengo cuenta</a>
     </div>
         <?php 
             $entrar = Controlador::iniciarSesionCtl();

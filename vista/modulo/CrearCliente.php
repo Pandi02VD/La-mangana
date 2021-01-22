@@ -1,4 +1,4 @@
-<h1>Crear Cliente</h1>
+<h2>Crear Cliente</h2>
 
 <form method="post">    
     <div>

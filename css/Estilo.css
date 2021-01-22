@@ -1,0 +1,52 @@
+
+
+*{font-family: 'Nunito Sans', sans-serif, arial}
+
+.f__e__usuario.oculto{
+    top: -100%;
+    visibility: hidden;
+}
+
+.f__e__cliente.oculto{
+    top: -100%;
+    visibility: hidden;
+}
+
+.f__e__usuario{
+    visibility: visible;
+    position:fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    width: auto;
+    height: auto;
+    background: white;
+    padding: 20px 30px 30px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+    transition: 0.8s;
+}
+
+.f__e__cliente{
+    position:fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    width: auto;
+    height: auto;
+    background: white;
+    padding: 20px 30px 30px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+    box-sizing: border-box;
+    transition: 0.8s;
+}
+
+.f{
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}

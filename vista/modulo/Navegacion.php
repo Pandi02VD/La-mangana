@@ -6,9 +6,11 @@
             <?php endif ?>
         <!-- </li>
         <li> -->
+            <?php if(isset($_SESSION["ingresado"])) : ?>
             <a href="index.php?pagina=Inicio">Inicio</a>
             <a href="index.php?pagina=Mascotas">Mascotas</a>
-            <a href="index.php?pagina=Usuarios">Usuarios</a>
+            <a href="index.php?pagina=Usuarios">Clientes & Usuarios</a>
+            <?php endif ?>
         <!-- </li>
         <li> -->
             <?php if(isset($_SESSION["ingresado"])) : ?>

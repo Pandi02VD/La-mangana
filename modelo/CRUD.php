@@ -28,6 +28,36 @@
             $sql = null;
         }
 
+        #Recuperar datos de cliente de la base de datos.
+        public function datosClienteBD($clienteId){
+            $sql = Conexion::conectar() -> prepare(
+                "select nombre as cliente from user 
+                where tipo = 0 and iduser = :iduser;"
+            );
+            $sql -> bindParam(":iduser", $clienteId, PDO::PARAM_INT);
+            $sql -> execute();
+            return $sql -> fetch();
+            $sql -> close();
+            $sql = null;
+        }
+        
+        #Actualizar datos de cliente en la base de datos.
+        public function actualizarClienteBD($datosCliente){
+            $sql = Conexion::conectar() -> prepare(
+                "update user set nombre = :nombre 
+                where tipo = 0 and iduser = :iduser;"
+            );
+            $sql -> bindParam(":nombre", $datosCliente["nombre"], PDO::PARAM_STR);
+            $sql -> bindParam(":iduser", $datosCliente["iduser"], PDO::PARAM_INT);
+            if($sql -> execute()) {
+                return true;
+            }else{
+                return false;
+            }
+            $sql -> close();
+            $sql = null;
+        }
+
         #Crear cliente en la base de datos.
         public function crearClienteBD($nombreCliente){
             $sql = Conexion::conectar() -> prepare(
@@ -101,7 +131,7 @@
         #Seleccionar usuario que inició sesión en el sistema desde la base de datos.
         public function seleccionarUsuarioSesionBD($usuarioSesion){
             $sql = Conexion::conectar() -> prepare("
-                select u.nombre, u_a.iduser, u_a.usuario, u_a.status 
+                select u.nombre, u.tipo, u_a.iduser, u_a.usuario, u_a.status 
                 from user u 
                 inner join user_acceso u_a on u_a.iduser = u.iduser 
                 where u.iduser = :iduser;
@@ -109,6 +139,37 @@
             $sql -> bindParam(":iduser", $usuarioSesion, PDO::PARAM_STR);
             $sql -> execute();
             return $sql -> fetch();
+            $sql -> close();
+            $sql = null;
+        }
+
+        #Recuperar datos de usuario de la base de datos.
+        public function datosUsuarioBD($usuarioId){
+            $sql = Conexion::conectar() -> prepare(
+                "select nombre, tipo from user 
+                where tipo > 0 and tipo < 4 and iduser = :iduser;"
+            );
+            $sql -> bindParam(":iduser", $usuarioId, PDO::PARAM_INT);
+            $sql -> execute();
+            return $sql -> fetch();
+            $sql -> close();
+            $sql = null;
+        }
+
+        #Actualizar datos de usuario en la base de datos.
+        public function actualizarUsuarioBD($datosUsuario){
+            $sql = Conexion::conectar() -> prepare(
+                "update user set nombre = :nombre, tipo = :tipo 
+                where iduser = :iduser;"
+            );
+            $sql -> bindParam(":nombre", $datosUsuario["nombre"], PDO::PARAM_STR);
+            $sql -> bindParam(":tipo", $datosUsuario["tipo"], PDO::PARAM_INT);
+            $sql -> bindParam(":iduser", $datosUsuario["iduser"], PDO::PARAM_INT);
+            if($sql -> execute()) {
+                return true;
+            }else{
+                return false;
+            }
             $sql -> close();
             $sql = null;
         }

@@ -6,10 +6,10 @@
     $mascotasCliente = Controlador::mascotasClienteCtl($clienteId);
     $cliente = Controlador::seleccionarClienteCtl($clienteId);
 ?>
-<h1>Mascotas de <?= $cliente["nombre"] == null ? "X" : $cliente["nombre"] ;?></h1>
+<h2>Mascotas de <?= $cliente["nombre"] == null ? '<script>window.location = "index.php?pagina=Error";</script>' : $cliente["nombre"] ;?></h2>
 
 <div style="border: 1px solid red">
-    <h4>Mascotas</h4>
+    <h3>Mascotas</h3>
     <?php if ($mascotasCliente == null) { ?>
             <div><span>Aún no hay registros</span></div>
     <?php }else{ ?>

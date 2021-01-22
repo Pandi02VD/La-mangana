@@ -1,1 +1,1 @@
-<h1>Mascotas</h1>
+<h2>Mascotas</h2>

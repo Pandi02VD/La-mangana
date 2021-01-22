@@ -1,6 +1,6 @@
 // document.addEventListener('DOMContentLoaded', reloj());
 function reloj(){
-    if (horaActual > 0 && horaActual < 12) {
+    if (horaActual < 12) {
         saludo.innerText = 'Buenos días';
     }else if(horaActual > 12 && horaActual < 18){
         saludo.innerText = 'Buenas tardes';

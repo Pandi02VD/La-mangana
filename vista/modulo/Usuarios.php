@@ -1,15 +1,21 @@
 <?php 
+    $cargo = 0;
+    if(!(isset($_SESSION["tipo-usuario"]) && isset($_SESSION["ingresado"]))){
+        echo '<script>window.location = "index.php?pagina=IniciarSesion"</script>';
+    }else{
+        $cargo = $_SESSION["tipo-usuario"];
+    }
     $usuarios = Controlador::seleccionarUsuariosCtl();
     $clientes = Controlador::seleccionarClientesCtl();
 ?>
-<h1>Clientes & Usuarios</h1>
+<h2>Clientes & Usuarios</h2>
 
 <a href="index.php?pagina=CrearCuenta">Nuevo Usuario</a>
 <a href="index.php?pagina=CrearCliente">Nuevo Cliente</a>
 
-<?php if(isset($_SESSION["ingresado"])){ ?>
+<?php if($cargo == 1) :?>
 <div style="border: 1px solid red">
-    <h4>Contenido privado (Usuarios)</h4>
+    <h3>Usuarios</h3>
     <table>
         <tr>
             <th><input type="checkbox" name="check-all-users" id="check-all-users"></th>
@@ -55,11 +61,59 @@
         </tr>
             <?php endforeach ?>
     </table>
+<div>
+    <!-- <form method="post"> -->
+        <!-- <input type="submit" id="btn-edit-user" value="Editar" disabled> -->
+        <input type="button" id="btn-edit-user" value="Editar" disabled>
+    <!-- </form> -->
+    <!-- <form method="post"> -->
+        <!-- <input type="submit" id="btn-delete-user" value="Borrar" disabled> -->
+        <input type="button" id="btn-delete-user" value="Borrar" disabled>
+    <!-- </form> -->
 </div>
-<?php } ?>
+<div class="f__e__usuario oculto" id="form-edit-user">
+    <button id="btn-close-form-edit-user">X</button>
+    <form method="post" class="f">
+        <h4>Editar Usuario</h4>
+        <div>
+        <label for="tipo-usuario">Tipo de usuario</label>
+        <select name="tipo-usuario" id="tipo-usuario">
+            <option value="">Seleccione tipo de usuario</option>
+            <option value="2">Asistente</option>
+            <option value="3">Médico</option>
+        </select>
+        </div>
+        
+        <div>
+            <label for="nombre">Nombre</label>
+            <input type="text" id="nombre" name="nombre">
+        </div>
+<!-- 
+        <div>
+            <label for="usuario">Usuario</label>
+            <input type="text" id="usuario" name="usuario">
+        </div>
+        
+        <div>
+            <label for="contrasena">Contraseña</label>
+            <input type="password" id="contrasena" name="contrasena">
+        </div>
+         -->
+        <div>
+            <input type="submit" value="Actualizar">
+            <input type="hidden" name="usuarioId" id="usuarioId">
+        </div>
+            <?php 
+                $actualizaUsuario = Controlador::actualizarUsuarioCtl();
+            ?>
+    </form>
+</div>
+</div>
+<?php endif ?>
 
+<?php if($cargo == 1 || $cargo == 2) { ?>
 <div style="border: 1px solid blue">
-    <h4>Contenido público (Clientes)</h4>
+    <h3>Clientes</h3>
     <table>
         <tr>
             <th><input type="checkbox" name="check-all-clients" id="check-all-clients"></th>
@@ -80,4 +134,30 @@
         </tr>
             <?php endforeach ?>
     </table>
+<div>
+    <!-- <form method="post"> -->
+        <!-- <input type="submit" id="btn-edit-client" value="Editar" disabled> -->
+        <input type="button" id="btn-edit-client" value="Editar" disabled>
+    <!-- </form> -->
+    <!-- <form method="post"> -->
+        <!-- <input type="submit" id="btn-delete-client" value="Borrar" disabled> -->
+        <input type="button" id="btn-delete-client" value="Borrar" disabled>
+    <!-- </form> -->
 </div>
+<div class="f__e__cliente oculto" id="form-edit-client">
+    <button id="btn-close-form-edit-client">X</button>
+    <form method="post" class="f">
+        <h4>Editar Cliente</h4>
+        <label for="cliente">Nombre</label>
+        <input type="text" name="cliente" id="cliente">
+        <div>
+            <input type="submit" value="Actualizar">
+            <input type="hidden" name="clienteId" id="clienteId">
+        </div>
+            <?php 
+                $actualizarCliente = Controlador::actualizarClienteCtl();
+            ?>
+    </form>
+</div>
+</div>
+<?php } ?>

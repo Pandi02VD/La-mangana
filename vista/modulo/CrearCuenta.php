@@ -1,4 +1,4 @@
-<h1>Crear Cuenta</h1>
+<h2>Crear Cuenta</h2>
 
 <form method="post">
     <div>

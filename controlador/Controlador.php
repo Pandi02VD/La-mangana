@@ -27,6 +27,38 @@
             return $respuesta;
         }
 
+        #Recuperar datos de cliente.
+        public function datosClienteCtl($clienteId){
+            $respuesta = CRUD::datosClienteBD($clienteId);
+            return $respuesta;
+        }
+        
+        #Actualizar datos de cliente.
+        static public function actualizarClienteCtl(){
+            if (isset($_POST["clienteId"])) {
+                $datosCliente = array(
+                    "iduser" => $_POST["clienteId"], 
+                    "nombre" => $_POST["cliente"]
+                );
+                $respuesta = CRUD::actualizarClienteBD($datosCliente);
+                if($respuesta) {
+                    echo '
+                    <script>
+                        alert("Datos actualizados");
+                        window.location = "index.php?pagina=Usuarios";
+                    </script>
+                    ';
+                }else{
+                    echo '
+                    <script>
+                        alert("Error al actualizar");
+                        window.location = "index.php?pagina=Usuarios";
+                    </script>
+                    ';
+                }
+            }
+        }
+
         #Crear cliente.
         public function crearClienteCtl(){
             if (isset($_POST["cliente"])) {
@@ -61,6 +93,39 @@
             return $respuesta;
         }
 
+        #Recuperar datos de usuario.
+        public function datosUsuarioCtl($usuarioId){
+            $respuesta = CRUD::datosUsuarioBD($usuarioId);
+            return $respuesta;
+        }
+
+        #Actualizar datos de usuario.
+        static public function actualizarUsuarioCtl(){
+            if (isset($_POST["usuarioId"])) {
+                $datosUsuario = array(
+                    "iduser" => $_POST["usuarioId"], 
+                    "nombre" => $_POST["nombre"], 
+                    "tipo" => $_POST["tipo-usuario"]
+                );
+                $respuesta = CRUD::actualizarUsuarioBD($datosUsuario);
+                if($respuesta) {
+                    echo '
+                    <script>
+                        alert("Datos actualizados");
+                        window.location = "index.php?pagina=Usuarios";
+                    </script>
+                    ';
+                }else{
+                    echo '
+                    <script>
+                        alert("Error al actualizar");
+                        window.location = "index.php?pagina=Usuarios";
+                    </script>
+                    ';
+                }
+            }
+        }
+
         #Abrir la sesión de usuario.
         public function iniciarSesionCtl(){
             if (isset($_POST["usuario"]) && isset($_POST["contrasena"])) {
@@ -75,6 +140,7 @@
                     }elseif ($datosUsuario["iduser"] == $respuesta["iduser"] && $conectarUsuario == true) {
                         $_SESSION["ingresado"] = $datosUsuario["nombre"];
                         $_SESSION["usuario"] = $datosUsuario["iduser"];
+                        $_SESSION["tipo-usuario"] = $datosUsuario["tipo"];
                         echo '
                             <script>
                             if(window.history.replaceState){

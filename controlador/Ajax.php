@@ -5,6 +5,7 @@
     class Ajax{
         public $usuarioElegido;
         public $clienteElegido;
+        public $clientesElegidosEliminar;
 
         #Recuperar datos de usuario para editarlos.
         public function datosUsuarioAjax(){
@@ -19,6 +20,14 @@
             $respuesta = Controlador::datosClienteCtl($dato);
             echo json_encode($respuesta);
         }
+        
+        #Deshabilitar uno o más clientes.
+        public function eliminarClientesAjax(){
+            $datos = $this -> clientesElegidosEliminar;
+            $respuesta = Controlador::eliminarClientesCtl($datos);
+            // echo var_dump($datos);
+            echo $respuesta;
+        }
     }
     
     if (isset($_POST["usuarioId"])) {
@@ -31,4 +40,10 @@
         $objClienteId = new Ajax();
         $objClienteId -> clienteElegido = $_POST["clienteId"];
         $objClienteId -> datosClienteAjax();
+    }
+    
+    if (isset($_POST["clientesEliminarId"])) {
+        $objClientesEliminarId = new Ajax();
+        $objClientesEliminarId -> clientesElegidosEliminar = json_decode($_POST["clientesEliminarId"]);
+        $objClientesEliminarId -> eliminarClientesAjax();
     }

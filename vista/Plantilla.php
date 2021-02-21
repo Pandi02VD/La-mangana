@@ -1,11 +1,12 @@
 <?php session_start();?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>La mangana</title>
+    <link rel="shortcut icon" href="img/L.svg" type="image/x-icon">
     <script type="text/javascript" src="vista/scripts/jquery-3.4.1.min.js"></script>
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans&display=swap" rel="stylesheet">

@@ -73,6 +73,21 @@
             $sql = null;
         }
 
+        #Deshabilitar uno o más clientes del sistema.
+        public function eliminarClientesBD($clienteId){
+            $sql = Conexion::conectar() -> prepare(
+                "update user set status = 0 where tipo = 0 and iduser = :iduser;"
+            );
+            $sql -> bindParam(":iduser", $clienteId, PDO::PARAM_INT);
+            if ($sql -> execute()) {
+                return $clienteId;
+            }else{
+                return false;
+            }
+            $sql -> close();
+            $sql = null;
+        }
+
         #Contar mascotas del cliente desde la base de datos.
         public function contarMascotasClienteBD($clienteId){
             $sql = Conexion::conectar() -> prepare(
@@ -89,14 +104,30 @@
         public function mascotasClienteBD($clienteId){
             $sql = Conexion::conectar() -> prepare(
                 "select 
-                u.nombre as cliente, m.nombre as mascota 
+                u.nombre as cliente, m.idmascota, m.nombre as mascota, 
+                m.sexo, m.peso, m.tamano, m.ano_nacimiento, m.descripcion, 
+                m.condicion_corporal, m_r.idmascota_raza 
                 from mascota m 
                 inner join user u on m.iduser = u.iduser 
+                inner join mascota_raza m_r on m.idmascota_raza = m_r.idmascota_raza 
+                inner join mascota_especie m_e on m_r.idmascota_especie = m_e.idmascota_especie 
                 where m.iduser = :iduser;"
             );
             $sql -> bindParam(":iduser", $clienteId, PDO::PARAM_INT);
             $sql -> execute();
             return $sql -> fetchAll();
+            $sql -> close();
+            $sql = null;
+        }
+        
+        #Seleccionar raza de mascota desde la base de datos.
+        public function seleccionarRazaMascotaBD($razaId){
+            $sql = Conexion::conectar() -> prepare(
+                "select raza from mascota_raza where idmascota_raza = :idmascota_raza;"
+            );
+            $sql -> bindParam(":idmascota_raza", $razaId, PDO::PARAM_INT);
+            $sql -> execute();
+            return $sql -> fetch();
             $sql -> close();
             $sql = null;
         }
@@ -255,6 +286,21 @@
             $sql -> bindParam(":usuario", $datosAcceso["usuario"], PDO::PARAM_STR);
             $sql -> bindParam(":contrasena", $datosAcceso["contrasena"], PDO::PARAM_STR);
             if($sql -> execute()){
+                return true;
+            }else{
+                return false;
+            }
+            $sql -> close();
+            $sql = null;
+        }
+
+        #Deshabilitar usuario del sistema.
+        public function deshabilitarUsuarioBD($usuarioId){
+            $sql = Conexion::conectar() -> prepare(
+                "update user set status = 0 where tipo != 1 and iduser = :iduser;"
+            );
+            $sql -> bindParam(":iduser", $usuarioId, PDO::PARAM_INT);
+            if ($sql -> execute()) {
                 return true;
             }else{
                 return false;

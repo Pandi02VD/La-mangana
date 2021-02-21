@@ -35,24 +35,24 @@
         
         #Actualizar datos de cliente.
         static public function actualizarClienteCtl(){
-            if (isset($_POST["clienteId"])) {
+            if (isset($_POST["clienteId-edit"])) {
                 $datosCliente = array(
-                    "iduser" => $_POST["clienteId"], 
-                    "nombre" => $_POST["cliente"]
+                    "iduser" => $_POST["clienteId-edit"], 
+                    "nombre" => $_POST["cliente-edit"]
                 );
                 $respuesta = CRUD::actualizarClienteBD($datosCliente);
                 if($respuesta) {
                     echo '
                     <script>
+                    window.location = "index.php?pagina=Clientes";
                         alert("Datos actualizados");
-                        window.location = "index.php?pagina=Usuarios";
                     </script>
                     ';
                 }else{
                     echo '
                     <script>
                         alert("Error al actualizar");
-                        window.location = "index.php?pagina=Usuarios";
+                        window.location = "index.php?pagina=Clientes";
                     </script>
                     ';
                 }
@@ -61,18 +61,47 @@
 
         #Crear cliente.
         public function crearClienteCtl(){
-            if (isset($_POST["cliente"])) {
-                $respuesta = CRUD::crearClienteBD($_POST["cliente"]);
+            if (isset($_POST["cliente-new"])) {
+                $respuesta = CRUD::crearClienteBD($_POST["cliente-new"]);
                 if ($respuesta) {
                     if (isset($_POST["vinculo-animal"])) {
-                        echo '<span>Vínculo creado</span>';
+                        echo '
+                            <script>
+                            window.location = "index.php?pagina=Clientes";
+                                alert("Cliente creado con vínculo animal");
+                            </script>
+                            ';
                     }else{
-                        echo '<span>Cliente creado sin vínculo</span>';
+                        echo '
+                            <script>
+                            window.location = "index.php?pagina=Clientes";
+                                alert("Cliente creado sin vínculo animal");
+                            </script>
+                            ';
                     }
                 }else{
                     echo '<span>Error al crear el cliente</span>';
                 }
             }
+        }
+
+        #Deshabilitar uno o más clientes.
+        public function eliminarClientesCtl($clientesElegidosEliminar){
+            $respuestas = array();
+            $conclusion = true;
+            for ($i = 0; $i < sizeof($clientesElegidosEliminar); $i++) {
+                $respuesta = CRUD::eliminarClientesBD($clientesElegidosEliminar[$i]);
+                if ($respuesta == false) {
+                    $respuestas[$i] = false;
+                }
+            }
+            
+            for ($i = 0; $i < sizeof($respuestas); $i++) {
+                if ($respuestas[$i] == false) {
+                    $conclusion = false;
+                }
+            }
+            return $conclusion;
         }
 
         #Contar mascotas del cliente.
@@ -92,6 +121,12 @@
             $respuesta = CRUD::seleccionarUsuariosBD();
             return $respuesta;
         }
+        
+        #Seleccionar raza de mascota 
+        public function seleccionarRazaMascotaCtl($razaId){
+            $respuesta = CRUD::seleccionarRazaMascotaBD($razaId);
+            return $respuesta;
+        }
 
         #Recuperar datos de usuario.
         public function datosUsuarioCtl($usuarioId){
@@ -101,18 +136,18 @@
 
         #Actualizar datos de usuario.
         static public function actualizarUsuarioCtl(){
-            if (isset($_POST["usuarioId"])) {
+            if (isset($_POST["usuarioId-edit"])) {
                 $datosUsuario = array(
-                    "iduser" => $_POST["usuarioId"], 
-                    "nombre" => $_POST["nombre"], 
-                    "tipo" => $_POST["tipo-usuario"]
+                    "iduser" => $_POST["usuarioId-edit"], 
+                    "nombre" => $_POST["nombre-edit"], 
+                    "tipo" => $_POST["tipo-usuario-edit"]
                 );
                 $respuesta = CRUD::actualizarUsuarioBD($datosUsuario);
                 if($respuesta) {
                     echo '
                     <script>
+                    window.location = "index.php?pagina=Usuarios";
                         alert("Datos actualizados");
-                        window.location = "index.php?pagina=Usuarios";
                     </script>
                     ';
                 }else{
@@ -146,7 +181,7 @@
                             if(window.history.replaceState){
                                 window.history.replaceState(null, null, window.location.href);
                             }
-                                window.location = "index.php?pagina=Usuarios";
+                                window.location = "index.php?pagina=Inicio";
                             </script>
                             ';
                     }
@@ -162,19 +197,51 @@
 
         #Crear cuenta de usuario.
         public function crearCuentaCtl(){
-            if (isset($_POST["tipo-usuario"])) {
+            if (isset($_POST["tipo-usuario-new"])) {
                 $datosUsuario = array(
-                    "tipo" => $_POST["tipo-usuario"], 
-                    "nombre" => $_POST["nombre"], 
-                    "usuario" => $_POST["usuario"], 
-                    "contrasena" => $_POST["contrasena"]
+                    "tipo" => $_POST["tipo-usuario-new"], 
+                    "nombre" => $_POST["nombre-new"], 
+                    "usuario" => $_POST["usuario-new"], 
+                    "contrasena" => $_POST["contrasena-new"]
                 );
                 $crearUsuario = CRUD::crearCuentaBD($datosUsuario);
                 if ($crearUsuario) {
-                    echo '<span>Usuario creado correctamente</span>';
+                    echo '
+                        <script>
+                        window.location = "index.php?pagina=Usuarios";
+                            alert("Usuario creado");
+                        </script>
+                        ';
                 }else{
-                    echo '<span>Error al crear el usuario</span>';
+                    echo '
+                        <script>
+                        window.location = "index.php?pagina=Usuarios";
+                            alert("Ha ocurrido un error consulte al desarrollador");
+                        </script>
+                        ';
                 }
             }
         }
+
+        #Deshabilitar usuario. CONSTRUCCIÓN
+        // public function deshabilitarUsuarioCtl(){
+        //     if (isset($_POST["eliminar-usuario"])) {
+        //         $respuesta = CRUD::desconectarUsuarioBD($_POST["eliminar-usuario"]);
+        //         if ($respuesta) {
+        //             echo '
+        //             <script>
+        //                 alert("Usuario eliminado");
+        //                 window.location = "index.php?pagina=Usuarios";
+        //             </script>
+        //             ';
+        //         }else{
+        //             echo '
+        //             <script>
+        //                 alert("Error");
+        //                 window.location = "index.php?pagina=Usuarios";
+        //             </script>
+        //             ';
+        //         }
+        //     }
+        // }
     }

@@ -3,9 +3,9 @@
         public function traerPagina($modulo){
             if(
                 $modulo == "Inicio" || $modulo == "IniciarSesion" || 
-                $modulo == "Usuarios" || $modulo == "Salir" || 
-                $modulo == "CrearCuenta" || $modulo == "CrearCliente" || 
-                $modulo == "MascotasUsuario" || $modulo == "Mascotas" || 
+                $modulo == "Usuarios" || $modulo == "Clientes" || 
+                $modulo == "MascotasCliente" || $modulo == "Mascotas" || 
+                $modulo == "Salir" || $modulo == "HistoriaClinica" || 
                 $modulo == "Error"
             ){
                 $directorio = "vista/modulo/".$modulo.".php";

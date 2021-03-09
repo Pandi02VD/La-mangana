@@ -2,10 +2,13 @@
     class Pagina{
         public function traerPagina($modulo){
             if(
-                $modulo == "Inicio" || $modulo == "IniciarSesion" || 
-                $modulo == "Usuarios" || $modulo == "Clientes" || 
-                $modulo == "MascotasCliente" || $modulo == "Mascotas" || 
-                $modulo == "Salir" || $modulo == "HistoriaClinica" || 
+                $modulo == "Inicio" || 
+                $modulo == "IniciarSesion" || 
+                $modulo == "Usuarios" || $modulo == "Usuario" || 
+                $modulo == "Clientes" || $modulo == "Cliente" || 
+                $modulo == "MascotasCliente" || $modulo == "Mascotas" || $modulo == "Mascota" || 
+                $modulo == "HistoriaClinica" || 
+                $modulo == "Salir" || 
                 $modulo == "Error"
             ){
                 $directorio = "vista/modulo/".$modulo.".php";

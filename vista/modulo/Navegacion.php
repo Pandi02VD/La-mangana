@@ -28,7 +28,7 @@
                             <a class="link-button" href="index.php?pagina=Mascotas">Mascotas</a>
                         <?php } ?>
                         
-                        <?php if($_GET["pagina"] == "Usuarios" || $_GET["pagina"] == "Clientes") { ?>
+                        <?php if($_GET["pagina"] == "Usuarios" || $_GET["pagina"] == "Clientes" || $_GET["pagina"] == "Usuario") { ?>
                             <a class="link-button activo" href="index.php?pagina=Clientes">Clientes & Usuarios</a>
                         <?php }else{ ?>
                             <a class="link-button" href="index.php?pagina=Clientes">Clientes & Usuarios</a>

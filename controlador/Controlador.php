@@ -121,6 +121,12 @@
             $respuesta = CRUD::seleccionarUsuariosBD();
             return $respuesta;
         }
+
+        #Seleccionar estado de conexión de los usuarios activos.
+        public function seleccionarConexionUsuariosCtl(){
+            $respuesta = CRUD::seleccionarConexionUsuariosBD();
+            return $respuesta;
+        }
         
         #Seleccionar raza de mascota 
         public function seleccionarRazaMascotaCtl($razaId){
@@ -223,25 +229,22 @@
             }
         }
 
-        #Deshabilitar usuario. CONSTRUCCIÓN
-        // public function deshabilitarUsuarioCtl(){
-        //     if (isset($_POST["eliminar-usuario"])) {
-        //         $respuesta = CRUD::desconectarUsuarioBD($_POST["eliminar-usuario"]);
-        //         if ($respuesta) {
-        //             echo '
-        //             <script>
-        //                 alert("Usuario eliminado");
-        //                 window.location = "index.php?pagina=Usuarios";
-        //             </script>
-        //             ';
-        //         }else{
-        //             echo '
-        //             <script>
-        //                 alert("Error");
-        //                 window.location = "index.php?pagina=Usuarios";
-        //             </script>
-        //             ';
-        //         }
-        //     }
-        // }
+        #Deshabilitar uno o más usuarios.
+        public function eliminarUsuariosCtl($usuariosElegidosEliminar){
+            $respuestas = array();
+            $conclusion = true;
+            for ($i = 0; $i < sizeof($usuariosElegidosEliminar); $i++) {
+                $respuesta = CRUD::eliminarUsuariosBD($usuariosElegidosEliminar[$i]);
+                if ($respuesta == false) {
+                    $respuestas[$i] = false;
+                }
+            }
+            
+            for ($i = 0; $i < sizeof($respuestas); $i++) {
+                if ($respuestas[$i] == false) {
+                    $conclusion = false;
+                }
+            }
+            return $conclusion;
+        }
     }

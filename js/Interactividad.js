@@ -1,3 +1,31 @@
+if (USERS_TABLE) {
+    for (let i = 0; i < USERS_TABLE.length; i++) {
+        USERS_TABLE[i].addEventListener('click', () => {
+            let idUserTable = USERS_TABLE[i].getAttribute('id');
+            window.location = "index.php?pagina=Usuario&uu=" + idUserTable;
+        });
+    }
+}
+
+if (CLIENTS_TABLE) {
+    for (let i = 0; i < CLIENTS_TABLE.length; i++) {
+        CLIENTS_TABLE[i].addEventListener('click', () => {
+            let idClientTable = CLIENTS_TABLE[i].getAttribute('id');
+            window.location = "index.php?pagina=Cliente&uc=" + idClientTable;
+        });
+    }
+}
+
+if (PETS_TABLE) {
+    for (let i = 0; i < PETS_TABLE.length; i++) {
+        PETS_TABLE[i].addEventListener('click', () => {
+            window.location = "index.php?pagina=Mascota";
+        });
+    }
+}
+
+
+
 if (CHECK_ALL_CLIENTS) {
     CHECK_ALL_CLIENTS.addEventListener('click', () => {
     if (CHECK_ALL_CLIENTS.checked) {
@@ -138,21 +166,15 @@ function checkMascotas(numCheckedMascotas){
     if(numCheckedMascotas > 1){
         BTN_EDIT_PET.disabled = true;
         BTN_DELETE_PET.disabled = false;
-        BTN_ADD_H_PET.disabled = true;
-        BTN_ADD_HC_PET.disabled = true;
-        BTN_ADD_E_PET.disabled = true;
+        BTN_SEE_HC_PET.disabled = true;
     }else if(numCheckedMascotas == 1){
         BTN_EDIT_PET.disabled = false;
         BTN_DELETE_PET.disabled = false;
-        BTN_ADD_H_PET.disabled = false;
-        BTN_ADD_HC_PET.disabled = false;
-        BTN_ADD_E_PET.disabled = false;
+        BTN_SEE_HC_PET.disabled = false;
     }else if(numCheckedMascotas == 0){
         BTN_EDIT_PET.disabled = true;
         BTN_DELETE_PET.disabled = true;
-        BTN_ADD_H_PET.disabled = true;
-        BTN_ADD_HC_PET.disabled = true;
-        BTN_ADD_E_PET.disabled = true;
+        BTN_SEE_HC_PET.disabled = true;
     }
 }
 
@@ -168,9 +190,9 @@ if(FORM_ADD_PET) {
     });
 }
 
-if(FORM_ADD_H_PET) {
-    BTN_ADD_H_PET.addEventListener('click', () => {
-        FORM_ADD_H_PET.classList.remove('oculto');
+if(FORM_ADD_CONSULT_PET) {
+    BTN_ADD_CONSULT_PET.addEventListener('click', () => {
+        FORM_ADD_CONSULT_PET.classList.remove('oculto');
     });
 }
 
@@ -210,6 +232,12 @@ if(BTN_CLOSE_FORM_ADD_PET){
     });
 }
 
+if(BTN_CLOSE_FORM_ADD_CONSULT_PET){
+    BTN_CLOSE_FORM_ADD_CONSULT_PET.addEventListener('click', () => {
+        FORM_ADD_CONSULT_PET.classList.add('oculto');
+    });
+}
+
 if(BTN_CLOSE_FORM_ADD_H_PET){
     BTN_CLOSE_FORM_ADD_H_PET.addEventListener('click', () => {
         FORM_ADD_H_PET.classList.add('oculto');
@@ -243,9 +271,9 @@ if(BTN_CLOSE_FORM_EDIT_USER){
 if (FORM_DELETE_CLIENT) {
     BTN_DELETE_CLIENT.addEventListener('click', () => {
         FORM_DELETE_CLIENT.classList.remove('oculto');
-        var content = document.createElement('div');
-        content.setAttribute('id', 'content-extras-cliente');
-        FORM_DELETE_CLIENT.appendChild(content);
+        var contentExtrasCliente = document.createElement('div');
+        contentExtrasCliente.setAttribute('id', 'content-extras-cliente');
+        FORM_DELETE_CLIENT.appendChild(contentExtrasCliente);
         for (let i = 0; i < CHECK_CLIENT.length; i++) {
             if(CHECK_CLIENT[i].checked){
                 var clienteEliminar = document.createElement('input');
@@ -253,7 +281,7 @@ if (FORM_DELETE_CLIENT) {
                 clienteEliminar.setAttribute('name', 'extras-cliente');
                 clienteEliminar.setAttribute('value', CHECK_CLIENT[i].value);
                 clienteEliminar.setAttribute('id', 'eliminar-cliente-' + CHECK_CLIENT[i].value);
-                content.appendChild(clienteEliminar);
+                contentExtrasCliente.appendChild(clienteEliminar);
             }
         }
     });
@@ -268,6 +296,19 @@ if (FORM_DELETE_PET) {
 if (FORM_DELETE_USER) {
     BTN_DELETE_USER.addEventListener('click', () => {
         FORM_DELETE_USER.classList.remove('oculto');
+        var contentExtrasUsuario = document.createElement('div');
+        contentExtrasUsuario.setAttribute('id', 'content-extras-usuario');
+        FORM_DELETE_USER.appendChild(contentExtrasUsuario);
+        for (let i = 0; i < CHECK_USER.length; i++) {
+            if(CHECK_USER[i].checked){
+                var usuarioEliminar = document.createElement('input');
+                usuarioEliminar.setAttribute('type', 'hidden');
+                usuarioEliminar.setAttribute('name', 'extras-usuario');
+                usuarioEliminar.setAttribute('value', CHECK_USER[i].value);
+                usuarioEliminar.setAttribute('id', 'eliminar-usuario-' + CHECK_USER[i].value);
+                contentExtrasUsuario.appendChild(usuarioEliminar);
+            }
+        }
     });
 }
 
@@ -286,6 +327,7 @@ if (BTN_CLOSE_FORM_DELETE_PET) {
 
 if (BTN_CLOSE_FORM_DELETE_USER) {
     BTN_CLOSE_FORM_DELETE_USER.addEventListener('click', () => {
+        document.getElementById('content-extras-usuario').remove();
         FORM_DELETE_USER.classList.add('oculto');
     });
 }

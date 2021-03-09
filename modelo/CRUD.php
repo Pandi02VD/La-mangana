@@ -27,6 +27,25 @@
             $sql -> close();
             $sql = null;
         }
+        
+        #Seleccionar cliente a detalle de la base de datos.
+        // public function seleccionarClienteDetalleBD($clienteId){
+        //     $sql = Conexion::conectar() -> prepare("
+        //         select 
+        //         u.nombre, 
+        //         u_c.
+        //         u_d.
+        //         u_t.
+        //         from user u 
+        //         inner join 
+        //         where status = 1 and tipo = 0 and iduser = :iduser;
+        //     ");
+        //     $sql -> bindParam(":iduser", $clienteId, PDO::PARAM_INT);
+        //     $sql -> execute();
+        //     return $sql -> fetch();
+        //     $sql -> close();
+        //     $sql = null;
+        // }
 
         #Recuperar datos de cliente de la base de datos.
         public function datosClienteBD($clienteId){
@@ -105,8 +124,7 @@
             $sql = Conexion::conectar() -> prepare(
                 "select 
                 u.nombre as cliente, m.idmascota, m.nombre as mascota, 
-                m.sexo, m.peso, m.tamano, m.ano_nacimiento, m.descripcion, 
-                m.condicion_corporal, m_r.idmascota_raza 
+                m.sexo, m.ano_nacimiento, m_r.idmascota_raza 
                 from mascota m 
                 inner join user u on m.iduser = u.iduser 
                 inner join mascota_raza m_r on m.idmascota_raza = m_r.idmascota_raza 
@@ -138,6 +156,19 @@
                 select u.iduser, u.nombre, u.tipo, u.fecha, u_a.status, 
                 date_format(u.fecha, '%d/%M/%Y') fecha 
                 from user u 
+                inner join user_acceso u_a on u.iduser = u_a.iduser 
+                where u.status = 1 and u.tipo > 0;
+            ");
+            $sql -> execute();
+            return $sql -> fetchAll();
+            $sql -> close();
+            $sql = null;
+        }
+
+        #Seleccionar estado de conexión de los usuarios activos de la base de datos.
+        public function seleccionarConexionUsuariosBD(){
+            $sql = Conexion::conectar() -> prepare("
+                select u.iduser, u_a.status from user u 
                 inner join user_acceso u_a on u.iduser = u_a.iduser 
                 where u.status = 1 and u.tipo > 0;
             ");
@@ -294,14 +325,14 @@
             $sql = null;
         }
 
-        #Deshabilitar usuario del sistema.
-        public function deshabilitarUsuarioBD($usuarioId){
+        #Deshabilitar uno o más usuarios del sistema.
+        public function eliminarUsuariosBD($usuarioId){
             $sql = Conexion::conectar() -> prepare(
                 "update user set status = 0 where tipo != 1 and iduser = :iduser;"
             );
             $sql -> bindParam(":iduser", $usuarioId, PDO::PARAM_INT);
             if ($sql -> execute()) {
-                return true;
+                return $usuarioId;
             }else{
                 return false;
             }

@@ -1,17 +1,44 @@
-$(document).ready(function(){
+function tabsModal(){
     $('.tabs a:first').addClass('active');
-    $('#tabs-content .ficha__info').hide();
-    $('#tabs-content .ficha__info:first').show();
+    $('[name="tabs-content"] .ficha__info').hide();
+    $('[name="tabs-content"] .ficha__info:first').show();
     
     $('.tabs a').click(function(){
         $('.tabs a').removeClass('active');
         $(this).addClass('active');
-        $('#tabs-content .ficha__info').hide();
+        $('[name="tabs-content"] .ficha__info').hide();
 
         let tabActiva = $(this).attr('href');
         $(tabActiva).show();
         return false;
     });
+}
+
+function multiFormModal(){    
+    $('#btn-first').click(function(){
+        $('#form-add-Consult-pet').addClass('oculto');
+        $('#form-add-H-pet').removeClass('oculto');
+    });
+    
+    $('#btn-return-to-first').click(function(){
+        $('#form-add-Consult-pet').removeClass('oculto');
+        $('#form-add-H-pet').addClass('oculto');
+    });
+    
+    // $('#btn-second').click(function(){
+    //     $('#form-add-Consult-pet').addClass('oculto');
+    //     $('#form-add-H-pet').addClass('oculto');
+    // });
+    
+    // $('#btn-third').click(function(){
+    //     $('#form-add-Consult-pet').addClass('oculto');
+    //     $('#form-add-H-pet').removeClass('oculto');
+    // });
+}
+
+$(document).ready(function(){
+    tabsModal();
+    multiFormModal();
 });
 
 $(BTN_EDIT_CLIENT).click(function(){
@@ -75,36 +102,6 @@ $(BTN_EDIT_USER).click(function(){
     }
 });
 
-// $(BTN_EDIT_PET).click(function(){
-//     if (CHECK_PET) {
-//         var mascotaElegida;
-//         for (let i = 0; i < CHECK_PET.length; i++) {
-//             if (CHECK_PET[i].checked) {
-//                 mascotaElegida = CHECK_PET[i].value;
-//             }
-//         }
-
-//         var datos = new FormData();
-//         datos.append("mascotaId", mascotaElegida);
-        
-//         $.ajax({
-//             url: "controlador/Ajax.php", 
-//             method: "post", 
-//             data: datos, 
-//             cache: false, 
-//             contentType: false, 
-//             processData: false, 
-//             dataType: "json", 
-//             success: function(respuesta){
-//                 if (respuesta) {
-//                     $('#mascota-edit').val(respuesta["mascota"]);
-//                     $('#mascotaId-edit').val(mascotaElegida);
-//                 }
-//             }
-//         });
-//     }
-// });
-
 $(BTN_C_DELETE_CLIENT).click(function(){
     if (CHECK_CLIENT) {
         $('#form-delete-client').css('background-color', 'rgba(0, 0, 0, 0.6)');
@@ -151,36 +148,36 @@ $(BTN_C_DELETE_USER).click(function(){
         $(this).css('cursor', 'progress', '!IMPORTANT');
         $(this).attr('value', 'Procesando...');
         $('body').css('cursor', 'progress', '!IMPORTANT');
-        // var usuariosElegidosEliminar = new Array();
-        // for (let i = 0; i < CHECK_USER.length; i++) {
-        //     if (CHECK_USER[i].checked) {
-        //         usuariosElegidosEliminar.push(CHECK_USER[i].value);
-        //     }
+        var usuariosElegidosEliminar = new Array();
+        for (let i = 0; i < CHECK_USER.length; i++) {
+            if (CHECK_USER[i].checked) {
+                usuariosElegidosEliminar.push(CHECK_USER[i].value);
+            }
+        }
+
+        var dataUsuarios = JSON.stringify(usuariosElegidosEliminar);
+
+        var datosUsuarios = new FormData();
+        // for (let i = 0; i < CHECK_CLIENT.length; i++) {
+            datosUsuarios.append("usuariosEliminarId", dataUsuarios);
         // }
-
-        // var data = JSON.stringify(usuariosElegidosEliminar);
-
-        // var datos = new FormData();
-        // // for (let i = 0; i < CHECK_CLIENT.length; i++) {
-        //     datos.append("clientesEliminarId", data);
-        // // }
         
-        // $.ajax({
-        //     url: "controlador/Ajax.php", 
-        //     method: "post", 
-        //     data: datos, 
-        //     cache: false, 
-        //     contentType: false, 
-        //     processData: false, 
-        //     // dataType: "json", 
-        //     success: function(respuesta){
-        //         if (respuesta) {
-        //             console.log(respuesta);
-        //             window.location = "index.php?pagina=Clientes";
-        //             alert("¡Se han eliminado los registros!");
-        //         }else{
-        //         }
-        //     }
-        // });
+        $.ajax({
+            url: "controlador/Ajax.php", 
+            method: "post", 
+            data: datosUsuarios, 
+            cache: false, 
+            contentType: false, 
+            processData: false, 
+            // dataType: "json", 
+            success: function(respuesta){
+                if (respuesta) {
+                    console.log(respuesta);
+                    window.location = "index.php?pagina=Usuarios";
+                    alert("¡Se han eliminado los registros!");
+                }else{
+                }
+            }
+        });
     }
 });

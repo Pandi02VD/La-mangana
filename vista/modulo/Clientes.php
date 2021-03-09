@@ -15,27 +15,29 @@
 <?php if($cargo == 1 || $cargo == 2) { ?>
 <div class="C__Table">
     <h3>Clientes</h3>
-    <!-- <div> -->
-        <div class="C__Btn">
-            <input type="image" src="img/add_32px.png" alt="imágen de acción" id="btn-add-client">
-            <span class="tooltip">Agregar cliente</span>
-        </div>
-        <div class="C__Btn">
-            <input type="image" src="img/edit_32px.png" alt="imágen de acción" id="btn-edit-client" disabled>
-            <span class="tooltip">Editar cliente</span>
-        </div>
-        <div class="C__Btn">
-            <input type="image" src="img/waste_32px.png" alt="imágen de acción" id="btn-delete-client" disabled>
-            <span class="tooltip">Borrar cliente</span>
-        </div>
-    <!-- </div> -->
+
+    <div class="C__Btn">
+        <input type="image" src="img/add_32px.png" alt="imágen de acción" id="btn-add-client">
+        <span class="tooltip">Agregar cliente</span>
+    </div>
+    <div class="C__Btn">
+        <input type="image" src="img/edit_32px.png" alt="imágen de acción" id="btn-edit-client" disabled>
+        <span class="tooltip">Editar cliente</span>
+    </div>
+    <div class="C__Btn">
+        <input type="image" src="img/trash_32px.png" alt="imágen de acción" id="btn-delete-client" disabled>
+        <span class="tooltip">Borrar cliente</span>
+    </div>
+
     <table id="table">
         <tr>
-            <th><input type="checkbox" name="check-all-clients" id="check-all-clients"></th>
+            <th>
+                <input type="checkbox" name="check-all-clients" id="check-all-clients">
+                <span class="tooltip">Seleccionar todo</span>
+            </th>
             <th>Nombre</th>
             <th>Fecha de registro</th>
             <th>Mascotas vinculadas</th>
-            <th>Detalles</th>
         </tr>
             <?php 
                 foreach($clientes as $key => $value) : 
@@ -43,11 +45,13 @@
             ?>
             
         <tr>
-            <td><input type="checkbox" name="check-client" id="check-client<?=$value["iduser"]?>" value="<?=$value["iduser"]?>"></td>
-            <td><?=$value["nombre"]?></td>
-            <td><?=$value["fecha"]?></td>
-            <td><a href="index.php?pagina=MascotasCliente&vru=<?=$value["iduser"]?>"><?=$mascotasVinculadas["num_mascotas"]?></a></td>
-            <td><a href="index.php?pagina=MascotasCliente&vru=<?=$value["iduser"]?>">Ver más</a></td>
+            <td>
+                <input type="checkbox" name="check-client" id="check-client<?=$value["iduser"]?>" value="<?=$value["iduser"]?>">
+                <span class="tooltip">Seleccionar</span>
+            </td>
+            <td id="<?=$value["iduser"]?>" name="clients-table"><?=$value["nombre"]?></td>
+            <td id="<?=$value["iduser"]?>" name="clients-table"><?=$value["fecha"]?></td>
+            <td id="<?=$value["iduser"]?>" name="clients-table"><a href="index.php?pagina=MascotasCliente&vru=<?=$value["iduser"]?>"><?=$mascotasVinculadas["num_mascotas"]?></a></td>
         </tr>
             <?php endforeach ?>
     </table>

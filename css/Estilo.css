@@ -246,6 +246,8 @@ textarea:focus{
     display: inline-block;
     width: 100%;
     font-family: 'Nunito Sans', sans-serif, arial;
+    text-decoration: none;
+    text-align: center;
     border: none;
     color: white;
     cursor: pointer;
@@ -263,6 +265,21 @@ textarea:focus{
 
 .submit:hover{
     background-color: var(--Form-Primary-Low);
+}
+
+.back{
+    display: flex;
+    text-decoration: none;
+    color: currentColor;
+    align-items: center;
+    float: left;
+    margin-top: 10px;
+    padding: 5px 10px;
+    border-radius: 2px;
+}
+
+.back:hover{
+    background-color: #ccc;
 }
 
 .buttons{
@@ -340,11 +357,30 @@ textarea:focus{
 }
 
 .f__title{
+    display: inline-block;
     font-weight: lighter;
     font-size: 2rem;
     text-align: center;
+    width: 100%;
     margin: 0;
     color: var(--Form-Primary);
+}
+
+.f__datetime{
+    text-align: center;
+    display: inline-block;
+    width: 100%;
+    padding: 10px 0;
+}
+
+.f__datetime span{
+    display: inline-flex;
+    float: left;
+}
+
+.f__datetime span:last-child{
+    display: inline-flex;
+    float: right;
 }
 
 .line-top{
@@ -383,13 +419,42 @@ input[type="password"]{
 
 /* Formulario modal */
 
+/* Checkbox del modal */
+#checkbox{
+    padding: 0;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+#checkbox label{
+    width: 50%;
+    min-width: max-content;
+    color: var(--Form-Primary-Low);
+    background-color: white;
+    border: 1px solid;
+    padding: 5px 10px;
+    border-radius: 2px;
+    text-align: center;
+    cursor: pointer;
+    transition: color .3s ease;
+}
+
+#checkbox input:checked + label{
+    background-color: var(--Form-Primary-Low);
+    color: white;
+}
+
+/* Checkbox del modal */
+
 /* Tabs del modal */
 .tabs{
     display: inline-flex;
     background: antiquewhite;
     padding: 0;
     margin: 0;
-    /* flex-direction: row; */
 }
 
 .tabs a{
@@ -417,6 +482,10 @@ input[type="password"]{
     border-right: 1px solid;
 }
 
+#tabs-content{
+    min-width: max-content;
+}
+
 .ficha__info{
     border: 1px solid var(--Form-Primary-Low);
     border-radius: 2px;
@@ -432,19 +501,14 @@ input[type="password"]{
 .C__f{
     visibility: visible;
     position: absolute;
-    /* top: 5%; */
     left: 50%;
     transform: translate(-50%, 0%);
     z-index: 1000;
-    /* width: auto; */
-    /* height: auto; */
-    /* background: white; */
     padding: 20px 0;
     box-shadow: 2px 2px 7px 0px var(--Form-Primary);
     transition: 0.8s;
 
     top: 0%;
-    /* width: calc(100% - 40px); */
     width: 100%;
     height: max-content;
     min-height: 100%;
@@ -454,19 +518,10 @@ input[type="password"]{
 }
 
 .f{
-    /* display: flex;
-    position: relative;
-    align-items: center;
-    flex-direction: column;
-    justify-content: center; */
-    width: 100%;
-
     display: inline-block;
-    width: auto;
-    min-width: 20%;
+    width: 450px;
+    min-width: max-content;
     padding: 20px 30px;
-    /* background-color: transparent; */
-
     background-color: white;
     box-shadow: 2px 2px 7px 0px var(--Form-Primary);
     height: max-content;
@@ -520,11 +575,13 @@ i{
     padding: 0 6px;
 }
 
+
+
 .f__close{
     display: block;
     border: none;
     background: none;
-    font-size: 20px;
+    font-size: 25px;
     color: orangered;
     font-weight: bold;
     filter: drop-shadow(0px 0px 2px darkgray);
@@ -548,8 +605,8 @@ i{
 }
 
 #table {
-  border-collapse: collapse;
-  width: 100%;
+    border-collapse: collapse;
+    width: 100%;
 }
 
 #table caption{
@@ -557,8 +614,9 @@ i{
 }
 
 #table td, #table th {
-  border: 1px solid #ccc;
-  padding: 8px;
+    position: relative;
+    border: 1px solid #ccc;
+    padding: 8px;
 }
 
 #table tr:nth-child(even){background-color: #f2f2f2;}
@@ -566,11 +624,11 @@ i{
 #table tr:hover {background-color: rgb(211, 207, 248);}
 
 #table th {
-  padding-top: 12px;
-  padding-bottom: 12px;
-  text-align: left;
-  background-color: var(--Form-Default-Low);
-  color: white;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: var(--Form-Default-Low);
+    color: white;
 }
 
 #table td{
@@ -579,6 +637,27 @@ i{
 
 #table tr:active{
   background-color: skyblue;
+}
+
+#table tr td a{
+    text-decoration: none;
+    color: var(--Form-Primary-Low);
+    font-size: 20px;
+    border: 1px solid var(--Form-Primary-Low);
+    display: inline-block;
+    width: 50%;
+    text-align: center;
+    border-radius: 2px;
+}
+
+#table tr td a:hover{
+    color: white;
+    background-color: var(--Form-Primary-Low);
+    border-color: var(--Form-Primary-Low);
+}
+
+#table tr td:last-child, #table tr th:last-child{
+    text-align: center;
 }
 /* Tablas */
 
@@ -617,7 +696,7 @@ input[type="image"]:hover {
     transition: all .1s ease;
 }
 
-input[type="image"]:hover + .tooltip{
+input:hover + .tooltip, a:hover + .tooltip{
     visibility: visible;
     font-size: 14px;
 }
@@ -636,14 +715,11 @@ input[type="image"]:hover + .tooltip{
 
 .C__Btn{
     position: relative; 
-    display: inline-block;
+    display: inline-flex;
 }
 
-/* .C__Btn input[type="image"]:disabled{
-    
+.C__Btn a, .C__Btn input{
+    display: flex;
+    align-self: center;
 }
-
-.C__Btn input[type="image"]:enabled{
-    motion-rotation: reverse;
-} */
 /* Tooltip & Botones de acción */

@@ -16,8 +16,6 @@
             
             <input class="submit" type="submit" value="Iniciar">
         </div>
-        <div class="line-bottom"></div>
-        <a class="" href="index.php?pagina=CrearCuenta">No tengo cuenta</a>
             <?php 
                 $entrar = Controlador::iniciarSesionCtl();
             ?>

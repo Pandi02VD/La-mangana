@@ -1,0 +1,76 @@
+<?php 
+    require_once '../modelo/CRUD.php';
+    require_once 'Controlador.php';
+
+    class Ajax{
+        public $usuarioElegido;
+        public $clienteElegido;
+        public $clientesElegidosEliminar;
+        public $usuariosElegidosEliminar;
+
+        #Recuperar datos de usuario para editarlos.
+        public function datosUsuarioAjax(){
+            $dato = $this -> usuarioElegido;
+            $respuesta = Controlador::datosUsuarioCtl($dato);
+            echo json_encode($respuesta);
+        }
+        
+        #Recuperar datos de cliente para editarlos.
+        public function datosClienteAjax(){
+            $dato = $this -> clienteElegido;
+            $respuesta = Controlador::datosClienteCtl($dato);
+            echo json_encode($respuesta);
+        }
+        
+        #Seleccionar estado de conexión de los usuarios activos de la base de datos.
+        public function seleccionarConexionUsuariosAjax(){
+            $respuesta = Controlador::seleccionarConexionUsuariosCtl();
+            echo json_encode($respuesta);
+        }
+        
+        #Deshabilitar uno o más clientes.
+        public function eliminarClientesAjax(){
+            $datos = $this -> clientesElegidosEliminar;
+            $respuesta = Controlador::eliminarClientesCtl($datos);
+            // echo var_dump($datos);
+            echo $respuesta;
+        }
+        
+        #Deshabilitar uno o más usuarios.
+        public function eliminarUsuariosAjax(){
+            $datos = $this -> usuariosElegidosEliminar;
+            $respuesta = Controlador::eliminarUsuariosCtl($datos);
+            // echo var_dump($datos);
+            echo json_encode($respuesta);
+        }
+    }
+    
+    if (isset($_POST["usuarioId"])) {
+        $objUsuarioId = new Ajax();
+        $objUsuarioId -> usuarioElegido = $_POST["usuarioId"];
+        $objUsuarioId -> datosUsuarioAjax();
+    }
+    
+    if (isset($_POST["clienteId"])) {
+        $objClienteId = new Ajax();
+        $objClienteId -> clienteElegido = $_POST["clienteId"];
+        $objClienteId -> datosClienteAjax();
+    }
+    
+    if (isset($_POST["clientesEliminarId"])) {
+        $objClientesEliminarId = new Ajax();
+        $objClientesEliminarId -> clientesElegidosEliminar = json_decode($_POST["clientesEliminarId"]);
+        $objClientesEliminarId -> eliminarClientesAjax();
+    }
+    
+    if (isset($_POST["usuariosEliminarId"])) {
+        $objUsuariosEliminarId = new Ajax();
+        $objUsuariosEliminarId -> usuariosElegidosEliminar = json_decode($_POST["usuariosEliminarId"]);
+        $objUsuariosEliminarId -> eliminarUsuariosAjax();
+    }
+    
+    if (isset($_POST["estado-usuarios"])) {
+        $objEstadoUsuarios = new Ajax();
+        // $objEstadoUsuarios -> usuariosElegidosEliminar = json_decode($_POST["estado-usuarios"]);
+        $objEstadoUsuarios -> seleccionarConexionUsuariosAjax();
+    }

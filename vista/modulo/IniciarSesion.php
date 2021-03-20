@@ -1,20 +1,23 @@
-<h1>Iniciar Sesión</h1>
 
-<form method="post">
-    <div>
-        <label for="usuario">Usuario</label>
-        <input type="text" id="usuario" name="usuario">
-    </div>
-    
-    <div>
-        <label for="contrasena">Contraseña</label>
-        <input type="password" id="contrasena" name="contrasena">
-    </div>
-    
-    <div>
-        <input type="submit" value="Iniciar">
-    </div>
-        <?php 
-            $entrar = Controlador::iniciarSesionCtl();
-        ?>
-</form>
+<div class="C__F">
+    <form method="post" class="F">
+        <h2 class="f__title">Iniciar Sesión</h2>
+        <div class="line-top"></div>
+        <div class="C__F__C">
+            <div class="i__group">
+                <input class="inputs" type="text" id="usuario" name="usuario">
+                <label class="labels" for="usuario">Usuario</label>
+            </div>
+            
+            <div class="i__group">
+                <input class="inputs" type="password" id="contrasena" name="contrasena">
+                <label class="labels" for="contrasena">Contraseña</label>
+            </div>
+            
+            <input class="submit" type="submit" value="Iniciar">
+        </div>
+            <?php 
+                $entrar = Controlador::iniciarSesionCtl();
+            ?>
+    </form>
+</div>

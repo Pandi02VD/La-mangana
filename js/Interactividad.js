@@ -164,14 +164,17 @@ function checkClientes(numCheckedClientes){
 
 function checkMascotas(numCheckedMascotas){
     if(numCheckedMascotas > 1){
+        BTN_ADD_CONSULT_PET.disabled = true;
         BTN_EDIT_PET.disabled = true;
         BTN_DELETE_PET.disabled = false;
         BTN_SEE_HC_PET.disabled = true;
     }else if(numCheckedMascotas == 1){
+        BTN_ADD_CONSULT_PET.disabled = false;
         BTN_EDIT_PET.disabled = false;
         BTN_DELETE_PET.disabled = false;
         BTN_SEE_HC_PET.disabled = false;
     }else if(numCheckedMascotas == 0){
+        BTN_ADD_CONSULT_PET.disabled = true;
         BTN_EDIT_PET.disabled = true;
         BTN_DELETE_PET.disabled = true;
         BTN_SEE_HC_PET.disabled = true;

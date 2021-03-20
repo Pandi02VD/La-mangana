@@ -16,20 +16,25 @@
 <div class="C__Table">
     <h3>Clientes</h3>
 
-    <div class="C__Btn">
-        <input type="image" src="img/add_32px.png" alt="imágen de acción" id="btn-add-client">
-        <span class="tooltip">Agregar cliente</span>
-    </div>
-    <div class="C__Btn">
-        <input type="image" src="img/edit_32px.png" alt="imágen de acción" id="btn-edit-client" disabled>
-        <span class="tooltip">Editar cliente</span>
-    </div>
-    <div class="C__Btn">
-        <input type="image" src="img/trash_32px.png" alt="imágen de acción" id="btn-delete-client" disabled>
-        <span class="tooltip">Borrar cliente</span>
+    <div>
+        <div class="C__Btn">
+            <input type="image" src="img/add_32px.png" alt="imágen de acción" id="btn-add-client">
+            <span class="tooltip">Agregar cliente</span>
+        </div>
+        <div class="C__Btn">
+            <input type="image" src="img/edit_32px.png" alt="imágen de acción" id="btn-edit-client" disabled>
+            <span class="tooltip">Editar cliente</span>
+        </div>
+        <div class="C__Btn">
+            <input type="image" src="img/trash_32px.png" alt="imágen de acción" id="btn-delete-client" disabled>
+            <span class="tooltip">Borrar cliente</span>
+        </div>
+        <div class="C__Btn">
+            <input type="button" id="exportExcel" onClick="Exportar('tbl-clientes')" value="Exportar a Excel">
+        </div>
     </div>
 
-    <table id="table">
+    <table class="table" id="tbl-clientes">
         <tr>
             <th>
                 <input type="checkbox" name="check-all-clients" id="check-all-clients">

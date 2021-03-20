@@ -38,7 +38,7 @@ nav{
     position: relative;
     height: calc(100px - 20px);
     width: calc(100% - 80px);
-    background: linear-gradient(to right, var(--Form-Secondary-Low), var(--Form-Primary));
+    background: linear-gradient(to top, var(--Form-Secondary-Low), var(--Form-Primary));
     margin: 0;
     padding: 10px 40px;
 }
@@ -604,26 +604,26 @@ i{
     padding: 10px 40px;
 }
 
-#table {
+.table {
     border-collapse: collapse;
     width: 100%;
 }
 
-#table caption{
+.table caption{
     font-weight: bold;
 }
 
-#table td, #table th {
+.table td, .table th {
     position: relative;
     border: 1px solid #ccc;
     padding: 8px;
 }
 
-#table tr:nth-child(even){background-color: #f2f2f2;}
+.table tr:nth-child(even){background-color: #f2f2f2;}
 
-#table tr:hover {background-color: rgb(211, 207, 248);}
+.table tr:hover {background-color: rgb(211, 207, 248);}
 
-#table th {
+.table th {
     padding-top: 12px;
     padding-bottom: 12px;
     text-align: left;
@@ -631,15 +631,15 @@ i{
     color: white;
 }
 
-#table td{
+.table td{
   cursor: pointer;
 }
 
-#table tr:active{
+.table tr:active{
   background-color: skyblue;
 }
 
-#table tr td a{
+.table tr td a{
     text-decoration: none;
     color: var(--Form-Primary-Low);
     font-size: 20px;
@@ -650,13 +650,13 @@ i{
     border-radius: 2px;
 }
 
-#table tr td a:hover{
+.table tr td a:hover{
     color: white;
     background-color: var(--Form-Primary-Low);
     border-color: var(--Form-Primary-Low);
 }
 
-#table tr td:last-child, #table tr th:last-child{
+.table tr td:last-child, .table tr th:last-child{
     text-align: center;
 }
 /* Tablas */

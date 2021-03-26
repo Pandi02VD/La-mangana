@@ -152,12 +152,15 @@ function checkUsuarios(numCheckedUsuarios){
 function checkClientes(numCheckedClientes){
     if(numCheckedClientes > 1){
         BTN_EDIT_CLIENT.disabled = true;
+        BTN_CARD_CLIENT.disabled = true;
         BTN_DELETE_CLIENT.disabled = false;
     }else if(numCheckedClientes == 1){
         BTN_EDIT_CLIENT.disabled = false;
+        BTN_CARD_CLIENT.disabled = false;
         BTN_DELETE_CLIENT.disabled = false;
     }else if(numCheckedClientes == 0){
         BTN_EDIT_CLIENT.disabled = true;
+        BTN_CARD_CLIENT.disabled = true;
         BTN_DELETE_CLIENT.disabled = true;
     }
 }
@@ -288,6 +291,25 @@ if (FORM_DELETE_CLIENT) {
             }
         }
     });
+}
+
+if (FORM_CARD_CLIENT && BTN_CARD_CLIENT) {
+    BTN_CARD_CLIENT.addEventListener('click', () => {
+        FORM_CARD_CLIENT.classList.remove('oculto');
+    })
+
+    BTN_CLOSE_FORM_CARD_CLIENT.addEventListener('click', () => {
+        FORM_CARD_CLIENT.classList.add('oculto');
+        $('#tbl-client-emails tbody tr>td').remove();
+    })
+
+    BTN_ADD_CLIENT_EMAIL.addEventListener('click', () => {
+        FORM_ADD_CLIENT_EMAIL.classList.remove('oculto');
+    })
+
+    BTN_CLOSE_FORM_ADD_CLIENT_EMAIL.addEventListener('click', () => {
+        FORM_ADD_CLIENT_EMAIL.classList.add('oculto');
+    })
 }
 
 if (FORM_DELETE_PET) {

@@ -27,6 +27,18 @@
             return $respuesta;
         }
 
+        #Seleccionar todos los correos electrónicos del cliente.
+        public function seleccionarClienteCorreosCtl($clienteId){
+            $respuesta = CRUD::seleccionarClienteCorreosBD($clienteId);
+            return $respuesta;
+        }
+        
+        #Seleccionar todos los teléfonos del cliente.
+        public function seleccionarClienteTelefonosCtl($clienteId){
+            $respuesta = CRUD::seleccionarClienteTelefonosBD($clienteId);
+            return $respuesta;
+        }
+
         #Recuperar datos de cliente.
         public function datosClienteCtl($clienteId){
             $respuesta = CRUD::datosClienteBD($clienteId);
@@ -81,6 +93,27 @@
                     }
                 }else{
                     echo '<span>Error al crear el cliente</span>';
+                }
+            }
+        }
+        
+        #Agregar nuevo correo electrónico.
+        public function nuevoCorreoCtl(){
+            if (isset($_POST["cliente-correo-new"]) && $_POST["cliente-add-phone-id"]) {
+                $datosCliente = array(
+                    "clienteId" => $_POST["cliente-add-phone-id"], 
+                    "correo" => $_POST["cliente-correo-new"]
+                );
+                $respuesta = CRUD::nuevoCorreoBD($datosCliente);
+                if ($respuesta) {
+                    echo '
+                        <script>
+                        window.location = "index.php?pagina=Clientes";
+                            alert("Correo electrónico agregado correctamente");
+                        </script>
+                        ';
+                }else{
+                    echo '<span>Error al agregar el correo electrónico</span>';
                 }
             }
         }

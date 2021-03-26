@@ -16,7 +16,7 @@
 <div class="C__Table">
     <h3>Clientes</h3>
 
-    <div>
+    <div class="Bar__Btns">
         <div class="C__Btn">
             <input type="image" src="img/add_32px.png" alt="imágen de acción" id="btn-add-client">
             <span class="tooltip">Agregar cliente</span>
@@ -30,8 +30,16 @@
             <span class="tooltip">Borrar cliente</span>
         </div>
         <div class="C__Btn">
-            <input type="button" id="exportExcel" onClick="Exportar('tbl-clientes')" value="Exportar a Excel">
+            <input type="image" src="img/identification_documents_32px.png" alt="imágen de acción" id="btn-card-client" disabled>
+            <span class="tooltip">Ficha de información</span>
         </div>
+        <div class="C__Btn__Last">
+            <a href="#search-client"><image src="img/search_32px.png"></image></a>
+            <input class="inputs" type="text" id="search-pet" name="search-pet" placeholder="Buscar cliente">
+        </div>
+        <!-- <div class="C__Btn__Last">
+            <input type="button" class="button" id="exportExcel" onClick="Exportar('tbl-clientes')" value="Exportar a Excel">
+        </div> -->
     </div>
 
     <table class="table" id="tbl-clientes">
@@ -116,6 +124,107 @@
             <input class="submit" type="button" id="btn-C-delete-client" value="Confirmar">
             <?php 
                 // $eliminarCliente = Controlador::eliminarClienteCtl();
+            ?>
+        </form>
+    </div>
+
+    <div class="C__f oculto" id="form-card-client">
+        <div class="Cards">
+            <input class="f__close" type="button" id="btn-close-form-card-client" value="X">
+            <div><span name="Card-client-name"></span></div>
+            <div>
+                <div class="tabs">
+                    <a href="#tab-client-email">Correos electrónicos</a>
+                    <a href="#tab-client-phone">Teléfonos</a>
+                    <a href="#tab-client-address">Domicilios</a>
+                </div>
+                <div name="tabs-content">
+                    <div id="tab-client-email" class="ficha__info">
+                        <div class="C__Btn">
+                            <input type="image" src="img/add_32px.png" alt="imágen de acción" id="btn-add-client-email">
+                            <span class="tooltip">Agregar</span>
+                        </div>
+                        <table class="table" id="tbl-client-emails">
+                            <caption>Correos electrónicos</caption>
+                            <tr>
+                                <th>Correo electrónico</th>
+                                <th>Acción</th>
+                            </tr>
+                            <!-- <tr>
+                                <td name="client-email-address">Error</td>
+                                <td>
+                                    <div class="C__Btn">
+                                        <input type="image" src="img/edit_32px.png" alt="imágen de acción" id="btn-edit-client-email" disabled>
+                                        <span class="tooltip">Editar</span>
+                                    </div>
+                                    <div class="C__Btn">
+                                        <input type="image" src="img/trash_32px.png" alt="imágen de acción" id="btn-delete-client-email" disabled>
+                                        <span class="tooltip">Eliminar</span>
+                                    </div>
+                                </td>
+                            </tr> -->
+                        </table>
+                    </div>
+                    <div id="tab-client-phone" class="ficha__info">
+                    <div class="C__Btn">
+                            <input type="image" src="img/add_32px.png" alt="imágen de acción" id="btn-add-client-phone" disabled>
+                            <span class="tooltip">Agregar</span>
+                        </div>
+                        <table class="table">
+                            <caption>Teléfonos</caption>
+                            <tr>
+                                <th>Número</th>
+                                <th>Tipo</th>
+                                <th>Acción</th>
+                            </tr>
+                            <!-- <tr>
+                                <td name="client-phone-number">Error</td>
+                                <td name="client-phone-type">Error</td>
+                                <td>
+                                    <div class="C__Btn">
+                                        <input type="image" src="img/edit_32px.png" alt="imágen de acción" id="btn-edit-client-phone" disabled>
+                                        <span class="tooltip">Editar</span>
+                                    </div>
+                                    <div class="C__Btn">
+                                        <input type="image" src="img/trash_32px.png" alt="imágen de acción" id="btn-delete-client-phone" disabled>
+                                        <span class="tooltip">Eliminar</span>
+                                    </div>
+                                </td>
+                            </tr> -->
+                        </table>
+                    </div>
+                    <div id="tab-client-address" class="ficha__info">
+                        <table class="table">
+                            <caption>Domicilios</caption>
+                            <tr><td>Inicio: </td><td>12/02/2021 12:09 p. m.</td></tr>
+                            <tr><td>Fin: </td><td>12/02/2021 12:22 p. m.</td></tr>
+                            <tr><td>Observaciones: </td><td>Bla bla bla</td></tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div>
+            </div>
+        </div>
+    </div>
+
+    <div class="C__f oculto" id="form-add-client-email">
+        <form method="post" class="f">
+            <input class="f__close" type="button" id="btn-close-form-add-client-email" value="X">
+            <h2 class="f__title">Nuevo correo electrónico</h2>
+            <div class="line-top"></div>
+            <div class="i__group">
+                <input class="inputs" type="email" id="cliente-correo-new" name="cliente-correo-new" required>
+                <label class="labels" for="cliente-correo-new">Correo Electrónico</label>
+            </div>
+
+            <div class="i__group">
+                <input type="hidden" id="cliente-add-phone-id" name="cliente-add-phone-id" required>
+            </div>
+            
+            <input class="submit" type="submit" value="Crear">
+            <?php 
+                $nuevoCorreo = Controlador::nuevoCorreoCtl();
             ?>
         </form>
     </div>

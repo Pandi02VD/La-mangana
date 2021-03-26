@@ -7,6 +7,9 @@
         public $clienteElegido;
         public $clientesElegidosEliminar;
         public $usuariosElegidosEliminar;
+        
+        public $requestClienteEmails;
+        public $requestClientePhones;
 
         #Recuperar datos de usuario para editarlos.
         public function datosUsuarioAjax(){
@@ -40,7 +43,20 @@
         public function eliminarUsuariosAjax(){
             $datos = $this -> usuariosElegidosEliminar;
             $respuesta = Controlador::eliminarUsuariosCtl($datos);
-            // echo var_dump($datos);
+            echo json_encode($respuesta);
+        }
+
+        #Seleccionar todos los correos electrónicos del cliente.
+        public function seleccionarClienteCorreosAjax(){
+            $requestCD = $this -> requestClienteEmails;
+            $respuesta = Controlador::seleccionarClienteCorreosCtl($requestCD);
+            echo json_encode($respuesta);
+        }
+        
+        #Seleccionar todos los teléfonos del cliente.
+        public function seleccionarClienteTelefonosAjax(){
+            $requestCD = $this -> requestClientePhones;
+            $respuesta = Controlador::seleccionarClienteTelefonosCtl($requestCD);
             echo json_encode($respuesta);
         }
     }
@@ -71,6 +87,17 @@
     
     if (isset($_POST["estado-usuarios"])) {
         $objEstadoUsuarios = new Ajax();
-        // $objEstadoUsuarios -> usuariosElegidosEliminar = json_decode($_POST["estado-usuarios"]);
         $objEstadoUsuarios -> seleccionarConexionUsuariosAjax();
+    }
+    
+    if (isset($_POST["requestClienteEmails"])) {
+        $objRequestClienteEmails = new Ajax();
+        $objRequestClienteEmails -> requestClienteEmails = $_POST["requestClienteEmails"];
+        $objRequestClienteEmails -> seleccionarClienteCorreosAjax();
+    }
+    
+    if (isset($_POST["requestClientePhones"])) {
+        $objRequestClientePhones = new Ajax();
+        $objRequestClientePhones -> requestClientePhones = $_POST["requestClientePhones"];
+        $objRequestClientePhones -> seleccionarClienteTelefonosAjax();
     }

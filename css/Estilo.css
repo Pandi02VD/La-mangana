@@ -449,6 +449,13 @@ input[type="password"]{
 
 /* Checkbox del modal */
 
+/* Tarjetas modales */
+.Cards{
+    display: inline-block;
+    background-color: white;
+}
+/* Tarjetas modales */
+
 /* Tabs del modal */
 .tabs{
     display: inline-flex;
@@ -639,18 +646,19 @@ i{
   background-color: skyblue;
 }
 
-.table tr td a{
+.table tr td a, .button{
     text-decoration: none;
     color: var(--Form-Primary-Low);
     font-size: 20px;
     border: 1px solid var(--Form-Primary-Low);
     display: inline-block;
+    min-width: max-content;
     width: 50%;
     text-align: center;
     border-radius: 2px;
 }
 
-.table tr td a:hover{
+.table tr td a:hover, button:hover{
     color: white;
     background-color: var(--Form-Primary-Low);
     border-color: var(--Form-Primary-Low);
@@ -713,12 +721,27 @@ input:hover + .tooltip, a:hover + .tooltip{
     border-color: black transparent transparent transparent;
 }
 
+.Bar__Btns{
+    display: inline-block;
+    width: 100%;
+}
+
 .C__Btn{
     position: relative; 
     display: inline-flex;
 }
 
 .C__Btn a, .C__Btn input{
+    display: flex;
+    align-self: center;
+}
+
+.C__Btn__Last{
+    display: flex;
+    float: right;
+}
+
+.C__Btn__Last a{
     display: flex;
     align-self: center;
 }

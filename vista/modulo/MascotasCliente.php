@@ -94,7 +94,7 @@
 
         </div>
     <?php }else{ ?>
-        <div>
+        <div class="Bar__Btns">
             <div class="C__Btn">
                 <input type="image" src="img/add_32px.png" alt="imágen de acción" id="btn-add-pet">
                 <span class="tooltip">Agregar mascota</span>
@@ -117,7 +117,7 @@
                 </a>
                 <span class="tooltip">Ver historial clínico</span>
             </div>
-            <div class="C__Btn" style="display: flex; float:right">
+            <div class="C__Btn__Last">
                 <a href="#search-pet"><image src="img/search_32px.png"></image></a>
                 <input class="inputs" type="text" id="search-pet" name="search-pet" placeholder="Buscar mascota">
             </div>

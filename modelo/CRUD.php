@@ -27,25 +27,32 @@
             $sql -> close();
             $sql = null;
         }
+
+        #Seleccionar correos electrónicos del cliente de la base de datos.
+        public function seleccionarClienteCorreosBD($clienteId){
+            $sql = Conexion::conectar() -> prepare("
+                select correo from user_correo 
+                where status = 1 and iduser = :iduser;
+            ");
+            $sql -> bindParam(":iduser", $clienteId, PDO::PARAM_INT);
+            $sql -> execute();
+            return $sql -> fetchAll();
+            $sql -> close();
+            $sql = null;
+        }
         
-        #Seleccionar cliente a detalle de la base de datos.
-        // public function seleccionarClienteDetalleBD($clienteId){
-        //     $sql = Conexion::conectar() -> prepare("
-        //         select 
-        //         u.nombre, 
-        //         u_c.
-        //         u_d.
-        //         u_t.
-        //         from user u 
-        //         inner join 
-        //         where status = 1 and tipo = 0 and iduser = :iduser;
-        //     ");
-        //     $sql -> bindParam(":iduser", $clienteId, PDO::PARAM_INT);
-        //     $sql -> execute();
-        //     return $sql -> fetch();
-        //     $sql -> close();
-        //     $sql = null;
-        // }
+        #Seleccionar teléfonos del cliente de la base de datos.
+        public function seleccionarClienteTelefonosBD($clienteId){
+            $sql = Conexion::conectar() -> prepare("
+                select numero, tipo from user_telefono 
+                where status = 1 and iduser = :iduser;
+            ");
+            $sql -> bindParam(":iduser", $clienteId, PDO::PARAM_INT);
+            $sql -> execute();
+            return $sql -> fetchAll();
+            $sql -> close();
+            $sql = null;
+        }
 
         #Recuperar datos de cliente de la base de datos.
         public function datosClienteBD($clienteId){
@@ -83,6 +90,22 @@
                 "insert into user(nombre, fecha, tipo, status) value(:nombre, now(), 0, 1);"
             );
             $sql -> bindParam(":nombre", $nombreCliente, PDO::PARAM_STR);
+            if($sql -> execute()) {
+                return true;
+            }else{
+                return false;
+            }
+            $sql -> close();
+            $sql = null;
+        }
+        
+        #Agregar nuevo correo electrónico en la base de datos.
+        public function nuevoCorreoBD($datosCliente){
+            $sql = Conexion::conectar() -> prepare(
+                "insert into user_correo(iduser, correo, status) value(:iduser, :correo, 1);"
+            );
+            $sql -> bindParam(":iduser", $datosCliente["clienteId"], PDO::PARAM_INT);
+            $sql -> bindParam(":correo", $datosCliente["correo"], PDO::PARAM_STR);
             if($sql -> execute()) {
                 return true;
             }else{

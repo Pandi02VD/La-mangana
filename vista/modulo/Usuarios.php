@@ -16,20 +16,22 @@
 <div class="C__Table">
     <h3>Usuarios</h3>
     
-    <div class="C__Btn">
-        <input type="image" src="img/add_32px.png" alt="imágen de acción" id="btn-add-user">
-        <span class="tooltip">Agregar usuario</span>
-    </div>
-    <div class="C__Btn">
-        <input type="image" src="img/edit_32px.png" alt="imágen de acción"  id="btn-edit-user" disabled>
-        <span class="tooltip">Editar usuario</span>
-    </div>
-    <div class="C__Btn">
-        <input type="image" src="img/trash_32px.png" alt="imágen de acción" id="btn-delete-user" disabled>
-        <span class="tooltip">Eliminar usuario</span>
+    <div>
+        <div class="C__Btn">
+            <input type="image" src="img/add_32px.png" alt="imágen de acción" id="btn-add-user">
+            <span class="tooltip">Agregar usuario</span>
+        </div>
+        <div class="C__Btn">
+            <input type="image" src="img/edit_32px.png" alt="imágen de acción"  id="btn-edit-user" disabled>
+            <span class="tooltip">Editar usuario</span>
+        </div>
+        <div class="C__Btn">
+            <input type="image" src="img/trash_32px.png" alt="imágen de acción" id="btn-delete-user" disabled>
+            <span class="tooltip">Eliminar usuario</span>
+        </div>
     </div>
 
-    <table id="table">
+    <table class="table" id="tbl-usuarios">
         <tr>
             <th>
                 <input type="checkbox" name="check-all-users" id="check-all-users">

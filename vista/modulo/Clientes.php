@@ -134,12 +134,12 @@
             <div><span name="Card-client-name"></span></div>
             <div>
                 <div class="tabs">
-                    <a href="#tab-client-email">Correos electrónicos</a>
-                    <a href="#tab-client-phone">Teléfonos</a>
+                    <a href="#tab-client-emails">Correos electrónicos</a>
+                    <a href="#tab-client-phones">Teléfonos</a>
                     <a href="#tab-client-address">Domicilios</a>
                 </div>
                 <div name="tabs-content">
-                    <div id="tab-client-email" class="ficha__info">
+                    <div id="tab-client-emails" class="ficha__info">
                         <div class="C__Btn">
                             <input type="image" src="img/add_32px.png" alt="imágen de acción" id="btn-add-client-email">
                             <span class="tooltip">Agregar</span>
@@ -150,47 +150,20 @@
                                 <th>Correo electrónico</th>
                                 <th>Acción</th>
                             </tr>
-                            <!-- <tr>
-                                <td name="client-email-address">Error</td>
-                                <td>
-                                    <div class="C__Btn">
-                                        <input type="image" src="img/edit_32px.png" alt="imágen de acción" id="btn-edit-client-email" disabled>
-                                        <span class="tooltip">Editar</span>
-                                    </div>
-                                    <div class="C__Btn">
-                                        <input type="image" src="img/trash_32px.png" alt="imágen de acción" id="btn-delete-client-email" disabled>
-                                        <span class="tooltip">Eliminar</span>
-                                    </div>
-                                </td>
-                            </tr> -->
                         </table>
                     </div>
-                    <div id="tab-client-phone" class="ficha__info">
+                    <div id="tab-client-phones" class="ficha__info">
                     <div class="C__Btn">
-                            <input type="image" src="img/add_32px.png" alt="imágen de acción" id="btn-add-client-phone" disabled>
+                            <input type="image" src="img/add_32px.png" alt="imágen de acción" id="btn-add-client-phone">
                             <span class="tooltip">Agregar</span>
                         </div>
-                        <table class="table">
+                        <table class="table" id="tbl-client-phones">
                             <caption>Teléfonos</caption>
                             <tr>
                                 <th>Número</th>
                                 <th>Tipo</th>
                                 <th>Acción</th>
                             </tr>
-                            <!-- <tr>
-                                <td name="client-phone-number">Error</td>
-                                <td name="client-phone-type">Error</td>
-                                <td>
-                                    <div class="C__Btn">
-                                        <input type="image" src="img/edit_32px.png" alt="imágen de acción" id="btn-edit-client-phone" disabled>
-                                        <span class="tooltip">Editar</span>
-                                    </div>
-                                    <div class="C__Btn">
-                                        <input type="image" src="img/trash_32px.png" alt="imágen de acción" id="btn-delete-client-phone" disabled>
-                                        <span class="tooltip">Eliminar</span>
-                                    </div>
-                                </td>
-                            </tr> -->
                         </table>
                     </div>
                     <div id="tab-client-address" class="ficha__info">
@@ -219,12 +192,38 @@
             </div>
 
             <div class="i__group">
-                <input type="hidden" id="cliente-add-phone-id" name="cliente-add-phone-id" required>
+                <input type="hidden" id="cliente-add-email-id" name="cliente-add-email-id" required>
             </div>
             
             <input class="submit" type="submit" value="Crear">
             <?php 
                 $nuevoCorreo = Controlador::nuevoCorreoCtl();
+            ?>
+        </form>
+    </div>
+    
+    <div class="C__f oculto" id="form-add-client-phone">
+        <form method="post" class="f">
+            <input class="f__close" type="button" id="btn-close-form-add-client-phone" value="X">
+            <h2 class="f__title">Nuevo número telefónico</h2>
+            <div class="line-top"></div>
+            <div class="i__group">
+                <input class="inputs" type="number" id="cliente-telefono-new" name="cliente-telefono-new" maxlength="10" required>
+                <label class="labels" for="cliente-telefono-new">Número</label>
+            </div>
+            
+            <div class="i__group">
+                <input class="inputs" type="number" id="cliente-tipotelefono-new" name="cliente-tipotelefono-new" maxlength="1" required>
+                <label class="labels" for="cliente-tipotelefono-new">Tipo</label>
+            </div>
+
+            <div class="i__group">
+                <input type="hidden" id="cliente-add-phone-id" name="cliente-add-phone-id" required>
+            </div>
+            
+            <input class="submit" type="submit" value="Crear">
+            <?php 
+                $nuevoTelefono = Controlador::nuevoTelefonoCtl();
             ?>
         </form>
     </div>

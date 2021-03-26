@@ -114,6 +114,23 @@
             $sql -> close();
             $sql = null;
         }
+        
+        #Agregar nuevo teléfono en la base de datos.
+        public function nuevoTelefonoBD($datosCliente){
+            $sql = Conexion::conectar() -> prepare(
+                "insert into user_telefono(iduser, tipo, numero, status) value(:iduser, :tipo, :numero, 1);"
+            );
+            $sql -> bindParam(":iduser", $datosCliente["clienteId"], PDO::PARAM_INT);
+            $sql -> bindParam(":numero", $datosCliente["telefono"], PDO::PARAM_STR);
+            $sql -> bindParam(":tipo", $datosCliente["tipo"], PDO::PARAM_INT);
+            if($sql -> execute()) {
+                return true;
+            }else{
+                return false;
+            }
+            $sql -> close();
+            $sql = null;
+        }
 
         #Deshabilitar uno o más clientes del sistema.
         public function eliminarClientesBD($clienteId){

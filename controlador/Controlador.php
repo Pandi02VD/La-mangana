@@ -99,9 +99,9 @@
         
         #Agregar nuevo correo electrónico.
         public function nuevoCorreoCtl(){
-            if (isset($_POST["cliente-correo-new"]) && $_POST["cliente-add-phone-id"]) {
+            if (isset($_POST["cliente-correo-new"]) && $_POST["cliente-add-email-id"]) {
                 $datosCliente = array(
-                    "clienteId" => $_POST["cliente-add-phone-id"], 
+                    "clienteId" => $_POST["cliente-add-email-id"], 
                     "correo" => $_POST["cliente-correo-new"]
                 );
                 $respuesta = CRUD::nuevoCorreoBD($datosCliente);
@@ -113,7 +113,39 @@
                         </script>
                         ';
                 }else{
-                    echo '<span>Error al agregar el correo electrónico</span>';
+                    echo '
+                        <script>
+                        window.location = "index.php?pagina=Clientes";
+                            alert("Error al agregar el correo electrónico");
+                        </script>
+                        ';
+                }
+            }
+        }
+        
+        #Agregar nuevo teléfono.
+        public function nuevoTelefonoCtl(){
+            if (isset($_POST["cliente-telefono-new"]) && $_POST["cliente-add-phone-id"] && $_POST["cliente-tipotelefono-new"]) {
+                $datosCliente = array(
+                    "clienteId" => $_POST["cliente-add-phone-id"], 
+                    "telefono" => $_POST["cliente-telefono-new"], 
+                    "tipo" => $_POST["cliente-tipotelefono-new"]
+                );
+                $respuesta = CRUD::nuevoTelefonoBD($datosCliente);
+                if ($respuesta) {
+                    echo '
+                        <script>
+                        window.location = "index.php?pagina=Clientes";
+                            alert("Telefono agregado correctamente");
+                        </script>
+                        ';
+                }else{
+                    echo '
+                        <script>
+                        window.location = "index.php?pagina=Clientes";
+                            alert("Error al agregar el teléfono");
+                        </script>
+                        ';
                 }
             }
         }

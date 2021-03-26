@@ -310,6 +310,14 @@ if (FORM_CARD_CLIENT && BTN_CARD_CLIENT) {
     BTN_CLOSE_FORM_ADD_CLIENT_EMAIL.addEventListener('click', () => {
         FORM_ADD_CLIENT_EMAIL.classList.add('oculto');
     })
+    
+    BTN_ADD_CLIENT_PHONE.addEventListener('click', () => {
+        FORM_ADD_CLIENT_PHONE.classList.remove('oculto');
+    })
+
+    BTN_CLOSE_FORM_ADD_CLIENT_PHONE.addEventListener('click', () => {
+        FORM_ADD_CLIENT_PHONE.classList.add('oculto');
+    })
 }
 
 if (FORM_DELETE_PET) {

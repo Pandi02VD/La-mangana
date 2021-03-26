@@ -172,6 +172,54 @@ $(BTN_C_DELETE_USER).click(function(){
     }
 });
 
+function seleccionarClienteTelefonos(clientsCheck){
+    var requestClientePhones = clientsCheck;
+
+    var datos = new FormData();
+    datos.append("requestClientePhones", requestClientePhones);
+    
+    $.ajax({
+        url: "controlador/Ajax.php", 
+        method: "post", 
+        data: datos, 
+        cache: false, 
+        contentType: false, 
+        processData: false, 
+        dataType: "json", 
+        success: function(respuesta){
+            if (respuesta) {
+                console.log(respuesta);
+                    for (const telefonos of respuesta) {
+                        $('#tbl-client-phones tbody').append(
+                            '<tr>' + 
+                                '<td name="client-phone-number">' + telefonos['numero'] + '</td>' + 
+                                '<td name="client-phone-type">' + telefonos['tipo'] + '</td>' + 
+                                '<td>' + 
+                                    '<div class="C__Btn">' + 
+                                        '<input type="image" src="img/edit_32px.png" alt="imágen de acción" id="btn-edit-client-phone">' + 
+                                        '<span class="tooltip">Editar</span>' + 
+                                    '</div>' + 
+                                    '<div class="C__Btn">' + 
+                                        '<input type="image" src="img/trash_32px.png" alt="imágen de acción" id="btn-delete-client-phone">' + 
+                                        '<span class="tooltip">Eliminar</span>' + 
+                                    '</div>' + 
+                                '</td>' + 
+                            '</tr>'
+                        );
+                    }
+                }else{
+                    $('#tab-client-phone tbody').append(
+                        '<tr>' + 
+                            '<td name="client-phone-number">Sin datos</td>' + 
+                            '<td name="client-phone-type">Sin datos</td>' + 
+                            '<td>Sin datos</td>' + 
+                        '</tr>'
+                    );
+                }
+        }
+    });
+}
+
 $(BTN_CARD_CLIENT).click(function(){
     if (CHECK_CLIENT) {
         var requestClienteEmails;
@@ -195,10 +243,10 @@ $(BTN_CARD_CLIENT).click(function(){
             success: function(respuesta){
                 if (respuesta) {
                     console.log(respuesta);
-                    for (const correo of respuesta) {
+                    for (const correos of respuesta) {
                         $('#tbl-client-emails tbody').append(
                             '<tr>' + 
-                                '<td name="client-email-address">' + correo['correo'] + '</td>' + 
+                                '<td name="client-email-address">' + correos['correo'] + '</td>' + 
                                 '<td>' + 
                                     '<div class="C__Btn">' + 
                                         '<input type="image" src="img/edit_32px.png" alt="imágen de acción" id="btn-edit-client-email">' + 
@@ -212,6 +260,7 @@ $(BTN_CARD_CLIENT).click(function(){
                             '</tr>'
                         );
                     }
+
                 }else{
                     $('#tab-client-email tbody').append(
                         '<tr>' + 
@@ -220,12 +269,27 @@ $(BTN_CARD_CLIENT).click(function(){
                         '</tr>'
                     );
                 }
+
+                seleccionarClienteTelefonos(requestClienteEmails);
             }
         });
     }
 });
 
 $(BTN_ADD_CLIENT_EMAIL).click(function(){
+    if (CHECK_CLIENT) {
+        var clienteElegido;
+        for (let i = 0; i < CHECK_CLIENT.length; i++) {
+            if (CHECK_CLIENT[i].checked) {
+                clienteElegido = CHECK_CLIENT[i].value;
+            }
+        }
+
+        $('#cliente-add-email-id').val(clienteElegido);
+    }
+});
+
+$(BTN_ADD_CLIENT_PHONE).click(function(){
     if (CHECK_CLIENT) {
         var clienteElegido;
         for (let i = 0; i < CHECK_CLIENT.length; i++) {

@@ -3,4 +3,6 @@
         echo '<script>window.location = "index.php?pagina=IniciarSesion"</script>';
     }
 ?>
-<h2>Inicio</h2>
+<div class="title">
+    <h2>Inicio</h2>
+</div>

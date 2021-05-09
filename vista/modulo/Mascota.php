@@ -4,7 +4,9 @@
     }else{
     }
 ?>
-<h2>Mascota</h2>
+<div class="title">
+    <h2>Mascota</h2>
+</div>
 
 <div style="display: inline-block; width: auto">
     <div id="graficaPeso"></div>

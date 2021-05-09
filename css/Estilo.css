@@ -1,9 +1,12 @@
 /* Variables */
 :root{
     /* Colores */
-    --Form-Primary: rgb(48, 238, 189);
+    --Form-Primary: rgb(25, 173, 136);
     --Form-Primary-Active: rgb(0, 255, 191);
-    --Form-Primary-Low: rgb(40, 187, 150);
+    --Form-Primary-Low: rgb(19, 117, 93);
+    /* --Form-Primary: rgb(48, 238, 189);
+    --Form-Primary-Active: rgb(0, 255, 191);
+    --Form-Primary-Low: rgb(40, 187, 150); */
     --Form-Secondary: rgb(201, 134, 249);
     --Form-Secondary-Active: rgb(188, 106, 246);
     --Form-Secondary-Low: rgb(207, 158, 241);
@@ -13,6 +16,7 @@
     --Form-Basic: rgb(253, 234, 47);
     --Form-Basic-Active: rgb(246, 250, 15);
     --Form-Basic-Low: rgb(226, 205, 13);
+    --Background: rgb(238, 232, 232);
     /* Colores */
 }
 /* Variables */
@@ -27,18 +31,62 @@ body{
     margin: 0;
     padding: 0;
     width: 100%;
-    height: calc(100vh - 100px);
-    background: #ebebeb;
+    height: -webkit-fill-available;
+    background-color: bisque;
+}
+
+main{
+    display: inline-block;
+    height: 100vh;
+    width: calc(100% - 80px);
+    padding: 0 40px 30px 40px;
+    background-color: var(--Background);
+}
+
+#C__Map {
+    display: inline-block;
+    position: relative;
+    height: 50%;
+    width: 50%;
+}
+
+#map{
+    display: inline-block;
+    position: fixed !important;
+    width: 50%;
+    height: 60%;
 }
 /* Estilos generales y de cuerpo */
 
 /* Navegación */
+.title{
+    display: inline-block;
+    width: 100%;
+    background-color: whitesmoke;
+    height: fit-content;
+    text-align: center;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+    box-shadow: 0px 1px 4px 0px gray;
+    animation: titleDawn .5s ease;
+}
+
+@keyframes titleDawn {
+    from {
+        transform: scaleX(0);
+    }
+    to {
+        transform: scaleX(100%);
+    }
+}
+
 nav{
     display: inline-block;
     position: relative;
     height: calc(100px - 20px);
     width: calc(100% - 80px);
-    background: linear-gradient(to top, var(--Form-Secondary-Low), var(--Form-Primary));
+    /* background: linear-gradient(to top, var(--Form-Secondary-Low), var(--Form-Primary)); */
+    background-color: var(--Form-Primary);
     margin: 0;
     padding: 10px 40px;
 }
@@ -52,6 +100,13 @@ nav::before{
     background: var(--Form-Primary-Low);
     left: 0;
     bottom: 0;
+}
+
+.title h2{
+    font-size: 2em;
+    font-weight: lighter;
+    font-family: 'Nunito Sans';
+    margin: 10px 0;
 }
 
 .D-Logo{
@@ -93,11 +148,11 @@ nav::before{
     text-decoration: none;
     padding: 4px 10px;
     background: white;
-    border-radius: 2px;
+    border-radius: 4px;
 }
 
 .link-button.activo{
-    background-color: var(--Form-Primary);
+    background-color: var(--Form-Primary-Low);
     color: white;
 }
 
@@ -133,8 +188,9 @@ nav::before{
     width: 100%;
     height: calc(100% - 22px);
     justify-content: center;
-    align-items: center;
+    align-items: baseline;
     border-radius: 4px;
+    padding-top: 40px;
 }
 
 .F{
@@ -142,9 +198,9 @@ nav::before{
     display: inline-block;
     width: auto;
     min-width: 25%;
-    padding: 20px 30px;
+    padding: 20px 35px;
     background-color: white;
-    border-radius: 5px;
+    border-radius: 6px;
 }
 
 .C__F__C{
@@ -452,6 +508,12 @@ input[type="password"]{
 /* Tarjetas modales */
 .Cards{
     display: inline-block;
+    width: 450px;
+    min-width: max-content;
+    padding: 20px 30px;
+    box-shadow: 2px 2px 7px 0px var(--Form-Primary);
+    height: max-content;
+    border-radius: 6px;
     background-color: white;
 }
 /* Tarjetas modales */
@@ -514,7 +576,7 @@ input[type="password"]{
     padding: 20px 0;
     box-shadow: 2px 2px 7px 0px var(--Form-Primary);
     transition: 0.8s;
-
+    background-color: rgb(0, 0, 0, 0.4);
     top: 0%;
     width: 100%;
     height: max-content;
@@ -532,6 +594,7 @@ input[type="password"]{
     background-color: white;
     box-shadow: 2px 2px 7px 0px var(--Form-Primary);
     height: max-content;
+    border-radius: 6px;
 }
 
 .label-checkbox{
@@ -609,33 +672,56 @@ i{
     display: inline-block;
     width: calc(100% - 80px);
     padding: 10px 40px;
+    margin-top: 40px;
 }
 
 .table {
     border-collapse: collapse;
     width: 100%;
+    border-radius: 6px;
+    box-shadow: 0px 0px 8px 1px gray;
 }
 
-.table caption{
-    font-weight: bold;
+table tr:first-child th:first-child {
+    border-top-left-radius: 6px;
+}
+
+table tr:first-child th:last-child {
+    border-top-right-radius: 6px;
+}
+
+table tr:last-child td:first-child {
+    border-bottom-left-radius: 6px;
+}
+
+table tr:last-child td:last-child {
+    border-bottom-right-radius: 6px;
+}
+
+.table tr{
+    transition: background-color .2s ease;
 }
 
 .table td, .table th {
     position: relative;
-    border: 1px solid #ccc;
-    padding: 8px;
+    padding: 10px 8px;
 }
 
-.table tr:nth-child(even){background-color: #f2f2f2;}
+.table tr:nth-child(odd){background-color: whitesmoke;}
 
-.table tr:hover {background-color: rgb(211, 207, 248);}
+.table tr:nth-child(even){background-color: rgb(228, 225, 225);}
+
+.table tr:hover {background-color: rgb(118, 105, 240);}
 
 .table th {
-    padding-top: 12px;
-    padding-bottom: 12px;
+    padding-top: 10px;
+    padding-bottom: 10px;
     text-align: left;
-    background-color: var(--Form-Default-Low);
+    background-color: var(--Form-Secondary-Active);
     color: white;
+    font-size: 20px;
+    font-weight: lighter;
+    border-bottom: 1px solid black;
 }
 
 .table td{
@@ -669,7 +755,7 @@ i{
 }
 /* Tablas */
 
-/* Tooltip & Botones de acción */
+/* Tooltip, Checkbox & Botones de acción */
 input:disabled{
     opacity: 0.4;
     cursor: not-allowed;
@@ -724,6 +810,7 @@ input:hover + .tooltip, a:hover + .tooltip{
 .Bar__Btns{
     display: inline-block;
     width: 100%;
+    padding: 10px 0;
 }
 
 .C__Btn{
@@ -745,4 +832,45 @@ input:hover + .tooltip, a:hover + .tooltip{
     display: flex;
     align-self: center;
 }
-/* Tooltip & Botones de acción */
+
+input[type="checkbox"]{
+    border: 2px solid var(--Form-Primary-Low);
+    background-color: white;
+    border-radius: 2px;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    position: relative;
+    top: 5px;
+}
+
+/* input[type="checkbox"]:checked{
+    background-color: #3133ca;
+} */
+
+input[type="checkbox"]:checked::before{
+    content: '';
+    position: absolute;
+    width: 70%;
+    height: 70%;
+    top: 15%;
+    left: 15%;
+    border-radius: 2px;
+    background-color: var(--Form-Primary-Low);
+}
+/* Tooltip, Checkbox & Botones de acción */
+
+/* Modo oscuro */
+/* @media (prefers-color-scheme: dark) {
+    main{
+        background-color: black;
+    }
+
+    .C__f{
+        background-color: rgba(255, 255, 255, 0.4);
+    }
+} */
+/* Modo oscuro */

@@ -122,7 +122,7 @@
         
         <input class="submit" type="submit" value="Crear">
         <?php 
-            // $crearUsuario = Controlador::crearCuentaCtl();
+            // $crearUsuario = ControladorUsuario::crearCuentaCtl();
         ?>
         </form>
 
@@ -202,7 +202,7 @@
         <input class="submit" type="submit" value="Crear">
         <input type="hidden" name="mascotaId-edit" id="mascotaId-edit">
         <?php 
-            // $crearUsuario = Controlador::crearCuentaCtl();
+            // $crearUsuario = ControladorUsuario::crearCuentaCtl();
         ?>
         </form>
 
@@ -217,7 +217,7 @@
             
             <input class="submit" type="submit" value="Confirmar">
             <?php 
-                // $actualizaUsuario = Controlador::actualizarUsuarioCtl();
+                // $actualizaUsuario = ControladorUsuario::actualizarUsuarioCtl();
             ?>
         </form>
     </div>
@@ -299,7 +299,7 @@
         
         <input class="submit" type="submit" value="Guardar orden">
         <?php 
-            // $crearUsuario = Controlador::crearCuentaCtl();
+            // $crearUsuario = ControladorUsuario::crearCuentaCtl();
         ?>
         </form>
     </div> -->

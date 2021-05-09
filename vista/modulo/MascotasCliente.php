@@ -3,13 +3,15 @@
         echo '<script>window.location = "index.php?pagina=Error";</script>';
     }
     $clienteId = $_GET["vru"];
-    $cliente = Controlador::seleccionarClienteCtl($clienteId);
-    $mascotasCliente = Controlador::mascotasClienteCtl($clienteId);
+    $cliente = ControladorCliente::seleccionarClienteCtl($clienteId);
+    $mascotasCliente = ControladorMascota::mascotasClienteCtl($clienteId);
 ?>
-<h2>Mascotas de <?= $cliente["nombre"] == null ? '<script>window.location = "index.php?pagina=Error";</script>' : $cliente["nombre"] ;?></h2>
+<div class="title">
+    <h2>Mascotas</h2>
+    <h3>Mascotas de <?= $cliente["cliente"] == null ? '<script>window.location = "index.php?pagina=Error";</script>' : $cliente["cliente"] ;?></h3>
+</div>
 
 <div class="C__Table">
-    <h3>Mascotas</h3>
     <?php if ($mascotasCliente == null) { ?>
         <div class="C__Btn">
             <input type="image" src="img/add_32px.png" alt="imágen de acción" id="btn-add-pet">
@@ -19,7 +21,7 @@
         <div class="C__f oculto" id="form-add-pet">
             <form method="post" class="f">
                 <input class="f__close" type="button" id="btn-close-form-add-pet" value="x">
-                <h2 class="f__title">Nueva Mascota de <?=$cliente["nombre"]?></h2>
+                <h2 class="f__title">Nueva Mascota de <?=$cliente["cliente"]?></h2>
                 <div class="line-top"></div>
                 <div class="i__group">
                     <label class="labels" for="pet-nombre-new">Nombre</label>
@@ -88,7 +90,7 @@
                 
                 <input class="submit" type="submit" value="Crear">
                 <?php 
-                    // $crearUsuario = Controlador::crearCuentaCtl();
+                    // $crearUsuario = ControladorUsuario::crearCuentaCtl();
                 ?>
             </form>
 
@@ -133,7 +135,7 @@
             </tr>
                 <?php foreach($mascotasCliente as $key => $value) : ?>
                 <?php 
-                    $raza = Controlador::seleccionarRazaMascotaCtl($value["idmascota_raza"]);
+                    $raza = ControladorMascota::seleccionarRazaMascotaCtl($value["idmascota_raza"]);
                     $currentYear = date("Y");
                     
                     switch($value["sexo"]){
@@ -166,7 +168,7 @@
         <div class="C__f oculto" id="form-add-pet">
             <form method="post" class="f">
                 <input class="f__close" type="button" id="btn-close-form-add-pet" value="x">
-                <h2 class="f__title">Nueva Mascota de <?=$cliente["nombre"]?></h2>
+                <h2 class="f__title">Nueva Mascota de <?=$cliente["cliente"]?></h2>
                 <div class="line-top"></div>
                 <div class="i__group">
                     <label class="labels" for="pet-nombre-new">Nombre</label>
@@ -235,7 +237,7 @@
                 
                 <input class="submit" type="submit" value="Crear">
                 <?php 
-                    // $crearUsuario = Controlador::crearCuentaCtl();
+                    // $crearUsuario = ControladorUsuario::crearCuentaCtl();
                 ?>
             </form>
 
@@ -307,7 +309,7 @@
                 <!-- <input class="submit" type="button" value="Siguiente paso" id=""> -->
                 <a href="#form-add-H-pet" id="btn-first" class="submit">Siguiente paso</a>
                 <?php 
-                    // $crearUsuario = Controlador::crearCuentaCtl();
+                    // $crearUsuario = ControladorUsuario::crearCuentaCtl();
                 ?>
             </form>
         </div>
@@ -315,7 +317,7 @@
         <div class="C__f oculto" id="form-edit-pet">
             <form method="post" class="f">
                 <input class="f__close" type="button" id="btn-close-form-edit-pet" value="x">
-                <h2 class="f__title">Editar Mascota de <?=$cliente["nombre"]?></h2>
+                <h2 class="f__title">Editar Mascota de <?=$cliente["cliente"]?></h2>
                 <div class="line-top"></div>
                 <div class="i__group">
                     <label class="labels" for="pet-nombre-edit">Nombre</label>
@@ -385,7 +387,7 @@
                 <input class="submit" type="submit" value="Crear">
                 <input type="hidden" name="mascotaId-edit" id="mascotaId-edit">
                 <?php 
-                    // $crearUsuario = Controlador::crearCuentaCtl();
+                    // $crearUsuario = ControladorUsuario::crearCuentaCtl();
                 ?>
             </form>
 
@@ -400,7 +402,7 @@
                 
                 <input class="submit" type="submit" value="Confirmar">
                 <?php 
-                    // $actualizaUsuario = Controlador::actualizarUsuarioCtl();
+                    // $actualizaUsuario = ControladorUsuario::actualizarUsuarioCtl();
                 ?>
             </form>
         </div>
@@ -482,7 +484,7 @@
                 
                 <input class="submit" type="submit" value="Guardar orden">
                 <?php 
-                    // $crearUsuario = Controlador::crearCuentaCtl();
+                    // $crearUsuario = ControladorUsuario::crearCuentaCtl();
                 ?>
             </form>
         </div>

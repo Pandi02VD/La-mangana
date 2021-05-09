@@ -9,6 +9,6 @@
                 </script>';
         }
     }
-    // $usuarios = Controlador::seleccionarUsuariosCtl();
+    // $usuarios = ControladorUsuario::seleccionarUsuariosCtl();
 ?>
 <h2>Usuario</h2>

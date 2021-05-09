@@ -5,17 +5,16 @@
     }else{
         $cargo = $_SESSION["tipo-usuario"];
     }
-    $usuarios = Controlador::seleccionarUsuariosCtl();
+    $usuarios = ControladorUsuario::seleccionarUsuariosCtl();
 ?>
-<h2>Usuarios</h2>
-
-<a class="link-button active" href="index.php?pagina=Usuarios">Usuarios</a>
-<a class="link-button" href="index.php?pagina=Clientes">Clientes</a>
+<div class="title">
+    <h2>Usuarios</h2>
+    <a class="link-button active" href="index.php?pagina=Usuarios">Usuarios</a>
+    <a class="link-button" href="index.php?pagina=Clientes">Clientes</a>
+</div>
 
 <?php if($cargo == 1) :?>
-<div class="C__Table">
-    <h3>Usuarios</h3>
-    
+<div class="C__Table">    
     <div>
         <div class="C__Btn">
             <input type="image" src="img/add_32px.png" alt="imágen de acción" id="btn-add-user">
@@ -123,7 +122,7 @@
         
         <input class="submit" type="submit" value="Crear">
         <?php 
-            $crearUsuario = Controlador::crearCuentaCtl();
+            $crearUsuario = ControladorUsuario::crearCuentaCtl();
         ?>
         </form>
 
@@ -131,7 +130,7 @@
 
     <div class="C__f oculto" id="form-edit-user">
         <form method="post" class="f">
-        <input class="f__close" type="button" id="btn-close-form-edit-user" value="X">
+        <input class="f__close" type="button" id="btn-close-form-edit-user" value="x">
             <h2 class="f__title">Editar Usuario</h2>
             <div class="line-top"></div>
             <div class="i__group">
@@ -151,14 +150,14 @@
             <input class="submit" type="submit" value="Actualizar">
             <input type="hidden" name="usuarioId-edit" id="usuarioId-edit">
             <?php 
-                $actualizaUsuario = Controlador::actualizarUsuarioCtl();
+                $actualizaUsuario = ControladorUsuario::actualizarUsuarioCtl();
             ?>
         </form>
     </div>
 
     <div class="C__f oculto" id="form-delete-user">
         <form method="post" class="f">
-        <input class="f__close" type="button" id="btn-close-form-delete-user" value="X">
+        <input class="f__close" type="button" id="btn-close-form-delete-user" value="x">
             <h2 class="f__title">Confirmación</h2>
             <div class="line-top"></div>
             <span class="label-checkbox">¿Desea eliminar el registro?</span>

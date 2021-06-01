@@ -12,9 +12,21 @@
             return $respuesta;
         }
 
-        #Seleccionar todos los correos electrónicos del cliente.
+        #Seleccionar correo electrónico del cliente para editar.
         public function seleccionarClienteCorreoCtl($correoId){
             $respuesta = CRUDCliente::seleccionarClienteCorreoBD($correoId);
+            return $respuesta;
+        }
+        
+        #Seleccionar teléfono del cliente para editar.
+        public function seleccionarClienteTelefonoCtl($telefonoId){
+            $respuesta = CRUDCliente::seleccionarClienteTelefonoBD($telefonoId);
+            return $respuesta;
+        }
+
+        #Seleccionar domicili del cliente para editar.
+        public function seleccionarClienteDomicilioCtl($domicilioId){
+            $respuesta = CRUDCliente::seleccionarClienteDomicilioBD($domicilioId);
             return $respuesta;
         }
 
@@ -100,6 +112,63 @@
             $conclusion = true;
             for ($i = 0; $i < sizeof($clientesElegidosEliminar); $i++) {
                 $respuesta = CRUDCliente::eliminarClientesBD($clientesElegidosEliminar[$i]);
+                if ($respuesta == false) {
+                    $respuestas[$i] = false;
+                }
+            }
+            
+            for ($i = 0; $i < sizeof($respuestas); $i++) {
+                if ($respuestas[$i] == false) {
+                    $conclusion = false;
+                }
+            }
+            return $conclusion;
+        }
+        
+        #Deshabilitar uno o más correos de clientes.
+        public function eliminarCorreosClienteCtl($correosClienteEliminar){
+            $respuestas = array();
+            $conclusion = true;
+            for ($i = 0; $i < sizeof($correosClienteEliminar); $i++) {
+                $respuesta = CRUDCliente::eliminarCorreosClienteBD($correosClienteEliminar[$i]);
+                if ($respuesta == false) {
+                    $respuestas[$i] = false;
+                }
+            }
+            
+            for ($i = 0; $i < sizeof($respuestas); $i++) {
+                if ($respuestas[$i] == false) {
+                    $conclusion = false;
+                }
+            }
+            return $conclusion;
+        }
+        
+        #Deshabilitar uno o más teléfonos de clientes.
+        public function eliminarTelefonosClienteCtl($telefonosClienteEliminar){
+            $respuestas = array();
+            $conclusion = true;
+            for ($i = 0; $i < sizeof($telefonosClienteEliminar); $i++) {
+                $respuesta = CRUDCliente::eliminarTelefonosClienteBD($telefonosClienteEliminar[$i]);
+                if ($respuesta == false) {
+                    $respuestas[$i] = false;
+                }
+            }
+            
+            for ($i = 0; $i < sizeof($respuestas); $i++) {
+                if ($respuestas[$i] == false) {
+                    $conclusion = false;
+                }
+            }
+            return $conclusion;
+        }
+        
+        #Deshabilitar uno o más domicilios de clientes.
+        public function eliminarDomiciliosClienteCtl($domiciliosClienteEliminar){
+            $respuestas = array();
+            $conclusion = true;
+            for ($i = 0; $i < sizeof($domiciliosClienteEliminar); $i++) {
+                $respuesta = CRUDCliente::eliminarDomiciliosClienteBD($domiciliosClienteEliminar[$i]);
                 if ($respuesta == false) {
                     $respuestas[$i] = false;
                 }

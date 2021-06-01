@@ -1,8 +1,4 @@
 var horaActual = new Date().getHours();
-var numCheckedUsers = 0;
-var numCheckedClientEmails = 0;
-var numCheckedClients = 0;
-var numCheckedPets = 0;
 if (document.getElementById("saludo")) {
     const SALUDO = document.getElementById("saludo");
 }
@@ -45,8 +41,10 @@ var BTN_DELETE_CLIENT = document.getElementById("btn-delete-client");
 var BTN_DELETE_CLIENT_EMAIL = document.getElementById("btn-delete-client-email");
 var BTN_DELETE_CLIENT_PHONE = document.getElementById("btn-delete-client-phone");
 var BTN_DELETE_CLIENT_ADDRESS = document.getElementById("btn-delete-client-address");
-var BTN_CARD_CLIENT = document.getElementById("btn-card-client");
 var BTN_C_DELETE_CLIENT = document.getElementById("btn-C-delete-client");
+var BTN_C_DELETE_CLIENT_EMAIL = document.getElementById("btn-C-delete-client-email");
+var BTN_C_DELETE_CLIENT_PHONE = document.getElementById("btn-C-delete-client-phone");
+var BTN_C_DELETE_CLIENT_ADDRESS = document.getElementById("btn-C-delete-client-address");
 const FORM_ADD_CLIENT = document.getElementById('form-add-client');
 const FORM_ADD_CLIENT_EMAIL = document.getElementById('form-add-client-email');
 const FORM_ADD_CLIENT_PHONE = document.getElementById('form-add-client-phone');

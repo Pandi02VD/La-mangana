@@ -45,13 +45,35 @@ function elementChecked (checkElement) {
 	}
 }
 
+function addElementsChoosen (elements, form) {
+	var containerElementsChoosen = document.createElement('div');
+	containerElementsChoosen.setAttribute('id', 'container-elements-choosen');
+	form.appendChild(containerElementsChoosen);
+
+	for (let i = 0; i < elements.length; i++) {
+		if (elements[i].checked) {
+			let elementToDelete = document.createElement('input');
+			elementToDelete.setAttribute('type', 'hidden');
+			elementToDelete.setAttribute('name', 'element-to-delete');
+			elementToDelete.setAttribute('value', elements[i].value);
+			elementToDelete.setAttribute('id', 'element-to-delete-' + elements[i].value);
+			containerElementsChoosen.appendChild(elementToDelete);
+		}
+	}
+}
+
+function removeElementsChoosen () {
+	document.getElementById('container-elements-choosen').remove();
+}
+
 function editForm (btnShowFormEdit, checkElement, inputId, callback) {
 	if (btnShowFormEdit) {
 		$(btnShowFormEdit).click(function (){
 			let recordId = elementChecked(checkElement);
+			inputId.val(recordId);
 			let nameRequest = inputId.attr('id');
 
-			var formData = new FormData();
+			let formData = new FormData();
 			formData.append(nameRequest, recordId);
 
 			$.ajax({
@@ -72,6 +94,188 @@ function editForm (btnShowFormEdit, checkElement, inputId, callback) {
 	}
 }
 
+function deleteForm (btnShowFormDelete, btnConfirmDelete, btnCloseForm, checkElements, form, module, view) {
+	if (btnShowFormDelete && btnCloseForm && btnConfirmDelete && form) {
+		$(btnShowFormDelete).click(function () {
+			addElementsChoosen(checkElements, form);
+		});
+
+		$(btnConfirmDelete).click(function () {
+			$(form).css('cursor', 'progress');
+			$(btnCloseForm).css('cursor', 'progress');
+			$(btnConfirmDelete).css('cursor', 'progress');
+			btnCloseForm.disabled = true;
+			btnConfirmDelete.disabled = true;
+			$(btnConfirmDelete).attr('value', 'Eliminando...');
+			
+			let elementsToDelete = new Array();
+			for (let i = 0; i < checkElements.length; i++) {
+				if (checkElements[i].checked) {
+					elementsToDelete.push(checkElements[i].value);
+				}
+			}
+
+			let elementsToDeleteJSON = JSON.stringify(elementsToDelete);
+			let formData = new FormData();
+			formData.append(module, elementsToDeleteJSON);
+
+			$.ajax({
+				url: "controlador/Ajax.php", 
+				method: "post", 
+				data: formData, 
+				cache: false, 
+				contentType: false, 
+				processData: false, 
+				success: function (respuesta) {
+					if (respuesta) {
+						console.log(respuesta);
+						window.location = 'index.php?pagina=' + view;
+						alert('Eliminados correctamente');
+					} else {
+						window.location = 'index.php?pagina=' + view;
+						alert('Registros no eliminados, intente más tarde o contacte al proveedor');
+					}
+				}
+			});
+		});
+
+		$(btnCloseForm).click(function () {
+			removeElementsChoosen();
+		});
+	}
+}
+
+function fillSelectHTML (inputsData, nameFormData, callback) {
+	if (NodeList.prototype.isPrototypeOf(inputsData)) {
+		for (let i = 0; i < inputsData.length; i++) {
+			$(inputsData[i]).click(function () {
+				let data = inputsData[i].value;
+				let formData = new FormData();
+				formData.append(nameFormData, data);
+
+				$.ajax({
+					url: 'controlador/Ajax.php', 
+					method: 'post', 
+					data: formData, 
+					cache: false, 
+					contentType: false, 
+					processData: false, 
+					dataType: 'json', 
+					success: function (response) {
+						if (response) {
+							callback(response);
+						} else {
+							callback('Sin respuesta');
+						}
+					}
+				});
+			});
+		}
+	} else {
+	}
+}
+
+fillSelectHTML(document.getElementsByName('pet-especie-new'), 'select-raza', function (resultado) {
+	let select = document.getElementById('pet-raza-new');
+	$('#pet-raza-new').empty();
+
+	let optionDefault = document.createElement('option');
+	optionDefault.setAttribute('value', '');
+	optionDefault.innerHTML = 'Seleccione la raza';
+	select.appendChild(optionDefault);
+	
+
+	for (let i = 0; i < resultado.length; i++) {
+		let option = document.createElement('option');
+		option.setAttribute('value', resultado[i]['idmascota_raza']);
+		option.innerHTML = resultado[i]['raza'];
+		select.appendChild(option);
+	}
+});
+
+function autocompleteAddress (inputSearchAddress, inputEstado, inputMunicipio, inputColonia, inputCalle) {
+	if (
+		inputSearchAddress && 
+		inputEstado && 
+		inputMunicipio && 
+		inputColonia && 
+		inputCalle
+	) {
+		var autocomplete;
+		autocomplete = new google.maps.places.Autocomplete(inputSearchAddress, {
+			types: ['geocode'], 
+			componentRestrictions: {
+				country: "MX"
+			}
+		});
+			
+		google.maps.event.addListener(autocomplete, 'place_changed', function () {
+			var data_place = autocomplete.getPlace();
+			
+			if (data_place.address_components[0].types) {
+				console.log(data_place);
+				console.log(data_place.address_components.length);
+				for (let i = 0; i < data_place.address_components.length; i++) {
+					if(
+						data_place.address_components[i].types[0] === "administrative_area_level_1" && 
+						inputEstado.value !== data_place.address_components[i].types[0].long_name
+						){
+						inputEstado.value = data_place.address_components[i].long_name;
+						console.log("Estado: " + data_place.address_components[i].long_name);
+					}else{
+						console.log("No existe Estado");
+					}
+					if(
+						data_place.address_components[i].types[0] === "locality" && 
+						inputMunicipio.value !== data_place.address_components[i].types[0].long_name
+						){
+						inputMunicipio.value = data_place.address_components[i].long_name;
+						console.log("Municipio: " + data_place.address_components[i].long_name);
+					}else{
+						console.log("No existe Municipio");
+					}
+					if(
+						data_place.address_components[i].types[0] === "sublocality_level_1" && 
+						inputColonia.value !== data_place.address_components[i].types[0].long_name
+						){
+						inputColonia.value = data_place.address_components[i].long_name;
+						console.log("Colonia: " + data_place.address_components[i].long_name);
+					}else{
+						console.log("No existe colonia");
+					}
+					if(
+						data_place.address_components[i].types[0] === "route" && 
+						inputCalle.value !== data_place.address_components[i].types[0].long_name
+						){
+						inputCalle.value = data_place.address_components[i].long_name;
+						console.log("Calle: " + data_place.address_components[i].long_name);
+					}else{
+						console.log("No existe Calle");
+					}
+				}
+			}else{
+				console.log("No se encontraron datos");
+			}
+		});
+	}
+}
+
+autocompleteAddress(
+	document.getElementById('cliente-domicilio-ubicacion-new'), 
+	document.getElementById('cliente-domicilio-estado-new'), 
+	document.getElementById('cliente-domicilio-municipio-new'), 
+	document.getElementById('cliente-domicilio-colonia-new'), 
+	document.getElementById('cliente-domicilio-calle-new')
+);
+
+autocompleteAddress(
+	document.getElementById('cliente-domicilio-ubicacion-edit'), 
+	document.getElementById('cliente-domicilio-estado-edit'), 
+	document.getElementById('cliente-domicilio-municipio-edit'), 
+	document.getElementById('cliente-domicilio-colonia-edit'), 
+	document.getElementById('cliente-domicilio-calle-edit')
+);
+
 editForm(BTN_EDIT_CLIENT_EMAIL, CHECK_CLIENT_EMAIL, $('#email-client-edit-id'), function (resultado) {
 	$('#correo-cliente-edit').val(resultado['correo']);
 });
@@ -85,141 +289,38 @@ editForm(BTN_EDIT_USER, CHECK_USER, $('#usuarioId-edit'), function (resultado) {
 	$('#nombre-edit').val(resultado['nombre']);
 });
 
-$(BTN_C_DELETE_CLIENT).click(function(){
-	if (CHECK_CLIENT) {
-		$('#form-delete-client').css('background-color', 'rgba(0, 0, 0, 0.6)');
-		$(this).css('cursor', 'progress', '!IMPORTANT');
-		$(this).attr('value', 'Procesando...');
-		$('body').css('cursor', 'progress', '!IMPORTANT');
-		var clientesElegidosEliminar = new Array();
-		for (let i = 0; i < CHECK_CLIENT.length; i++) {
-			if (CHECK_CLIENT[i].checked) {
-				clientesElegidosEliminar.push(CHECK_CLIENT[i].value);
-			}
-		}
+editForm(BTN_EDIT_CLIENT_PHONE, CHECK_CLIENT_PHONE, $('#client-edit-phone-id'), function (resultado) {
+	$('#cliente-telefono-edit').val(resultado['numero']);
+	$('#cliente-tipotelefono-edit').val(resultado['tipo']);
+});
 
-		var data = JSON.stringify(clientesElegidosEliminar);
-
-		var datos = new FormData();
-		// for (let i = 0; i < CHECK_CLIENT.length; i++) {
-			datos.append("clientesEliminarId", data);
-		// }
-		
-		$.ajax({
-			url: "controlador/Ajax.php", 
-			method: "post", 
-			data: datos, 
-			cache: false, 
-			contentType: false, 
-			processData: false, 
-			// dataType: "json", 
-			success: function(respuesta){
-				if (respuesta) {
-					console.log(respuesta);
-					window.location = "index.php?pagina=Clientes";
-					alert("¡Se han eliminado los registros!");
-				}else{
-				}
-			}
-		});
+editForm(BTN_EDIT_CLIENT_ADDRESS, CHECK_CLIENT_ADDRESS, $('#client-edit-address-id'), function (resultado) {
+	console.log(resultado);
+	let num_casaex = resultado['num_casaex'], num_casaint = resultado['num_casaint'];
+	if (resultado['num_casaex'] == null || resultado['num_casaex'] == 0) {
+		num_casaex = null;
 	}
-});
-
-$(BTN_C_DELETE_USER).click(function(){
-	if (CHECK_USER) {
-		$('#form-delete-user').css('background-color', 'rgba(0, 0, 0, 0.6)');
-		$(this).css('cursor', 'progress', '!IMPORTANT');
-		$(this).attr('value', 'Procesando...');
-		$('body').css('cursor', 'progress', '!IMPORTANT');
-		var usuariosElegidosEliminar = new Array();
-		for (let i = 0; i < CHECK_USER.length; i++) {
-			if (CHECK_USER[i].checked) {
-				usuariosElegidosEliminar.push(CHECK_USER[i].value);
-			}
-		}
-
-		var dataUsuarios = JSON.stringify(usuariosElegidosEliminar);
-
-		var datosUsuarios = new FormData();
-		// for (let i = 0; i < CHECK_CLIENT.length; i++) {
-			datosUsuarios.append("usuariosEliminarId", dataUsuarios);
-		// }
-		
-		$.ajax({
-			url: "controlador/Ajax.php", 
-			method: "post", 
-			data: datosUsuarios, 
-			cache: false, 
-			contentType: false, 
-			processData: false, 
-			dataType: "json", 
-			success: function(respuesta){
-				if (respuesta) {
-					console.log(respuesta);
-					window.location = "index.php?pagina=Usuarios";
-					alert("¡Se han eliminado los registros!");
-				}else{
-				}
-			}
-		});
+	if (resultado['num_casaint'] == null || resultado['num_casaint'] == 0) {
+		num_casaint = null;
 	}
+	$('#cliente-domicilio-estado-edit').val(resultado['estado']);
+	$('#cliente-domicilio-municipio-edit').val(resultado['localidad']);
+	$('#cliente-domicilio-colonia-edit').val(resultado['colonia']);
+	$('#cliente-domicilio-calle-edit').val(resultado['calle']);
+	$('#cliente-domicilio-numero-e-edit').val(num_casaex);
+	$('#cliente-domicilio-numero-i-edit').val(num_casaint);
+	$('#cliente-domicilio-calle1-edit').val(resultado['calle1']);
+	$('#cliente-domicilio-calle2-edit').val(resultado['calle2']);
+	$('#cliente-domicilio-referencia-edit').val(resultado['referencia']);
 });
 
-$(document).ready(function () {
-	var autocomplete;
-	autocomplete = new google.maps.places.Autocomplete(document.getElementById('cliente-domicilio-ubicacion-new'), {
-		types: ['geocode'], 
-		componentRestrictions: {
-			country: "MX"
-		}
-	});
-		
-	google.maps.event.addListener(autocomplete, 'place_changed', function () {
-		var data_place = autocomplete.getPlace();
-		
-		if (data_place.address_components[0].types) {
-			console.log(data_place);
-			console.log(data_place.address_components.length);
-			for (let i = 0; i < data_place.address_components.length; i++) {
-				if(
-					data_place.address_components[i].types[0] === "administrative_area_level_1" && 
-					document.getElementById('cliente-domicilio-estado-new').value !== data_place.address_components[i].types[0].long_name
-					){
-					document.getElementById('cliente-domicilio-estado-new').value = data_place.address_components[i].long_name;
-					console.log("Estado: " + data_place.address_components[i].long_name);
-				}else{
-					console.log("No existe Estado");
-				}
-				if(
-					data_place.address_components[i].types[0] === "locality" && 
-					document.getElementById('cliente-domicilio-municipio-new').value !== data_place.address_components[i].types[0].long_name
-					){
-					document.getElementById('cliente-domicilio-municipio-new').value = data_place.address_components[i].long_name;
-					console.log("Municipio: " + data_place.address_components[i].long_name);
-				}else{
-					console.log("No existe Municipio");
-				}
-				if(
-					data_place.address_components[i].types[0] === "sublocality_level_1" && 
-					document.getElementById('cliente-domicilio-colonia-new').value !== data_place.address_components[i].types[0].long_name
-					){
-					document.getElementById('cliente-domicilio-colonia-new').value = data_place.address_components[i].long_name;
-					console.log("Colonia: " + data_place.address_components[i].long_name);
-				}else{
-					console.log("No existe colonia");
-				}
-				if(
-					data_place.address_components[i].types[0] === "route" && 
-					document.getElementById('cliente-domicilio-calle-new').value !== data_place.address_components[i].types[0].long_name
-					){
-					document.getElementById('cliente-domicilio-calle-new').value = data_place.address_components[i].long_name;
-					console.log("Calle: " + data_place.address_components[i].long_name);
-				}else{
-					console.log("No existe Calle");
-				}
-			}
-		}else{
-			console.log("No se encontraron datos");
-		}
-	});
-});
+deleteForm(BTN_DELETE_CLIENT, BTN_C_DELETE_CLIENT, BTN_CLOSE_FORM_DELETE_CLIENT, CHECK_CLIENT, FORM_DELETE_CLIENT, 'clientsToDelete', 'Clientes');
+
+deleteForm(BTN_DELETE_USER, BTN_C_DELETE_USER, BTN_CLOSE_FORM_DELETE_USER, CHECK_USER, FORM_DELETE_USER, 'usersToDelete', 'Usuarios');
+
+let urlClient = 'Cliente&uc=' + $('#clientId').val();
+deleteForm(BTN_DELETE_CLIENT_EMAIL, BTN_C_DELETE_CLIENT_EMAIL, BTN_CLOSE_FORM_DELETE_CLIENT_EMAIL, CHECK_CLIENT_EMAIL, FORM_DELETE_CLIENT_EMAIL, 'emailsClientToDelete', urlClient);
+
+deleteForm(BTN_DELETE_CLIENT_PHONE, BTN_C_DELETE_CLIENT_PHONE, BTN_CLOSE_FORM_DELETE_CLIENT_PHONE, CHECK_CLIENT_PHONE, FORM_DELETE_CLIENT_PHONE, 'phonesClientToDelete', urlClient);
+
+deleteForm(BTN_DELETE_CLIENT_ADDRESS, BTN_C_DELETE_CLIENT_ADDRESS, BTN_CLOSE_FORM_DELETE_CLIENT_ADDRESS, CHECK_CLIENT_ADDRESS, FORM_DELETE_CLIENT_ADDRESS, 'addressClientToDelete', urlClient);

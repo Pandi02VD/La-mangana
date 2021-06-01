@@ -15,6 +15,7 @@
 <div class="title">
     <h2>Clientes</h2>
     <h3><?=$cliente["cliente"]?></h3>
+    <input type="hidden" name="clientId" id="clientId" value="<?=$cliente["iduser"]?>">
 </div>
 
 <div class="C__F" id="form-card-client">
@@ -30,18 +31,18 @@
                 <div id="tab-client-emails" class="ficha__info">
                     <div class="C__Btn">
                         <input type="image" src="img/add_32px.png" alt="imágen de acción" id="btn-add-client-email">
-                        <span class="tooltip">Agregar</span>
+                        <span class="tooltip">Agregar Correo Electrónico</span>
                     </div>
                     <?php if($clienteCorreos == null) : ?>
                         <div class="nodata"><span>Aún no hay registros</span></div>
                     <?php else : ?>
                         <div class="C__Btn">
                             <input type="image" src="img/edit_32px.png" alt="imágen de acción" id="btn-edit-client-email" disabled>
-                            <span class="tooltip">Editar correo</span>
+                            <span class="tooltip">Editar Correo Electrónico</span>
                         </div>
                         <div class="C__Btn">
                             <input type="image" src="img/trash_32px.png" alt="imágen de acción" id="btn-delete-client-email" disabled>
-                            <span class="tooltip">Borrar correo</span>
+                            <span class="tooltip">Borrar Correo Electrónico</span>
                         </div>
                         <table class="table" id="tbl-client-emails">
                             <caption>Correos electrónicos</caption>
@@ -67,18 +68,18 @@
                 <div id="tab-client-phones" class="ficha__info">
                     <div class="C__Btn">
                         <input type="image" src="img/add_32px.png" alt="imágen de acción" id="btn-add-client-phone">
-                        <span class="tooltip">Agregar</span>
+                        <span class="tooltip">Agregar Teléfono</span>
                     </div>
                     <?php if ($clienteTelefonos == null) : ?>
                         <div class="nodata"><span>Aún no hay registros</span></div>
                     <?php else : ?>
                         <div class="C__Btn">
                             <input type="image" src="img/edit_32px.png" alt="imágen de acción" id="btn-edit-client-phone" disabled>
-                            <span class="tooltip">Editar correo</span>
+                            <span class="tooltip">Editar Teléfono</span>
                         </div>
                         <div class="C__Btn">
                             <input type="image" src="img/trash_32px.png" alt="imágen de acción" id="btn-delete-client-phone" disabled>
-                            <span class="tooltip">Borrar correo</span>
+                            <span class="tooltip">Borrar Teléfono</span>
                         </div>
                         <table class="table" id="tbl-client-phones">
                             <caption>Teléfonos</caption>
@@ -93,10 +94,11 @@
                             <?php foreach ($clienteTelefonos as $key => $value) : ?>
                                 <?php switch ($value["tipo"]){
                                     case 1: $tipo = "Móvil"; break;
+                                    default: $tipo = "Sin tipo"; break;
                                 } ?>
                                 <tr>
                                     <td>
-                                        <input type="checkbox" name="check-client-phone" id="check-client-phone<?=$cliente["iduser"]?>" value="<?=$cliente["iduser"]?>">
+                                        <input type="checkbox" name="check-client-phone" id="check-client-phone<?=$value["iduser_telefono"]?>" value="<?=$value["iduser_telefono"]?>">
                                         <span class="tooltip">Seleccionar</span>
                                     </td>
                                     <td><?=$value["numero"]?></td>
@@ -109,18 +111,18 @@
                 <div id="tab-client-address" class="ficha__info">
                     <div class="C__Btn">
                         <input type="image" src="img/add_32px.png" alt="imágen de acción" id="btn-add-client-address">
-                        <span class="tooltip">Agregar</span>
+                        <span class="tooltip">Agregar domicilio</span>
                     </div>
                     <?php if($clienteDomicilios == null) : ?>
                         <div class="nodata"><span>Aún no hay registros</span></div>
                     <?php else : ?>
                         <div class="C__Btn">
-                            <input type="image" src="img/edit_32px.png" alt="imágen de acción" id="btn-edit-client-email" disabled>
-                            <span class="tooltip">Editar correo</span>
+                            <input type="image" src="img/edit_32px.png" alt="imágen de acción" id="btn-edit-client-address" disabled>
+                            <span class="tooltip">Editar domicilio</span>
                         </div>
                         <div class="C__Btn">
-                            <input type="image" src="img/trash_32px.png" alt="imágen de acción" id="btn-delete-client-email" disabled>
-                            <span class="tooltip">Borrar correo</span>
+                            <input type="image" src="img/trash_32px.png" alt="imágen de acción" id="btn-delete-client-address" disabled>
+                            <span class="tooltip">Borrar domicilio</span>
                         </div>
                         <table class="table" id="tbl-client-address">
                             <caption>Domicilios</caption>
@@ -134,7 +136,7 @@
                             <?php foreach ($clienteDomicilios as $key => $value) : ?>
                             <tr>
                                 <td>
-                                    <input type="checkbox" name="check-client-address" id="check-client-address<?=$cliente["iduser"]?>" value="<?=$cliente["iduser"]?>">
+                                    <input type="checkbox" name="check-client-address" id="check-client-address<?=$value["iduser_domicilio"]?>" value="<?=$value["iduser_domicilio"]?>">
                                     <span class="tooltip">Seleccionar</span>
                                 </td>
                                 <td><?=$value["calle"]?>, #<?=$value["num_casaex"]?>, <?=$value["colonia"]?></td>
@@ -180,6 +182,21 @@
     </form>
 </div>
 
+<div class="C__f oculto" id="form-delete-client-email">
+    <form method="post" class="f">
+        <input class="f__close" type="button" id="btn-close-form-delete-client-email" value="x">
+        <h2 class="f__title">Confirmación</h2>
+        <div class="line-top"></div>
+        <div class="i__group">
+            <span class="label-checkbox">¿Desea eliminar los registros seleccionados?</span>
+        </div>
+        <div class="D-info">
+            <p class="info"><i>i</i> También se eliminarán los datos pertenecientes a este registro.</p>
+        </div>
+        <input class="submit" type="button" id="btn-C-delete-client-email" value="Confirmar">
+    </form>
+</div>
+
 <div class="C__f oculto" id="form-add-client-phone">
     <form method="post" class="f">
         <input class="f__close" type="button" id="btn-close-form-add-client-phone" value="x">
@@ -204,21 +221,36 @@
 <div class="C__f oculto" id="form-edit-client-phone">
     <form method="post" class="f">
         <input class="f__close" type="button" id="btn-close-form-edit-client-phone" value="x">
-        <h2 class="f__title">Nuevo número telefónico</h2>
+        <h2 class="f__title">Actualizar número telefónico</h2>
         <div class="line-top"></div>
         <div class="i__group">
-            <input class="inputs" type="number" id="cliente-telefono-edit" name="cliente-telefono-edit" maxlength="10" required>
+            <input class="inputs" type="number" id="cliente-telefono-edit" name="cliente-telefono-edit" pattern="[0-9]{10}" required>
             <label class="labels" for="cliente-telefono-edit">Número</label>
         </div>
         
         <div class="i__group">
-            <input class="inputs" type="number" id="cliente-tipotelefono-edit" name="cliente-tipotelefono-edit" maxlength="1" required>
+            <input class="inputs" type="number" id="cliente-tipotelefono-edit" name="cliente-tipotelefono-edit" pattern="[0-9]{1}" required>
             <label class="labels" for="cliente-tipotelefono-edit">Tipo</label>
         </div>
         
-        <input type="hidden" id="cliente-edit-phone-id" name="cliente-edit-phone-id" value="<?=$cliente["iduser"]?>" required>
-        <input class="submit" type="submit" value="Crear">
-        <?php //Controlador::actualizarTelefonoCtl(); ?>
+        <input type="hidden" id="client-edit-phone-id" name="client-edit-phone-id" required>
+        <input class="submit" type="submit" value="Actualizar">
+        <?php Controlador::actualizarTelefonoCtl($cliente["iduser"]); ?>
+    </form>
+</div>
+
+<div class="C__f oculto" id="form-delete-client-phone">
+    <form method="post" class="f">
+        <input class="f__close" type="button" id="btn-close-form-delete-client-phone" value="x">
+        <h2 class="f__title">Confirmación</h2>
+        <div class="line-top"></div>
+        <div class="i__group">
+            <span class="label-checkbox">¿Desea eliminar los registros seleccionados?</span>
+        </div>
+        <div class="D-info">
+            <p class="info"><i>i</i> También se eliminarán los datos pertenecientes a este registro.</p>
+        </div>
+        <input class="submit" type="button" id="btn-C-delete-client-phone" value="Confirmar">
     </form>
 </div>
 
@@ -278,7 +310,83 @@
         </div>
         
         <input type="hidden" name="cliente-add-address-id" id="cliente-add-address-id" value="<?=$cliente["iduser"]?>" required>
-        <input class="submit" type="submit" value="Agregar domicilio">
+        <input class="submit" type="submit" value="Crear">
         <?php Controlador::nuevoDomicilioCtl(); ?>
+    </form>
+</div>
+
+<div class="C__f oculto" id="form-edit-client-address">
+    <form method="post" class="f">
+        <input class="f__close" type="button" id="btn-close-form-edit-client-address" value="x">
+        <h2 class="f__title">Buscar mi domicilio</h2>
+        <div class="line-top"></div>
+        <div class="i__group">
+            <label for="cliente-domicilio-ubicacion-edit" class="labels">Buscar mi ubicación</label>
+            <input class="inputs" type="text" id="cliente-domicilio-ubicacion-edit" name="cliente-domicilio-ubicacion-edit" placeholder="Colonia, Municipio" autofocus>
+        </div>
+
+        <div class="i__group">
+            <input class="inputs" type="text" id="cliente-domicilio-estado-edit" name="cliente-domicilio-estado-edit" required>
+            <label class="labels" for="cliente-domicilio-estado-edit">Estado</label>
+        </div>
+        
+        <div class="i__group">
+            <input class="inputs" type="text" id="cliente-domicilio-municipio-edit" name="cliente-domicilio-municipio-edit" required>
+            <label class="labels" for="cliente-domicilio-municipio-edit">Municipio</label>
+        </div>
+        
+        <div class="i__group">
+            <input class="inputs" type="text" id="cliente-domicilio-colonia-edit" name="cliente-domicilio-colonia-edit" required>
+            <label class="labels" for="cliente-domicilio-colonia-edit">Colonia</label>
+        </div>
+        
+        <div class="i__group">
+            <input class="inputs" type="text" id="cliente-domicilio-calle-edit" name="cliente-domicilio-calle-edit" pattern="[a-zA-Z0-9áéíóúÁÉÍÓÚ ]{2,50}" required>
+            <label class="labels" for="cliente-domicilio-calle-edit">Calle</label>
+        </div>
+        
+        <div class="i__group">
+            <input class="inputs" type="text" id="cliente-domicilio-numero-e-edit" name="cliente-domicilio-numero-e-edit" pattern="[0-9]{1,5}" required>
+            <label class="labels" for="cliente-domicilio-numero-e-edit">Número exterior</label>
+        </div>
+        
+        <div class="i__group">
+            <input class="inputs" type="text" id="cliente-domicilio-numero-i-edit" name="cliente-domicilio-numero-i-edit" pattern="[0-9]{0,5}">
+            <label class="labels" for="cliente-domicilio-numero-i-edit">Número interior / Departamento (opcional)</label>
+        </div>
+        
+        <div class="i__group">
+            <input class="inputs" type="text" id="cliente-domicilio-calle1-edit" name="cliente-domicilio-calle1-edit" pattern="[a-zA-Z0-9áéíóúÁÉÍÓÚ ]{0,25}">
+            <label class="labels" for="cliente-domicilio-calle1-edit">Calle 1</label>
+        </div>
+        
+        <div class="i__group">
+            <input class="inputs" type="text" id="cliente-domicilio-calle2-edit" name="cliente-domicilio-calle2-edit" pattern="[a-zA-Z0-9áéíóúÁÉÍÓÚ ]{0,25}">
+            <label class="labels" for="cliente-domicilio-calle2-edit">Calle 2</label>
+        </div>
+        
+        <div class="i__group">
+            <textarea type="text" id="cliente-domicilio-referencia-edit" name="cliente-domicilio-referencia-edit" pattern="[a-zA-Z0-9áéíóúÁÉÍÓÚ ]{10,50}" required></textarea>
+            <label class="labels" for="cliente-domicilio-referencia-edit">Descripción para encontrar su domicilio</label>
+        </div>
+        
+        <input type="hidden" name="client-edit-address-id" id="client-edit-address-id" required>
+        <input class="submit" type="submit" value="Actualizar">
+        <?php Controlador::actualizarDomicilioCtl($cliente["iduser"]); ?>
+    </form>
+</div>
+
+<div class="C__f oculto" id="form-delete-client-address">
+    <form method="post" class="f">
+        <input class="f__close" type="button" id="btn-close-form-delete-client-address" value="x">
+        <h2 class="f__title">Confirmación</h2>
+        <div class="line-top"></div>
+        <div class="i__group">
+            <span class="label-checkbox">¿Desea eliminar los registros seleccionados?</span>
+        </div>
+        <div class="D-info">
+            <p class="info"><i>i</i> También se eliminarán los datos pertenecientes a este registro.</p>
+        </div>
+        <input class="submit" type="button" id="btn-C-delete-client-address" value="Confirmar">
     </form>
 </div>

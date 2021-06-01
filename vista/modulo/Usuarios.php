@@ -160,12 +160,12 @@
         <input class="f__close" type="button" id="btn-close-form-delete-user" value="x">
             <h2 class="f__title">Confirmación</h2>
             <div class="line-top"></div>
-            <span class="label-checkbox">¿Desea eliminar el registro?</span>
-            
+            <span class="label-checkbox">¿Desea eliminar los registros?</span>
+            <div class="D-info">
+                <p class="info"><i>i</i> También se eliminarán los datos pertenecientes a este registro.</p>
+            </div>
+            <span class="label-checkbox"></span>
             <input class="submit" type="button" id="btn-C-delete-user" value="Confirmar">
-            <?php 
-                // $actualizaUsuario = Controlador::actualizarUsuarioCtl();
-            ?>
         </form>
     </div>
 </div>

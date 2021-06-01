@@ -1,10 +1,11 @@
 <?php 
-    if (!isset($_GET["vru"])) {
+    if (!isset($_GET["um"])) {
         echo '<script>window.location = "index.php?pagina=Error";</script>';
     }
-    $clienteId = $_GET["vru"];
+    $clienteId = $_GET["um"];
     $cliente = ControladorCliente::seleccionarClienteCtl($clienteId);
     $mascotasCliente = ControladorMascota::mascotasClienteCtl($clienteId);
+    $mascotaEspecies = ControladorMascota::seleccionarEspeciesCtl();
 ?>
 <div class="title">
     <h2>Mascotas</h2>
@@ -18,83 +19,6 @@
             <span class="tooltip">Agregar mascota</span>
         </div>
         <div class="nodata"><span>Aún no hay registros</span></div>
-        <div class="C__f oculto" id="form-add-pet">
-            <form method="post" class="f">
-                <input class="f__close" type="button" id="btn-close-form-add-pet" value="x">
-                <h2 class="f__title">Nueva Mascota de <?=$cliente["cliente"]?></h2>
-                <div class="line-top"></div>
-                <div class="i__group">
-                    <label class="labels" for="pet-nombre-new">Nombre</label>
-                    <input class="inputs" type="text" id="pet-nombre-new" name="pet-nombre-new">
-                </div>
-
-                <div class="i__group">
-                    <label class="i-b w100 label-checkbox">Especie</label>
-                    <label class="label-checkbox" for="pet-canino-new">Canino</label>
-                    <input type="radio" name="pet-especie-new" id="pet-canino-new">
-                    <label class="label-checkbox" for="pet-felino-new">Felino</label>
-                    <input type="radio" name="pet-especie-new" id="pet-felino-new">
-                </div>
-
-                <div class="i__group">
-                    <label class="label-checkbox" for="pet-raza-new">Raza</label>
-                    <select name="pet-raza-new" id="pet-raza-new">
-                        <option value="">Seleccione la raza</option>
-                        <option value="1">Chachanete</option>
-                        <option value="2">Pastor Alemán</option>
-                    </select>
-                </div>
-                
-                <div class="i__group">
-                    <label class="i-b w100 label-checkbox">Sexo</label>
-                    <label class="label-checkbox" for="pet-hembra-new">Hembra</label>
-                    <input type="radio" name="pet-sexo-new" id="pet-hembra-new">
-                    <label class="label-checkbox" for="pet-macho">Macho</label>
-                    <input type="radio" name="pet-sexo-new" id="pet-macho-new">
-                </div>
-
-                <div class="i__group">
-                    <label class="labels" for="pet-edad-new">Edad (años)</label>
-                    <input class="inputs" type="number" id="pet-edad-new" name="pet-edad-new">
-                </div>
-                
-                <div class="i__group">
-                    <label class="label-checkbox" for="pet-cuerpo-new">Condición corporal</label>
-                    <select name="pet-cuerpo-new" id="pet-cuerpo-new">
-                        <option value="">Seleccione la condición corporal</option>
-                        <option value="1">Delgado</option>
-                        <option value="2">Normal</option>
-                        <option value="2">Robusto</option>
-                    </select>
-                </div>
-
-                <div class="i__group">
-                    <label class="i-b w100 label-checkbox">Tamaño</label>
-                    <label class="label-checkbox" for="pet-chico-new">Chico</label>
-                    <input type="radio" name="pet-tamano-new" id="pet-chico-new">
-                    <label class="label-checkbox" for="pet-mediano-new">Mediano</label>
-                    <input type="radio" name="pet-tamano-new" id="pet-mediano-new">
-                    <label class="label-checkbox" for="pet-grande-new">Grande</label>
-                    <input type="radio" name="pet-tamano-new" id="pet-grande-new">
-                </div>
-
-                <div class="i__group">
-                    <label class="labels" for="pet-color-new">Color</label>
-                    <input class="inputs" type="color" id="pet-color-new" name="pet-color-new">
-                </div>
-
-                <div class="i__group">
-                    <label class="labels" for="pet-peso-new">Peso (Kg)</label>
-                    <input class="inputs" type="number" id="pet-peso-new" name="pet-peso-new">
-                </div>
-                
-                <input class="submit" type="submit" value="Crear">
-                <?php 
-                    // $crearUsuario = ControladorUsuario::crearCuentaCtl();
-                ?>
-            </form>
-
-        </div>
     <?php }else{ ?>
         <div class="Bar__Btns">
             <div class="C__Btn">
@@ -164,84 +88,6 @@
             </tr>
                 <?php endforeach ?>
         </table>
-
-        <div class="C__f oculto" id="form-add-pet">
-            <form method="post" class="f">
-                <input class="f__close" type="button" id="btn-close-form-add-pet" value="x">
-                <h2 class="f__title">Nueva Mascota de <?=$cliente["cliente"]?></h2>
-                <div class="line-top"></div>
-                <div class="i__group">
-                    <label class="labels" for="pet-nombre-new">Nombre</label>
-                    <input class="inputs" type="text" id="pet-nombre-new" name="pet-nombre-new">
-                </div>
-
-                <div class="i__group">
-                    <label class="i-b w100 label-checkbox">Especie</label>
-                    <label class="label-checkbox" for="pet-canino-new">Canino</label>
-                    <input type="radio" name="pet-especie-new" id="pet-canino-new">
-                    <label class="label-checkbox" for="pet-felino-new">Felino</label>
-                    <input type="radio" name="pet-especie-new" id="pet-felino-new">
-                </div>
-
-                <div class="i__group">
-                    <label class="label-checkbox" for="pet-raza-new">Raza</label>
-                    <select name="pet-raza-new" id="pet-raza-new">
-                        <option value="">Seleccione la raza</option>
-                        <option value="1">Chachanete</option>
-                        <option value="2">Pastor Alemán</option>
-                    </select>
-                </div>
-                
-                <div class="i__group">
-                    <label class="i-b w100 label-checkbox">Sexo</label>
-                    <label class="label-checkbox" for="pet-hembra-new">Hembra</label>
-                    <input type="radio" name="pet-sexo-new" id="pet-hembra-new">
-                    <label class="label-checkbox" for="pet-macho">Macho</label>
-                    <input type="radio" name="pet-sexo-new" id="pet-macho-new">
-                </div>
-
-                <div class="i__group">
-                    <label class="labels" for="pet-edad-new">Edad (años)</label>
-                    <input class="inputs" type="number" id="pet-edad-new" name="pet-edad-new">
-                </div>
-                
-                <div class="i__group">
-                    <label class="label-checkbox" for="pet-cuerpo-new">Condición corporal</label>
-                    <select name="pet-cuerpo-new" id="pet-cuerpo-new">
-                        <option value="">Seleccione la condición corporal</option>
-                        <option value="1">Delgado</option>
-                        <option value="2">Normal</option>
-                        <option value="2">Robusto</option>
-                    </select>
-                </div>
-
-                <div class="i__group">
-                    <label class="i-b w100 label-checkbox">Tamaño</label>
-                    <label class="label-checkbox" for="pet-chico-new">Chico</label>
-                    <input type="radio" name="pet-tamano-new" id="pet-chico-new">
-                    <label class="label-checkbox" for="pet-mediano-new">Mediano</label>
-                    <input type="radio" name="pet-tamano-new" id="pet-mediano-new">
-                    <label class="label-checkbox" for="pet-grande-new">Grande</label>
-                    <input type="radio" name="pet-tamano-new" id="pet-grande-new">
-                </div>
-
-                <div class="i__group">
-                    <label class="labels" for="pet-color-new">Color</label>
-                    <input class="inputs" type="color" id="pet-color-new" name="pet-color-new">
-                </div>
-
-                <div class="i__group">
-                    <label class="labels" for="pet-peso-new">Peso (Kg)</label>
-                    <input class="inputs" type="number" id="pet-peso-new" name="pet-peso-new">
-                </div>
-                
-                <input class="submit" type="submit" value="Crear">
-                <?php 
-                    // $crearUsuario = ControladorUsuario::crearCuentaCtl();
-                ?>
-            </form>
-
-        </div>
         
         <div class="C__f oculto" id="form-add-Consult-pet">
             <form method="post" class="f">
@@ -398,8 +244,10 @@
                 <input class="f__close" type="button" id="btn-close-form-delete-pet" value="x">
                 <h2 class="f__title">Confirmación</h2>
                 <div class="line-top"></div>
-                <span class="label-checkbox">¿Desea eliminar el registro?</span>
-                
+                <span class="label-checkbox">¿Desea eliminar los registros seleccionados?</span>
+                <div class="D-info">
+                    <p class="info"><i>i</i> También se eliminarán los datos pertenecientes a este registro.</p>
+                </div>
                 <input class="submit" type="submit" value="Confirmar">
                 <?php 
                     // $actualizaUsuario = ControladorUsuario::actualizarUsuarioCtl();
@@ -489,4 +337,84 @@
             </form>
         </div>
     <?php } ?>
+    <div class="C__f oculto" id="form-add-pet">
+        <form method="post" class="f">
+            <input class="f__close" type="button" id="btn-close-form-add-pet" value="x">
+            <h2 class="f__title">Nueva Mascota de <?=substr($cliente["cliente"], 0, 10)?></h2>
+            <div class="line-top"></div>
+            <div class="i__group">
+                <label class="labels" for="pet-nombre-new">Nombre</label>
+                <input class="inputs" type="text" id="pet-nombre-new" name="pet-nombre-new" required>
+                <input type="hidden" name="pet-property-new" value="<?=$clienteId?>">
+            </div>
+
+            <div class="i__group">
+                <label class="i-b w100 label-checkbox">Especie</label>
+                <?php foreach ($mascotaEspecies as $key => $value) : ?>
+                    <input 
+                        type="radio" 
+                        name="pet-especie-new" 
+                        id="pet-<?=$value['especie']?>-new" 
+                        value="<?=$value['idmascota_especie']?>" 
+                        required>
+                    <label 
+                        class="label-radio" 
+                        for="pet-<?=$value['especie']?>-new">
+                        <?=$value['especie']?>
+                        </label>
+                <?php endforeach ?>
+            </div>
+
+            <div class="i__group">
+                <label class="label-checkbox" for="pet-raza-new">Raza</label>
+                <select name="pet-raza-new" id="pet-raza-new" required>
+                    <option value="">Primero seleccione especie</option>
+                </select>
+            </div>
+            
+            <div class="i__group">
+                <label class="i-b w100 label-checkbox">Sexo</label>
+                <input type="radio" name="pet-sexo-new" id="pet-hembra-new" value="1" required>
+                <label class="label-radio" for="pet-hembra-new">Hembra</label>
+                <input type="radio" name="pet-sexo-new" id="pet-macho-new" value="2" required>
+                <label class="label-radio" for="pet-macho-new">Macho</label>
+            </div>
+
+            <div class="i__group flex">
+                <label class="labels" for="pet-anos-new">Edad (años)</label>
+                <label class="labels left" for="pet-anos-new">Año de nacimiento</label>
+                <input class="inputs" type="number" id="pet-anos-new" name="pet-anos-new" required>
+                <span class="inputs disabled" id="span-edad-new"></span>
+                <input type="hidden" id="pet-edad-new" name="pet-edad-new" required>
+            </div>
+
+            <div class="i__group">
+                <label class="labels" for="pet-peso-new">Peso (Kg)</label>
+                <input class="inputs" type="number" id="pet-peso-new" name="pet-peso-new" required>
+            </div>
+
+            <div class="i__group">
+                <label class="i-b w100 label-checkbox">Tamaño</label>
+                <input type="radio" name="pet-tamano-new" id="pet-chico-new" value="1" required>
+                <label class="label-radio" for="pet-chico-new">Chico</label>
+                <input type="radio" name="pet-tamano-new" id="pet-mediano-new" value="2" required>
+                <label class="label-radio" for="pet-mediano-new">Mediano</label>
+                <input type="radio" name="pet-tamano-new" id="pet-grande-new" value="3" required>
+                <label class="label-radio" for="pet-grande-new">Grande</label>
+            </div>
+            
+            <div class="i__group">
+                <label class="label-checkbox" for="pet-cuerpo-new">Condición corporal</label>
+                <select name="pet-cuerpo-new" id="pet-cuerpo-new" required>
+                    <option value="">Seleccione la condición corporal</option>
+                    <option value="1">Delgado</option>
+                    <option value="2">Normal</option>
+                    <option value="2">Robusto</option>
+                </select>
+            </div>
+
+            <input class="submit" type="submit" value="Crear">
+            <?php ControladorMascota::nuevaMascotaCtl(); ?>
+        </form>
+    </div>
 </div>

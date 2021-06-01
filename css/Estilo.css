@@ -4,9 +4,6 @@
     --Form-Primary: rgb(25, 173, 136);
     --Form-Primary-Active: rgb(0, 255, 191);
     --Form-Primary-Low: rgb(19, 117, 93);
-    /* --Form-Primary: rgb(48, 238, 189);
-    --Form-Primary-Active: rgb(0, 255, 191);
-    --Form-Primary-Low: rgb(40, 187, 150); */
     --Form-Secondary: rgb(201, 134, 249);
     --Form-Secondary-Active: rgb(188, 106, 246);
     --Form-Secondary-Low: rgb(207, 158, 241);
@@ -16,7 +13,8 @@
     --Form-Basic: rgb(253, 234, 47);
     --Form-Basic-Active: rgb(246, 250, 15);
     --Form-Basic-Low: rgb(226, 205, 13);
-    --Background: rgb(238, 232, 232);
+    --Background: rgb(226, 239, 241);
+    --Background-Active: rgb(112, 121, 165);
     /* Colores */
 }
 /* Variables */
@@ -58,34 +56,12 @@ main{
 }
 /* Estilos generales y de cuerpo */
 
-/* Navegación */
-.title{
-    display: inline-block;
-    width: 100%;
-    background-color: whitesmoke;
-    height: fit-content;
-    text-align: center;
-    border-bottom-left-radius: 6px;
-    border-bottom-right-radius: 6px;
-    box-shadow: 0px 1px 4px 0px gray;
-    animation: titleDawn .5s ease;
-}
-
-@keyframes titleDawn {
-    from {
-        transform: scaleX(0);
-    }
-    to {
-        transform: scaleX(100%);
-    }
-}
-
-nav{
+/* Navegación v1 */
+/* nav{
     display: inline-block;
     position: relative;
-    height: calc(100px - 20px);
+    height: calc(60px - 20px);
     width: calc(100% - 80px);
-    /* background: linear-gradient(to top, var(--Form-Secondary-Low), var(--Form-Primary)); */
     background-color: var(--Form-Primary);
     margin: 0;
     padding: 10px 40px;
@@ -102,23 +78,32 @@ nav::before{
     bottom: 0;
 }
 
-.title h2{
-    font-size: 2em;
-    font-weight: lighter;
-    font-family: 'Nunito Sans';
-    margin: 10px 0;
+.buttonsBar{
+    background-color: white;
+    height: max-content;
 }
 
 .D-Logo{
     display: inline-block;
-    width: 80px;
-    height: 80px;
+    width: 40px;
+    height: 40px;
 }
 
 .Logo{
     display: inline-block;
     width: 100%;
     height: 100%;
+}
+
+.mainTitle{
+    display: inline-block;
+    position: relative;
+    height: 100%;
+    align-items: center;
+    margin: 0 5px;
+    color: white;
+    font-size: 20px;
+    vertical-align: bottom;
 }
 
 .saludo{
@@ -148,7 +133,119 @@ nav::before{
     text-decoration: none;
     padding: 4px 10px;
     background: white;
-    border-radius: 4px;
+    height: 35px;
+}
+
+.link-button.activo{
+    background-color: var(--Form-Primary-Low);
+    color: white;
+}
+
+.link-button.activo::before{
+    height: 3px;
+    background: white;
+}
+
+.link-button.active::before{
+    height: 3px;
+}
+
+.link-button::before{
+    display: block;
+    position: absolute;
+    content: '';
+    width: 100%;
+    height: 0px;
+    background: var(--Form-Primary);
+    left: 0;
+    bottom: 0;
+    transition: all .1s ease;
+}
+
+.link-button:hover::before{
+    height: 3px;
+} */
+/* Navegación v1 */
+
+/* Navegación v2 */
+nav{
+    display: inline-block;
+    position: relative;
+    height: calc(60px - 20px);
+    width: calc(100% - 80px);
+    background-color: var(--Form-Primary);
+    margin: 0;
+    padding: 10px 40px;
+}
+
+nav::before{
+    display: block;
+    position: absolute;
+    content: '';
+    width: 100%;
+    height: 3px;
+    background: var(--Form-Primary-Low);
+    left: 0;
+    bottom: 0;
+}
+
+.buttonsBar{
+    background-color: white;
+    height: max-content;
+    padding: 0 40px;
+}
+
+.D-Logo{
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+}
+
+.Logo{
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+}
+
+.mainTitle{
+    display: inline-block;
+    position: relative;
+    height: 100%;
+    align-items: center;
+    margin: 0 5px;
+    color: white;
+    font-size: 20px;
+    vertical-align: bottom;
+}
+
+.saludo{
+    display: inline-flex;
+    position: relative;
+    float: right;
+    height: 100%;
+    align-items: center;
+    margin: 0 5px;
+    color: white;
+    font-size: 18px;
+}
+
+.D-link-buttons{
+    display: inline-block;
+    position: relative;
+    width: auto;
+    height: 100%;
+    vertical-align: middle;
+}
+
+.link-button{
+    display: inline-block;
+    position: relative;
+    color: var(--Form-Primary);
+    font-size: 18px;
+    text-decoration: none;
+    padding: 4px 10px;
+    background: white;
+    height: 35px;
 }
 
 .link-button.activo{
@@ -180,7 +277,38 @@ nav::before{
 .link-button:hover::before{
     height: 3px;
 }
-/* Navegación */
+/* Navegación v2 */
+
+
+/* Título */
+.title{
+    display: inline-block;
+    width: 100%;
+    background-color: whitesmoke;
+    height: fit-content;
+    text-align: center;
+    /* border-bottom-left-radius: 6px; */
+    /* border-bottom-right-radius: 6px; */
+    box-shadow: 0px 1px 4px 0px gray;
+    animation: titleDawn .5s ease;
+}
+
+.title h2{
+    font-size: 2em;
+    font-weight: lighter;
+    font-family: 'Nunito Sans';
+    margin: 10px 0;
+}
+
+@keyframes titleDawn {
+    from {
+        transform: scaleX(0);
+    }
+    to {
+        transform: scaleX(100%);
+    }
+}
+/* Título */
 
 /* Formulario en página */
 .C__F{
@@ -189,7 +317,7 @@ nav::before{
     height: calc(100% - 22px);
     justify-content: center;
     align-items: baseline;
-    border-radius: 4px;
+    /* border-radius: 4px; */
     padding-top: 40px;
 }
 
@@ -200,7 +328,7 @@ nav::before{
     min-width: 25%;
     padding: 20px 35px;
     background-color: white;
-    border-radius: 6px;
+    /* border-radius: 6px; */
 }
 
 .C__F__C{
@@ -212,6 +340,23 @@ nav::before{
     margin: 40px 0 0 0;
     color: var(--Form-Primary);
     width: 100%;
+}
+
+.disabled{
+    opacity: 0.4;
+    pointer-events: none;
+    text-align: end !important;
+    height: 32px !important;
+    padding-top: 5px !important;
+}
+
+.left{
+    right: 0 !important;
+    left: inherit !important;
+}
+
+.flex{
+    display: flex !important;
 }
 
 .inputs{
@@ -246,7 +391,7 @@ select{
     border: none;
     color: white;
     border: 2px solid var(--Form-Primary-Low);
-    border-radius: 2px;
+    /* border-radius: 2px; */
 }
 
 option{
@@ -269,7 +414,7 @@ textarea{
     font-size: 16px;
     text-align: justify;
     resize: none;
-    border-radius: 2px;
+    /* border-radius: 2px; */
     color: var(--Form-Primary-Low);
     border-color: var(--Form-Primary-Low);
 }
@@ -312,7 +457,7 @@ textarea:focus{
     font-size: 1.2rem;
     margin-top: 25px;
     padding: 8px 0;
-    border-radius: 2px;
+    /* border-radius: 2px; */
 }
 
 .submit:active{
@@ -331,7 +476,7 @@ textarea:focus{
     float: left;
     margin-top: 10px;
     padding: 5px 10px;
-    border-radius: 2px;
+    /* border-radius: 2px; */
 }
 
 .back:hover{
@@ -403,7 +548,7 @@ textarea:focus{
     background-color: var(--Form-Basic-Low);
     text-align: center;
     padding: 5px;
-    border-radius: 2px;
+    /* border-radius: 2px; */
 }
 
 .nodata span{
@@ -492,7 +637,7 @@ input[type="password"]{
     background-color: white;
     border: 1px solid;
     padding: 5px 10px;
-    border-radius: 2px;
+    /* border-radius: 2px; */
     text-align: center;
     cursor: pointer;
     transition: color .3s ease;
@@ -504,6 +649,46 @@ input[type="password"]{
 }
 
 /* Checkbox del modal */
+/* RadioButtons del modal */
+input[type="radio"]{
+    display: none;
+}
+
+input[type="radio"]:checked + .label-radio{
+    color: white;
+    background-color: var(--Form-Primary-Low);
+}
+
+input[type="radio"]:checked + .label-radio::before{
+    display: none;
+}
+
+input[type="radio"]:checked + .label-radio{
+    padding: 2px 8px;
+}
+
+.label-radio{
+    position: relative;
+    color: var(--Form-Primary-Low);
+    padding: 2px 4px 2px 20px;
+    transition: all .3s ease;
+}
+
+.label-radio::before{
+    position: absolute;
+    content: '';
+    top: calc(50% - 7px);
+    left: 3px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 1px solid var(--Form-Primary-Low);
+}
+
+.label-radio:hover{
+    background-color: #ccc;
+}
+/* RadioButtons del modal */
 
 /* Tarjetas modales */
 .Cards{
@@ -513,7 +698,7 @@ input[type="password"]{
     padding: 20px 30px;
     box-shadow: 2px 2px 7px 0px var(--Form-Primary);
     height: max-content;
-    border-radius: 6px;
+    /* border-radius: 6px; */
     background-color: white;
 }
 /* Tarjetas modales */
@@ -532,7 +717,7 @@ input[type="password"]{
     text-decoration: none;
     font-size: 16px;
     padding: 5px;
-    border-radius: 2px;
+    /* border-radius: 2px; */
     border-bottom: none;
 }
 
@@ -557,7 +742,7 @@ input[type="password"]{
 
 .ficha__info{
     border: 1px solid var(--Form-Primary-Low);
-    border-radius: 2px;
+    /* border-radius: 2px; */
     padding: 20px 10px;
 }
 /* Tabs del modal */
@@ -594,7 +779,7 @@ input[type="password"]{
     background-color: white;
     box-shadow: 2px 2px 7px 0px var(--Form-Primary);
     height: max-content;
-    border-radius: 6px;
+    /* border-radius: 6px; */
 }
 
 .label-checkbox{
@@ -603,7 +788,7 @@ input[type="password"]{
 
 .C__group{
     border: 1px solid var(--Form-Primary-Low);
-    border-radius: 2px;
+    /* border-radius: 2px; */
     padding: 20px 10px;
     margin-top: 20px;
 }
@@ -628,11 +813,13 @@ input[type="password"]{
     font-size: 14px;
     margin: 10px 0;
     /* color: white; */
-    color: black;
+    color: var(--Background-Active);
     /* border: 1px solid var(--Form-Basic-Low); */
-    background: var(--Form-Basic-Low);
+    /* background: var(--Form-Basic-Low); */
+    background: var(--Background);
+    border: 1px solid var(--Background-Active);
     padding: 10px;
-    border-radius: 2px;
+    /* border-radius: 2px; */
     text-align: center;
 }
 
@@ -678,24 +865,24 @@ i{
 .table {
     border-collapse: collapse;
     width: 100%;
-    border-radius: 6px;
+    /* border-radius: 6px; */
     box-shadow: 0px 0px 8px 1px gray;
 }
 
 table tr:first-child th:first-child {
-    border-top-left-radius: 6px;
+    /* border-top-left-radius: 6px; */
 }
 
 table tr:first-child th:last-child {
-    border-top-right-radius: 6px;
+    /* border-top-right-radius: 6px; */
 }
 
 table tr:last-child td:first-child {
-    border-bottom-left-radius: 6px;
+    /* border-bottom-left-radius: 6px; */
 }
 
 table tr:last-child td:last-child {
-    border-bottom-right-radius: 6px;
+    /* border-bottom-right-radius: 6px; */
 }
 
 .table tr{
@@ -741,7 +928,7 @@ table tr:last-child td:last-child {
     min-width: max-content;
     width: 50%;
     text-align: center;
-    border-radius: 2px;
+    /* border-radius: 2px; */
 }
 
 .table tr td a:hover, button:hover{
@@ -785,7 +972,7 @@ input[type="image"]:hover {
     background-color: rgba(0, 0, 0, 0.2);
     padding: 2px 4px;
     font-size: 12px;
-    border-radius: 2px;
+    /* border-radius: 2px; */
     width: max-content;
     transition: all .1s ease;
 }
@@ -836,7 +1023,7 @@ input:hover + .tooltip, a:hover + .tooltip{
 input[type="checkbox"]{
     border: 2px solid var(--Form-Primary-Low);
     background-color: white;
-    border-radius: 2px;
+    /* border-radius: 2px; */
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -858,7 +1045,7 @@ input[type="checkbox"]:checked::before{
     height: 70%;
     top: 15%;
     left: 15%;
-    border-radius: 2px;
+    /* border-radius: 2px; */
     background-color: var(--Form-Primary-Low);
 }
 /* Tooltip, Checkbox & Botones de acción */

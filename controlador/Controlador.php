@@ -15,94 +15,6 @@
             $respuesta = Pagina::traerPagina($pagina);
             include $respuesta;
         }
-
-        // #Seleccionar los clientes 
-        // public function seleccionarClientesCtl(){
-        //     $respuesta = CRUD::seleccionarClientesBD();
-        //     return $respuesta;
-        // }
-        
-        // #Seleccionar un cliente
-        // public function seleccionarClienteCtl($clienteId){
-        //     $respuesta = CRUD::seleccionarClienteBD($clienteId);
-        //     return $respuesta;
-        // }
-
-        // #Seleccionar todos los correos electrónicos del cliente.
-        // public function seleccionarClienteCorreosCtl($clienteId){
-        //     $respuesta = CRUDCliente::seleccionarClienteCorreosBD($clienteId);
-        //     return $respuesta;
-        // }
-        
-        // #Seleccionar todos los teléfonos del cliente.
-        // public function seleccionarClienteTelefonosCtl($clienteId){
-        //     $respuesta = CRUDCliente::seleccionarClienteTelefonosBD($clienteId);
-        //     return $respuesta;
-        // }
-        
-        // #Seleccionar todos los domicilios del cliente.
-        // public function seleccionarClienteDomiciliosCtl($clienteId){
-        //     $respuesta = CRUDCliente::seleccionarClienteDomiciliosBD($clienteId);
-        //     return $respuesta;
-        // }
-
-        // #Recuperar datos de cliente.
-        // public function datosClienteCtl($clienteId){
-        //     $respuesta = CRUDCliente::datosClienteBD($clienteId);
-        //     return $respuesta;
-        // }
-        
-        // #Actualizar datos de cliente.
-        // static public function actualizarClienteCtl(){
-        //     if (isset($_POST["clienteId-edit"])) {
-        //         $datosCliente = array(
-        //             "iduser" => $_POST["clienteId-edit"], 
-        //             "nombre" => $_POST["cliente-edit"]
-        //         );
-        //         $respuesta = CRUDCliente::actualizarClienteBD($datosCliente);
-        //         if($respuesta) {
-        //             echo '
-        //             <script>
-        //             window.location = "index.php?pagina=Clientes";
-        //                 alert("Datos actualizados");
-        //             </script>
-        //             ';
-        //         }else{
-        //             echo '
-        //             <script>
-        //                 alert("Error al actualizar");
-        //                 window.location = "index.php?pagina=Clientes";
-        //             </script>
-        //             ';
-        //         }
-        //     }
-        // }
-
-        // #Crear cliente.
-        // public function crearClienteCtl(){
-        //     if (isset($_POST["cliente-new"])) {
-        //         $respuesta = CRUDCliente::crearClienteBD($_POST["cliente-new"]);
-        //         if ($respuesta) {
-        //             if (isset($_POST["vinculo-animal"])) {
-        //                 echo '
-        //                     <script>
-        //                     window.location = "index.php?pagina=Clientes";
-        //                         alert("Cliente creado con vínculo animal");
-        //                     </script>
-        //                     ';
-        //             }else{
-        //                 echo '
-        //                     <script>
-        //                     window.location = "index.php?pagina=Clientes";
-        //                         alert("Cliente creado sin vínculo animal");
-        //                     </script>
-        //                     ';
-        //             }
-        //         }else{
-        //             echo '<span>Error al crear el cliente</span>';
-        //         }
-        //     }
-        // }
         
         #Agregar nuevo correo electrónico.
         public function nuevoCorreoCtl(){
@@ -235,6 +147,84 @@
                 }
             }
         }
+
+        #Actualizar el teléfono.
+        public function actualizarTelefonoCtl($userId){
+            if (
+                isset($_POST["cliente-telefono-edit"]) && 
+                isset($_POST["cliente-tipotelefono-edit"]) && 
+                isset($_POST["client-edit-phone-id"])
+            ) {
+                $datosTelefonoCliente = array (
+                    "telefonoId" => $_POST["client-edit-phone-id"], 
+                    "numero" => $_POST["cliente-telefono-edit"], 
+                    "tipo" => $_POST["cliente-tipotelefono-edit"]
+                );
+
+                $respuesta = CRUD::actualizarTelefonoBD($datosTelefonoCliente);
+                if ($respuesta) {
+                    echo '
+                            <script>
+                                alert("Teléfono actualizado");
+                                window.location = "index.php?pagina=Cliente&uc=' . $userId . '";
+                            </script>
+                        ';
+                }else{
+                    echo '
+                            <script>
+                                alert("no se pudo actualizar el teléfono, revise sus datos");
+                                window.location = "index.php?pagina=Cliente&uc=' . $userId . '";
+                            </script>
+                        ';
+                }
+            }
+        }
+        
+        #Actualizar el domicilio.
+        public function actualizarDomicilioCtl($userId){
+            if (
+                isset($_POST["cliente-domicilio-estado-edit"]) && 
+                isset($_POST["cliente-domicilio-municipio-edit"]) && 
+                isset($_POST["cliente-domicilio-colonia-edit"]) && 
+                isset($_POST["cliente-domicilio-calle-edit"]) && 
+                isset($_POST["cliente-domicilio-numero-e-edit"]) && 
+                isset($_POST["cliente-domicilio-numero-i-edit"]) && 
+                isset($_POST["cliente-domicilio-calle1-edit"]) && 
+                isset($_POST["cliente-domicilio-calle2-edit"]) && 
+                isset($_POST["cliente-domicilio-referencia-edit"]) && 
+                isset($_POST["client-edit-address-id"])
+            ) {
+                $datosDomicilioCliente = array(
+                    "domicilioId" => $_POST["client-edit-address-id"], 
+                    "estado" => $_POST["cliente-domicilio-estado-edit"], 
+                    "municipio" => $_POST["cliente-domicilio-municipio-edit"], 
+                    "colonia" => $_POST["cliente-domicilio-colonia-edit"], 
+                    "calle" => $_POST["cliente-domicilio-calle-edit"], 
+                    "numeroE" => $_POST["cliente-domicilio-numero-e-edit"], 
+                    "numeroI" => $_POST["cliente-domicilio-numero-i-edit"], 
+                    "calle1" => $_POST["cliente-domicilio-calle1-edit"], 
+                    "calle2" => $_POST["cliente-domicilio-calle2-edit"], 
+                    "referencia" => $_POST["cliente-domicilio-referencia-edit"], 
+                );
+
+                $respuesta = CRUD::actualizarDomicilioBD($datosDomicilioCliente);
+                if ($respuesta) {
+                    echo '
+                            <script>
+                                alert("Domicilio actualizado");
+                                window.location = "index.php?pagina=Cliente&uc=' . $userId . '";
+                            </script>
+                        ';
+                }else{
+                    echo '
+                            <script>
+                                alert("no se pudo actualizar el domicilio, revise sus datos");
+                                window.location = "index.php?pagina=Cliente&uc=' . $userId . '";
+                            </script>
+                        ';
+                }
+            }
+        }
         
         #Deshabilitar uno o más correos electrónicos.
         public function eliminarCorreosCtl($correosElegidosEliminar){
@@ -254,168 +244,4 @@
             }
             return $conclusion;
         }
-
-        // #Deshabilitar uno o más clientes.
-        // public function eliminarClientesCtl($clientesElegidosEliminar){
-        //     $respuestas = array();
-        //     $conclusion = true;
-        //     for ($i = 0; $i < sizeof($clientesElegidosEliminar); $i++) {
-        //         $respuesta = CRUDCliente::eliminarClientesBD($clientesElegidosEliminar[$i]);
-        //         if ($respuesta == false) {
-        //             $respuestas[$i] = false;
-        //         }
-        //     }
-            
-        //     for ($i = 0; $i < sizeof($respuestas); $i++) {
-        //         if ($respuestas[$i] == false) {
-        //             $conclusion = false;
-        //         }
-        //     }
-        //     return $conclusion;
-        // }
-
-        // #Contar mascotas del cliente.
-        // public function contarMascotasClienteCtl($clienteId){
-        //     $respuesta = CRUDCliente::contarMascotasClienteBD($clienteId);
-        //     return $respuesta;
-        // }
-
-        // #Seleccionar las mascotas del cliente.
-        // public function mascotasClienteCtl($clienteId){
-        //     $respuesta = CRUDMascota::mascotasClienteBD($clienteId);
-        //     return $respuesta;
-        // }
-
-        // #Seleccionar raza de mascota 
-        // public function seleccionarRazaMascotaCtl($razaId){
-        //     $respuesta = CRUDMascota::seleccionarRazaMascotaBD($razaId);
-        //     return $respuesta;
-        // }
-
-        // #Seleccionar los usuarios 
-        // public function seleccionarUsuariosCtl(){
-        //     $respuesta = CRUDUsuario::seleccionarUsuariosBD();
-        //     return $respuesta;
-        // }
-
-        // #Seleccionar estado de conexión de los usuarios activos.
-        // public function seleccionarConexionUsuariosCtl(){
-        //     $respuesta = CRUDUsuario::seleccionarConexionUsuariosBD();
-        //     return $respuesta;
-        // }
-        
-
-        // #Recuperar datos de usuario.
-        // public function datosUsuarioCtl($usuarioId){
-        //     $respuesta = CRUDUsuario::datosUsuarioBD($usuarioId);
-        //     return $respuesta;
-        // }
-
-        // #Actualizar datos de usuario.
-        // static public function actualizarUsuarioCtl(){
-        //     if (isset($_POST["usuarioId-edit"])) {
-        //         $datosUsuario = array(
-        //             "iduser" => $_POST["usuarioId-edit"], 
-        //             "nombre" => $_POST["nombre-edit"], 
-        //             "tipo" => $_POST["tipo-usuario-edit"]
-        //         );
-        //         $respuesta = CRUDUsuario::actualizarUsuarioBD($datosUsuario);
-        //         if($respuesta) {
-        //             echo '
-        //             <script>
-        //             window.location = "index.php?pagina=Usuarios";
-        //                 alert("Datos actualizados");
-        //             </script>
-        //             ';
-        //         }else{
-        //             echo '
-        //             <script>
-        //                 alert("Error al actualizar");
-        //                 window.location = "index.php?pagina=Usuarios";
-        //             </script>
-        //             ';
-        //         }
-        //     }
-        // }
-
-        // #Abrir la sesión de usuario.
-        // public function iniciarSesionCtl(){
-        //     if (isset($_POST["usuario"]) && isset($_POST["contrasena"])) {
-        //         $respuesta = CRUDUsuario::iniciarSesionBD($_POST["usuario"], $_POST["contrasena"]);
-        //         if ($respuesta["usuario"] == null) {
-        //             echo '<span>Error</span>';
-        //         }elseif ($respuesta["usuario"] == $_POST["usuario"] && $respuesta["contrasena"] == $_POST["contrasena"]) {
-        //             $datosUsuario = CRUDUsuario::seleccionarUsuarioSesionBD($respuesta["iduser"]);
-        //             $conectarUsuario = CRUDUsuario::conectarUsuarioBD($respuesta["iduser"]);
-        //             if ($datosUsuario["nombre"] == null) {
-        //                 echo '<span>Error</span>';
-        //             }elseif ($datosUsuario["iduser"] == $respuesta["iduser"] && $conectarUsuario == true) {
-        //                 $_SESSION["ingresado"] = $datosUsuario["nombre"];
-        //                 $_SESSION["usuario"] = $datosUsuario["iduser"];
-        //                 $_SESSION["tipo-usuario"] = $datosUsuario["tipo"];
-        //                 echo '
-        //                     <script>
-        //                     if(window.history.replaceState){
-        //                         window.history.replaceState(null, null, window.location.href);
-        //                     }
-        //                         window.location = "index.php?pagina=Inicio";
-        //                     </script>
-        //                     ';
-        //             }
-        //         }
-        //     }
-        // }
-        
-        // #Cerrar la sesión de usuario.
-        // public function desconectarUsuarioCtl($usuario){
-        //     $desconectar = CRUDUsuario::desconectarUsuarioBD($usuario);
-        //     return $desconectar;
-        // }
-
-        // #Crear cuenta de usuario.
-        // public function crearCuentaCtl(){
-        //     if (isset($_POST["tipo-usuario-new"])) {
-        //         $datosUsuario = array(
-        //             "tipo" => $_POST["tipo-usuario-new"], 
-        //             "nombre" => $_POST["nombre-new"], 
-        //             "usuario" => $_POST["usuario-new"], 
-        //             "contrasena" => $_POST["contrasena-new"]
-        //         );
-        //         $crearUsuario = CRUDUsuario::crearCuentaBD($datosUsuario);
-        //         if ($crearUsuario) {
-        //             echo '
-        //                 <script>
-        //                 window.location = "index.php?pagina=Usuarios";
-        //                     alert("Usuario creado");
-        //                 </script>
-        //                 ';
-        //         }else{
-        //             echo '
-        //                 <script>
-        //                 window.location = "index.php?pagina=Usuarios";
-        //                     alert("Ha ocurrido un error consulte al desarrollador");
-        //                 </script>
-        //                 ';
-        //         }
-        //     }
-        // }
-
-        // #Deshabilitar uno o más usuarios.
-        // public function eliminarUsuariosCtl($usuariosElegidosEliminar){
-        //     $respuestas = array();
-        //     $conclusion = true;
-        //     for ($i = 0; $i < sizeof($usuariosElegidosEliminar); $i++) {
-        //         $respuesta = CRUDUsuario::eliminarUsuariosBD($usuariosElegidosEliminar[$i]);
-        //         if ($respuesta == false) {
-        //             $respuestas[$i] = false;
-        //         }
-        //     }
-            
-        //     for ($i = 0; $i < sizeof($respuestas); $i++) {
-        //         if ($respuestas[$i] == false) {
-        //             $conclusion = false;
-        //         }
-        //     }
-        //     return $conclusion;
-        // }
     }

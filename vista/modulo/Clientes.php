@@ -30,16 +30,6 @@
             <input type="image" src="img/trash_32px.png" alt="imágen de acción" id="btn-delete-client" disabled>
             <span class="tooltip">Borrar cliente</span>
         </div>
-        <div class="C__Btn">
-            <input type="image" src="img/identification_documents_32px.png" alt="imágen de acción" id="btn-card-client" disabled>
-            <span class="tooltip">Ficha de información</span>
-        </div>
-        <!-- <div class="C__Btn">
-            <a href="index.php?pagina=Cliente">
-                <input type="image" src="img/identification_documents_32px.png" alt="imágen de acción" id="btn-card-client" disabled>
-            </a>
-            <span class="tooltip">Ficha de información</span>
-        </div> -->
         <div class="C__Btn__Last">
             <a href="#search-client"><image src="img/search_32px.png"></image></a>
             <input class="inputs" type="text" id="search-pet" name="search-pet" placeholder="Buscar cliente">
@@ -71,7 +61,7 @@
             </td>
             <td id="<?=$value["iduser"]?>" name="clients-table"><?=$value["nombre"]?></td>
             <td id="<?=$value["iduser"]?>" name="clients-table"><?=$value["fecha"]?></td>
-            <td id="<?=$value["iduser"]?>" name="clients-table"><a href="index.php?pagina=MascotasCliente&vru=<?=$value["iduser"]?>"><?=$mascotasVinculadas["num_mascotas"]?></a></td>
+            <td id="<?=$value["iduser"]?>" name="clients-table"><a href="index.php?pagina=MascotasCliente&um=<?=$value["iduser"]?>"><?=$mascotasVinculadas["num_mascotas"]?></a></td>
         </tr>
             <?php endforeach ?>
     </table>
@@ -123,7 +113,9 @@
             <div class="i__group">
                 <span class="label-checkbox">¿Desea eliminar los registros seleccionados?</span>
             </div>
-
+            <div class="D-info">
+                <p class="info"><i>i</i> También se eliminarán los datos pertenecientes a este registro.</p>
+            </div>
             <input class="submit" type="button" id="btn-C-delete-client" value="Confirmar">
         </form>
     </div>

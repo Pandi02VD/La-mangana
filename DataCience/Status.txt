@@ -1,0 +1,11 @@
+Los campos llamados 'status' en la base de datos 
+guardan valores comprendidos entre 0 y 127 enteros 
+y positivos o entre -127 y 127 entreros con signo.
+
+El sistema únicamente guardará los valores siguiente 
+y su propósito.
+
+[Valor -> Propósito]
+[0 -> El registro está deshabilitado]
+[1 -> El registro está habilitado]
+[2 -> El registro está habilitado y oculto, en espera a decidir si se deshabilita o se recupera (cuando un registro tiene relación a uno deshabilitado)]

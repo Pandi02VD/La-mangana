@@ -214,7 +214,9 @@
             <h2 class="f__title">Confirmación</h2>
             <div class="line-top"></div>
             <span class="label-checkbox">¿Desea eliminar el registro?</span>
-            
+            <div class="D-info">
+                <p class="info"><i>i</i> También se eliminarán los datos pertenecientes a este registro.</p>
+            </div>
             <input class="submit" type="submit" value="Confirmar">
             <?php 
                 // $actualizaUsuario = ControladorUsuario::actualizarUsuarioCtl();

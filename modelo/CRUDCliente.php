@@ -25,84 +25,6 @@
 			$sql = null;
 		}
 
-		#Seleccionar correo electrónico del cliente de la base de datos.
-		public function seleccionarClienteCorreoBD($correoId){
-			$sql = Conexion::conectar() -> prepare(
-				"SELECT * FROM user_correo 
-				WHERE status = 1 AND iduser_correo = :iduser_correo;"
-			);
-			$sql -> bindParam(":iduser_correo", $correoId, PDO::PARAM_INT);
-			$sql -> execute();
-			return $sql -> fetch();
-			$sql -> close();
-			$sql = null;
-		}
-		
-		#Seleccionar teléfono del cliente de la base de datos.
-		public function seleccionarClienteTelefonoBD($telefonoId){
-			$sql = Conexion::conectar() -> prepare(
-				"SELECT * FROM user_telefono 
-				WHERE status = 1 AND iduser_telefono = :iduser_telefono;"
-			);
-			$sql -> bindParam(":iduser_telefono", $telefonoId, PDO::PARAM_INT);
-			$sql -> execute();
-			return $sql -> fetch();
-			$sql -> close();
-			$sql = null;
-		}
-		
-		#Seleccionar domicilio del cliente de la base de datos.
-		public function seleccionarClienteDomicilioBD($domicilioId){
-			$sql = Conexion::conectar() -> prepare(
-				"SELECT * FROM user_domicilio 
-				WHERE status = 1 AND iduser_domicilio = :iduser_domicilio;"
-			);
-			$sql -> bindParam(":iduser_domicilio", $domicilioId, PDO::PARAM_INT);
-			$sql -> execute();
-			return $sql -> fetch();
-			$sql -> close();
-			$sql = null;
-		}
-
-		#Seleccionar correos electrónicos del cliente de la base de datos.
-		public function seleccionarClienteCorreosBD($clienteId){
-			$sql = Conexion::conectar() -> prepare(
-				"SELECT * FROM user_correo 
-				WHERE status = 1 AND iduser = :iduser;"
-			);
-			$sql -> bindParam(":iduser", $clienteId, PDO::PARAM_INT);
-			$sql -> execute();
-			return $sql -> fetchAll();
-			$sql -> close();
-			$sql = null;
-		}
-
-		#Seleccionar teléfonos del cliente de la base de datos.
-		public function seleccionarClienteTelefonosBD($clienteId){
-			$sql = Conexion::conectar() -> prepare(
-				"SELECT iduser_telefono, numero, tipo FROM user_telefono 
-				WHERE status = 1 AND iduser = :iduser;"
-			);
-			$sql -> bindParam(":iduser", $clienteId, PDO::PARAM_INT);
-			$sql -> execute();
-			return $sql -> fetchAll();
-			$sql -> close();
-			$sql = null;
-		}
-		
-		#Seleccionar domicilios del cliente de la base de datos.
-		public function seleccionarClienteDomiciliosBD($clienteId){
-			$sql = Conexion::conectar() -> prepare(
-				"SELECT iduser_domicilio, colonia, calle, num_casaex FROM user_domicilio 
-				WHERE status = 1 AND iduser = :iduser;"
-			);
-			$sql -> bindParam(":iduser", $clienteId, PDO::PARAM_INT);
-			$sql -> execute();
-			return $sql -> fetchAll();
-			$sql -> close();
-			$sql = null;
-		}
-
 		#Recuperar datos de cliente de la base de datos.
 		public function datosClienteBD($clienteId){
 			$sql = Conexion::conectar() -> prepare(
@@ -157,51 +79,6 @@
 			$sql -> bindParam(":iduser", $clienteId, PDO::PARAM_INT);
 			if ($sql -> execute()) {
 				return $clienteId;
-			}else{
-				return false;
-			}
-			$sql -> close();
-			$sql = null;
-		}
-		
-		#Deshabilitar uno o más correos de clientes del sistema.
-		public function eliminarCorreosClienteBD($correoId){
-			$sql = Conexion::conectar() -> prepare(
-				"UPDATE user_correo set status = 0 WHERE iduser_correo = :iduser_correo;"
-			);
-			$sql -> bindParam(":iduser_correo", $correoId, PDO::PARAM_INT);
-			if ($sql -> execute()) {
-				return $correoId;
-			}else{
-				return false;
-			}
-			$sql -> close();
-			$sql = null;
-		}
-		
-		#Deshabilitar uno o más teléfonos de clientes del sistema.
-		public function eliminarTelefonosClienteBD($telefonoId){
-			$sql = Conexion::conectar() -> prepare(
-				"UPDATE user_telefono set status = 0 WHERE iduser_telefono = :iduser_telefono;"
-			);
-			$sql -> bindParam(":iduser_telefono", $telefonoId, PDO::PARAM_INT);
-			if ($sql -> execute()) {
-				return $telefonoId;
-			}else{
-				return false;
-			}
-			$sql -> close();
-			$sql = null;
-		}
-		
-		#Deshabilitar uno o más domicilios de clientes del sistema.
-		public function eliminarDomiciliosClienteBD($domicilioId){
-			$sql = Conexion::conectar() -> prepare(
-				"UPDATE user_domicilio set status = 0 WHERE iduser_domicilio = :iduser_domicilio;"
-			);
-			$sql -> bindParam(":iduser_domicilio", $domicilioId, PDO::PARAM_INT);
-			if ($sql -> execute()) {
-				return $domicilioId;
 			}else{
 				return false;
 			}

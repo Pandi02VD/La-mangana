@@ -1,10 +1,5 @@
 <?php 
-    $cargo = 0;
-    if(!(isset($_SESSION["tipo-usuario"]) && isset($_SESSION["ingresado"]))){
-        echo '<script>window.location = "index.php?pagina=IniciarSesion"</script>';
-    }else{
-        $cargo = $_SESSION["tipo-usuario"];
-    }
+    $cargo = $_SESSION["tipo-usuario"];
     $clientes = ControladorCliente::seleccionarClientesCtl();
 ?>
 
@@ -37,6 +32,12 @@
         <!-- <div class="C__Btn__Last">
             <input type="button" class="button" id="exportExcel" onClick="Exportar('tbl-clientes')" value="Exportar a Excel">
         </div> -->
+    </div>
+
+    <div class="D-info">
+        <p class="info">Haga clic en un cliente para ver más información 
+            <button class="f__close unset" name="btn-close-info">x</button>
+        </p>
     </div>
 
     <table class="table" id="tbl-clientes">
@@ -85,7 +86,7 @@
             </div>
             
             <input class="submit" type="submit" value="Crear">
-            <?php $crearCliente = ControladorCliente::crearClienteCtl(); ?>
+            <?php ControladorCliente::crearClienteCtl(); ?>
         </form>
     </div>
 
@@ -99,7 +100,7 @@
                 <label class="labels" for="cliente-edit">Nombre del cliente</label>
             </div>
 
-            <input type="hidden" name="clienteId-edit" id="clienteId-edit">
+            <input type="hidden" name="clienteId-edit" id="clienteId-edit" required>
             <input class="submit" type="submit" value="Actualizar">
             <?php $actualizarCliente = ControladorCliente::actualizarClienteCtl(); ?>
         </form>

@@ -1,13 +1,6 @@
 <?php 
-    if(!(isset($_SESSION["tipo-usuario"]) && isset($_SESSION["ingresado"]))){
-        echo '<script>window.location = "index.php?pagina=IniciarSesion"</script>';
-    }else{
-        if (!isset($_GET["um"])) {
-            echo '<script>window.location = "index.php?pagina=IniciarSesion"</script>';
-        } else {
-            $mascota = ControladorMascota::seleccionarMascotaCtl($_GET["um"]);
-        }
-    }
+    $nameGET = 'um';
+    $mascota = ControladorMascota::seleccionarMascotaCtl($_GET[$nameGET]);
 ?>
 <div class="title">
     <h2>Mascota</h2>

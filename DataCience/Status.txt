@@ -9,3 +9,87 @@ y su propósito.
 [0 -> El registro está deshabilitado]
 [1 -> El registro está habilitado]
 [2 -> El registro está habilitado y oculto, en espera a decidir si se deshabilita o se recupera (cuando un registro tiene relación a uno deshabilitado)]
+
+// validarCampo(document.getElementById('cliente-new'), '^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{2,50}$', 50);
+// validarCampo(document.getElementById('cliente-edit'), '^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{2,50}$', 50);
+
+// validarCampo(document.getElementById('cliente-correo-new'), '^[^0-9][a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[@][a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{2,4}$', 30);
+// validarCampo(document.getElementById('cliente-correo-edit'), '^[^0-9][a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[@][a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{2,4}$', 30);
+// validarCampo(document.getElementById('cliente-telefono-new'), '^[0-9]{10}$', 10);
+// validarCampo(document.getElementById('cliente-telefono-edit'), '^[0-9]{10}$', 10);
+
+// validarCampo(document.getElementById('cliente-domicilio-estado-new'), '^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ ]{2,50}$', 50);
+// validarCampo(document.getElementById('cliente-domicilio-municipio-new'), '^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ ]{2,50}$', 50);
+// validarCampo(document.getElementById('cliente-domicilio-colonia-new'), '^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ ]{2,50}$', 50);
+// validarCampo(document.getElementById('cliente-domicilio-calle-new'), '^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ ]{2,50}$', 50);
+// validarCampo(document.getElementById('cliente-domicilio-calle1-new'), '^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ ]{0,25}$', 25);
+// validarCampo(document.getElementById('cliente-domicilio-calle2-new'), '^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ ]{0,25}$', 25);
+// validarCampo(document.getElementById('cliente-domicilio-numero-e-new'), '^[0-9]{0,5}$', 5);
+// validarCampo(document.getElementById('cliente-domicilio-numero-i-new'), '^[0-9]{0,5}$', 5);
+// validarCampo(document.getElementById('cliente-domicilio-referencia-new'), '^[0-9a-zA-Z0-9áéíóúÁÉÍÓÚñÑ.,-_/&# ]{10,50}$', 50);
+
+// validarCampo(document.getElementById('cliente-domicilio-estado-edit'), '^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ ]{2,50}$', 50);
+// validarCampo(document.getElementById('cliente-domicilio-municipio-edit'), '^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ ]{2,50}$', 50);
+// validarCampo(document.getElementById('cliente-domicilio-colonia-edit'), '^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ ]{2,50}$', 50);
+// validarCampo(document.getElementById('cliente-domicilio-calle-edit'), '^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ ]{2,50}$', 50);
+// validarCampo(document.getElementById('cliente-domicilio-calle1-edit'), '^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ ]{0,25}$', 25);
+// validarCampo(document.getElementById('cliente-domicilio-calle2-edit'), '^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ ]{0,25}$', 25);
+// validarCampo(document.getElementById('cliente-domicilio-numero-e-edit'), '^[0-9]{0,5}$', 5);
+// validarCampo(document.getElementById('cliente-domicilio-numero-i-edit'), '^[0-9]{0,5}$', 5);
+// validarCampo(document.getElementById('cliente-domicilio-referencia-edit'), '^[0-9a-zA-Z0-9áéíóúÁÉÍÓÚñÑ.,-_/&# ]{10,50}$', 50);
+
+// validarCampo(document.getElementById('nombre-new'), '^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{2,50}$', 50);
+// validarCampo(document.getElementById('usuario-new'), '^[0-9a-zA-Z ]{2,50}$', 50);
+// validarCampo(document.getElementById('contrasena-new'), '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*]).{4,}$', 50);
+
+// validarCampo(document.getElementById('nombre-edit'), '^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{2,50}$', 50);
+
+// validarCampo(document.getElementById('pet-nombre-new'), '^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{2,50}$', 50);
+// validarCampo(document.getElementById('pet-anos-new'), '^[0-9]{1,2}$', 2);
+// validarCampo(document.getElementById('pet-peso-new'), '^[0-9]+([.][0-9]+)?$', 6);
+
+// // function cafetera(agua, cafe, azucar, temperatura) {
+// //     let cafePreparado;
+// //     if (agua && azucar && cafe && temperatura) {
+// //         if (temperatura == 'caliente') {
+// //             return cafePreparado = 'Café caliente listo!!!';
+// //         } else if(temperatura == 'frío') {
+// //             return cafePreparado = 'Café frío listo!!!';
+// //         }
+// //     } else {
+// //         return 'Faltan ingredientes :O';
+// //     }
+// // }
+
+// // console.log(cafetera(true, true, true, 'frío'));
+// function validarCampo(input, regex, max) {
+//     if (input) {
+//         let regExp = new RegExp(regex);
+//         let counter = document.createElement('div');
+//         counter.setAttribute('class', 'counter');
+
+//         input.addEventListener('keyup', () => {
+//             input.classList.remove('yeah');
+//             input.classList.remove('noug');
+//             counter.innerText = input.value.length + '/' + max;
+//             if(input.value.length <= max && regExp.test(input.value)) {
+//                 input.classList.add('yeah');
+//                 counter.setAttribute('data-content', '✔');
+//                 counter.style.color = 'currentColor';
+//             } else {
+//                 counter.setAttribute('data-content', '✖');
+//                 counter.style.color = 'red';
+//                 input.classList.add('noug');
+//                 input.value = input.value.substring(0, max);
+//             }
+//         });
+
+//         input.addEventListener('focusin', () => {
+//             input.parentElement.appendChild(counter);
+//         });
+        
+//         input.addEventListener('focusout', () => {
+//             counter.remove();
+//         });
+//     }
+// }

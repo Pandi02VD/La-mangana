@@ -27,7 +27,7 @@
                 <!--</li>
                 -->
                 <?php if(isset($_SESSION["ingresado"])) : ?>
-                    <?php if($_GET["pagina"] == "Inicio") { ?>
+                    <?php if($_GET["pagina"] == "Inicio" || $_GET["pagina"] == "index") { ?>
                         <a class="link-button activo" href="index.php?pagina=Inicio">Inicio</a>
                     <?php }else{ ?>
                         <a class="link-button" href="index.php?pagina=Inicio">Inicio</a>

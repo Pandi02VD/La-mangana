@@ -145,6 +145,56 @@ function deleteForm (btnShowFormDelete, btnConfirmDelete, btnCloseForm, checkEle
 	}
 }
 
+function asMain(btnShowForm, checkElement, inputId, btnConfirmAsMain) {
+	if (btnShowForm && checkElement && inputId && btnConfirmAsMain) {
+		let recordId;
+		let nameRequest;
+		$(btnShowForm).click(function (){
+			recordId = elementChecked(checkElement);
+			inputId.val(recordId);
+			if(btnShowForm.getAttribute('id') == 'btn-asmain-client-email') {
+				nameRequest = 'client-asmain-email';
+				console.log(nameRequest + ' - ' + recordId);
+			} else if(btnShowForm.getAttribute('id') == 'btn-asmain-client-phone') {
+				nameRequest = 'client-asmain-phone';
+				console.log(nameRequest);
+			} else if(btnShowForm.getAttribute('id') == 'btn-asmain-client-address') {
+				nameRequest = 'client-asmain-address';
+				console.log(nameRequest);
+			}
+		});
+
+		$(btnConfirmAsMain).click(function (){
+			console.log('Clic');
+			let formData = new FormData();
+			formData.append(nameRequest, recordId);
+
+			$.ajax({
+				url: 'controlador/Ajax.php', 
+				method: 'post', 
+				data: formData, 
+				cache: false, 
+				contentType: false, 
+				processData: false, 
+				dataType: 'json', 
+				success: function (respuesta) {
+					if (respuesta) {
+						console.log(respuesta);
+						let url = window.location.href;
+						window.location = url
+						alert('Se estableció como principal');
+					} else {
+						console.log("Sin respuesta");
+						let url = window.location.href;
+						window.location = url
+						alert('No se pudo establecer como principal, intente más tarde');
+					}
+				}
+			});
+		})
+	}
+}
+
 function fillSelectHTML (inputsData, nameFormData, callback) {
 	if (NodeList.prototype.isPrototypeOf(inputsData)) {
 		for (let i = 0; i < inputsData.length; i++) {
@@ -174,24 +224,6 @@ function fillSelectHTML (inputsData, nameFormData, callback) {
 	} else {
 	}
 }
-
-fillSelectHTML(document.getElementsByName('pet-especie-new'), 'select-raza', function (resultado) {
-	let select = document.getElementById('pet-raza-new');
-	$('#pet-raza-new').empty();
-
-	let optionDefault = document.createElement('option');
-	optionDefault.setAttribute('value', '');
-	optionDefault.innerHTML = 'Seleccione la raza';
-	select.appendChild(optionDefault);
-	
-
-	for (let i = 0; i < resultado.length; i++) {
-		let option = document.createElement('option');
-		option.setAttribute('value', resultado[i]['idmascota_raza']);
-		option.innerHTML = resultado[i]['raza'];
-		select.appendChild(option);
-	}
-});
 
 function autocompleteAddress (inputSearchAddress, inputEstado, inputMunicipio, inputColonia, inputCalle) {
 	if (
@@ -260,24 +292,46 @@ function autocompleteAddress (inputSearchAddress, inputEstado, inputMunicipio, i
 	}
 }
 
+fillSelectHTML(document.getElementsByName('pet-especie-new'), 'select-raza', function (resultado) {
+	let select = document.getElementById('pet-raza-new');
+	$('#pet-raza-new').empty();
+
+	let optionDefault = document.createElement('option');
+	optionDefault.setAttribute('value', '');
+	optionDefault.innerHTML = 'Seleccione la raza';
+	select.appendChild(optionDefault);
+	
+
+	for (let i = 0; i < resultado.length; i++) {
+		let option = document.createElement('option');
+		option.setAttribute('value', resultado[i]['idmascota_raza']);
+		option.innerHTML = resultado[i]['raza'];
+		select.appendChild(option);
+	}
+});
+
 autocompleteAddress(
-	document.getElementById('cliente-domicilio-ubicacion-new'), 
-	document.getElementById('cliente-domicilio-estado-new'), 
-	document.getElementById('cliente-domicilio-municipio-new'), 
-	document.getElementById('cliente-domicilio-colonia-new'), 
-	document.getElementById('cliente-domicilio-calle-new')
+	document.getElementById('domicilio-ubicacion-new'), 
+	document.getElementById('domicilio-estado-new'), 
+	document.getElementById('domicilio-municipio-new'), 
+	document.getElementById('domicilio-colonia-new'), 
+	document.getElementById('domicilio-calle-new')
 );
 
 autocompleteAddress(
-	document.getElementById('cliente-domicilio-ubicacion-edit'), 
-	document.getElementById('cliente-domicilio-estado-edit'), 
-	document.getElementById('cliente-domicilio-municipio-edit'), 
-	document.getElementById('cliente-domicilio-colonia-edit'), 
-	document.getElementById('cliente-domicilio-calle-edit')
+	document.getElementById('domicilio-ubicacion-edit'), 
+	document.getElementById('domicilio-estado-edit'), 
+	document.getElementById('domicilio-municipio-edit'), 
+	document.getElementById('domicilio-colonia-edit'), 
+	document.getElementById('domicilio-calle-edit')
 );
 
-editForm(BTN_EDIT_CLIENT_EMAIL, CHECK_CLIENT_EMAIL, $('#email-client-edit-id'), function (resultado) {
-	$('#correo-cliente-edit').val(resultado['correo']);
+editForm(BTN_EDIT_CLIENT_EMAIL, CHECK_CLIENT_EMAIL, $('#correo-id-edit'), function (resultado) {
+	$('#correo-edit').val(resultado['correo']);
+});
+
+editForm(BTN_EDIT_USER_EMAIL, CHECK_USER_EMAIL, $('#correo-id-edit'), function (resultado) {
+	$('#correo-edit').val(resultado['correo']);
 });
 
 editForm(BTN_EDIT_CLIENT, CHECK_CLIENT, $('#clienteId-edit'), function (resultado) {
@@ -289,13 +343,17 @@ editForm(BTN_EDIT_USER, CHECK_USER, $('#usuarioId-edit'), function (resultado) {
 	$('#nombre-edit').val(resultado['nombre']);
 });
 
-editForm(BTN_EDIT_CLIENT_PHONE, CHECK_CLIENT_PHONE, $('#client-edit-phone-id'), function (resultado) {
-	$('#cliente-telefono-edit').val(resultado['numero']);
-	$('#cliente-tipotelefono-edit').val(resultado['tipo']);
+editForm(BTN_EDIT_CLIENT_PHONE, CHECK_CLIENT_PHONE, $('#phone-id-edit'), function (resultado) {
+	$('#telefono-edit').val(resultado['numero']);
+	$('#tipotelefono-edit').val(resultado['tipo']);
 });
 
-editForm(BTN_EDIT_CLIENT_ADDRESS, CHECK_CLIENT_ADDRESS, $('#client-edit-address-id'), function (resultado) {
-	console.log(resultado);
+editForm(BTN_EDIT_USER_PHONE, CHECK_USER_PHONE, $('#phone-id-edit'), function (resultado) {
+	$('#telefono-edit').val(resultado['numero']);
+	$('#tipotelefono-edit').val(resultado['tipo']);
+});
+
+editForm(BTN_EDIT_CLIENT_ADDRESS, CHECK_CLIENT_ADDRESS, $('#address-id-edit'), function (resultado) {
 	let num_casaex = resultado['num_casaex'], num_casaint = resultado['num_casaint'];
 	if (resultado['num_casaex'] == null || resultado['num_casaex'] == 0) {
 		num_casaex = null;
@@ -303,15 +361,85 @@ editForm(BTN_EDIT_CLIENT_ADDRESS, CHECK_CLIENT_ADDRESS, $('#client-edit-address-
 	if (resultado['num_casaint'] == null || resultado['num_casaint'] == 0) {
 		num_casaint = null;
 	}
-	$('#cliente-domicilio-estado-edit').val(resultado['estado']);
-	$('#cliente-domicilio-municipio-edit').val(resultado['localidad']);
-	$('#cliente-domicilio-colonia-edit').val(resultado['colonia']);
-	$('#cliente-domicilio-calle-edit').val(resultado['calle']);
-	$('#cliente-domicilio-numero-e-edit').val(num_casaex);
-	$('#cliente-domicilio-numero-i-edit').val(num_casaint);
-	$('#cliente-domicilio-calle1-edit').val(resultado['calle1']);
-	$('#cliente-domicilio-calle2-edit').val(resultado['calle2']);
-	$('#cliente-domicilio-referencia-edit').val(resultado['referencia']);
+	$('#domicilio-estado-edit').val(resultado['estado']);
+	$('#domicilio-municipio-edit').val(resultado['localidad']);
+	$('#domicilio-colonia-edit').val(resultado['colonia']);
+	$('#domicilio-calle-edit').val(resultado['calle']);
+	$('#domicilio-numero-e-edit').val(num_casaex);
+	$('#domicilio-numero-i-edit').val(num_casaint);
+	$('#domicilio-calle1-edit').val(resultado['calle1']);
+	$('#domicilio-calle2-edit').val(resultado['calle2']);
+	$('#domicilio-referencia-edit').val(resultado['referencia']);
+});
+
+editForm(BTN_EDIT_USER_ADDRESS, CHECK_USER_ADDRESS, $('#address-id-edit'), function (resultado) {
+	let num_casaex = resultado['num_casaex'], num_casaint = resultado['num_casaint'];
+	if (resultado['num_casaex'] == null || resultado['num_casaex'] == 0) {
+		num_casaex = null;
+	}
+	if (resultado['num_casaint'] == null || resultado['num_casaint'] == 0) {
+		num_casaint = null;
+	}
+	$('#domicilio-estado-edit').val(resultado['estado']);
+	$('#domicilio-municipio-edit').val(resultado['localidad']);
+	$('#domicilio-colonia-edit').val(resultado['colonia']);
+	$('#domicilio-calle-edit').val(resultado['calle']);
+	$('#domicilio-numero-e-edit').val(num_casaex);
+	$('#domicilio-numero-i-edit').val(num_casaint);
+	$('#domicilio-calle1-edit').val(resultado['calle1']);
+	$('#domicilio-calle2-edit').val(resultado['calle2']);
+	$('#domicilio-referencia-edit').val(resultado['referencia']);
+});
+
+editForm(BTN_ADD_CONSULT_PET, CHECK_PET, $('#pet-id-add-consult'), function (resultado) {
+	$('#nombre-pet-consult-new').text('');
+	$('#raza-pet-consult-new').text('');
+	$('#sexo-pet-consult-new').text('');
+	$('#edad-pet-consult-new').text('');
+	$('#cc-pet-consult-new').text('');
+	$('#tamano-pet-consult-new').text('');
+	$('#peso-pet-consult-new').text('');
+	$('#nombre-client-consult-new').text('');
+	$('#tel-client-consult-new').text('');
+	$('#email-client-consult-new').text('');
+	$('#address-client-consult-new').text('');
+	for(k in resultado) {
+		if(resultado[k] == null) {
+			resultado[k] = 'Sin datos';
+		}
+	}
+	console.log(resultado);
+	let edad = new Date().getFullYear() - resultado["ano_nacimiento"];
+	let sexo = {'1':'Hembra', '2':'Macho'};
+	let cc = {'1':'Delgado', '2':'Normal', '3':'Robusto'};
+	let tamano = {'1':'Chico', '2':'Mediano', '3':'Grande'};
+	let numcasa;
+	let domicilio;
+	if (resultado["num_casaint"] && resultado["calle"] && resultado["colonia"]) {
+		resultado["num_casaint"] == 0 || resultado["num_casaint"] == undefined ? numcasa = 's/n' : numcasa = '#' + resultado["num_casaint"];
+		domicilio = resultado["calle"] + ', ' + numcasa + ', ' + resultado["colonia"];
+	} else {
+		domicilio = 'Sin datos';
+	}
+
+	if (resultado["correo"] == undefined || resultado["numero"] == undefined || resultado["calle"] == undefined) {
+		alert('No hay datos de contacto del dueño. Revisemos!');
+		let urlClientId = window.location.search
+		let clienteId = new URLSearchParams(urlClientId);
+		window.location = 'index.php?pagina=Cliente&uc=' + clienteId.get('um');
+	}
+	$('#nombre-pet-consult-new').text(resultado["mascota"]);
+	$('#raza-pet-consult-new').text(resultado["raza"]);
+	$('#sexo-pet-consult-new').text(sexo[resultado["sexo"]]);
+	$('#edad-pet-consult-new').text(edad + ' años');
+	$('#cc-pet-consult-new').text(cc[resultado["condicion_corporal"]]);
+	$('#tamano-pet-consult-new').text(tamano[resultado["tamano"]]);
+	$('#peso-pet-consult-new').text(resultado["peso"] + ' Kg.');
+
+	$('#nombre-client-consult-new').text(resultado["nombre"]);
+	$('#tel-client-consult-new').text(resultado["numero"]);
+	$('#email-client-consult-new').text(resultado["correo"]);
+	$('#address-client-consult-new').text(domicilio);
 });
 
 deleteForm(BTN_DELETE_CLIENT, BTN_C_DELETE_CLIENT, BTN_CLOSE_FORM_DELETE_CLIENT, CHECK_CLIENT, FORM_DELETE_CLIENT, 'clientsToDelete', 'Clientes');
@@ -324,3 +452,17 @@ deleteForm(BTN_DELETE_CLIENT_EMAIL, BTN_C_DELETE_CLIENT_EMAIL, BTN_CLOSE_FORM_DE
 deleteForm(BTN_DELETE_CLIENT_PHONE, BTN_C_DELETE_CLIENT_PHONE, BTN_CLOSE_FORM_DELETE_CLIENT_PHONE, CHECK_CLIENT_PHONE, FORM_DELETE_CLIENT_PHONE, 'phonesClientToDelete', urlClient);
 
 deleteForm(BTN_DELETE_CLIENT_ADDRESS, BTN_C_DELETE_CLIENT_ADDRESS, BTN_CLOSE_FORM_DELETE_CLIENT_ADDRESS, CHECK_CLIENT_ADDRESS, FORM_DELETE_CLIENT_ADDRESS, 'addressClientToDelete', urlClient);
+
+let urlUser = 'Usuario&uu=' + $('#userId').val();
+deleteForm(BTN_DELETE_USER_EMAIL, BTN_C_DELETE_USER_EMAIL, BTN_CLOSE_FORM_DELETE_USER_EMAIL, CHECK_USER_EMAIL, FORM_DELETE_USER_EMAIL, 'emailsUserToDelete', urlUser);
+
+deleteForm(BTN_DELETE_USER_PHONE, BTN_C_DELETE_USER_PHONE, BTN_CLOSE_FORM_DELETE_USER_PHONE, CHECK_USER_PHONE, FORM_DELETE_USER_PHONE, 'phonesUserToDelete', urlUser);
+
+deleteForm(BTN_DELETE_USER_ADDRESS, BTN_C_DELETE_USER_ADDRESS, BTN_CLOSE_FORM_DELETE_USER_ADDRESS, CHECK_USER_ADDRESS, FORM_DELETE_USER_ADDRESS, 'addressUserToDelete', urlUser);
+
+// A partir del nombre del botón clicado se nombrará la variable post que se envía al backend AJAX.
+asMain(BTN_ASMAIN_CLIENT_EMAIL, CHECK_CLIENT_EMAIL, $('#client-asmain-element'), BTN_C_ASMAIN_CLIENT_ELEMENT);
+
+asMain(BTN_ASMAIN_CLIENT_PHONE, CHECK_CLIENT_PHONE, $('#client-asmain-element'), BTN_C_ASMAIN_CLIENT_ELEMENT);
+
+asMain(BTN_ASMAIN_CLIENT_ADDRESS, CHECK_CLIENT_ADDRESS, $('#client-asmain-element'), BTN_C_ASMAIN_CLIENT_ELEMENT);

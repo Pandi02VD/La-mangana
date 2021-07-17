@@ -17,20 +17,6 @@ if (document.getElementById('graficaPeso')) {
             if (response) {
                 console.log(response);
                 for (let i = 0; i < response.length; i++) {
-                    let tamano;
-                    let cuerpo;
-                    switch (response[i]["tamano"]) {
-                        case "1": tamano = "Chico"; break;
-                        case "2": tamano = "Mediano"; break;
-                        case "3": tamano = "Grande"; break;
-                        default: tamano = 'Sin datos'; break;
-                    }
-                    switch (response[i]["condicion_corporal"]) {
-                        case "1": cuerpo = "Delgado"; break;
-                        case "2": cuerpo = "Normal"; break;
-                        case "3": cuerpo = "Robusto"; break;
-                        default: cuerpo = 'Sin datos'; break;
-                    }
                     datosGrafica.push({
                         'Fecha' : response[i]["fecha"], 
                         'Peso' : response[i]["peso"], 

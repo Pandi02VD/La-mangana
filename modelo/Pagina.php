@@ -1,20 +1,30 @@
 <?php
-    class Pagina{
-        public function traerPagina($modulo){
-            if(
-                $modulo == "Inicio" || 
-                $modulo == "IniciarSesion" || 
-                $modulo == "Usuarios" || $modulo == "Usuario" || 
-                $modulo == "Clientes" || $modulo == "Cliente" || 
-                $modulo == "MascotasCliente" || $modulo == "Mascotas" || $modulo == "Mascota" || 
-                $modulo == "HistoriaClinica" || 
-                $modulo == "Salir" || 
-                $modulo == "Error"
-            ){
-                $directorio = "vista/modulo/".$modulo.".php";
+    class Pagina {
+        public $paginas = array(
+            'index' => "Inicio", 
+            'Inicio' => "Inicio", 
+            'IniciarSesion' => "IniciarSesion", 
+            'Usuarios' => "Usuarios", 
+            'Usuario' => "Usuario", 
+            'Clientes' => "Clientes", 
+            'Cliente' => "Cliente", 
+            'MascotasCliente' => "MascotasCliente", 
+            'Mascotas' => "Mascotas", 
+            'Mascota' => "Mascota", 
+            'HistoriaClinica' => "HistoriaClinica", 
+            'Salir' => "Salir", 
+            'Error' => "Error"
+        );
+
+        public function traerPagina($pagina){
+            $objPagina = new Pagina();
+            $modulos = $objPagina -> paginas;
+            if(isset($modulos[$pagina])){
+                $ruta = "vista/modulo/".$modulos[$pagina].".php";
+                Acceso::validarAcceso($pagina);
             }else{
-                $directorio = "vista/modulo/Inicio.php";
+                $ruta = "vista/modulo/Error.php";
             }
-            return $directorio;
+            return $ruta;
         }
     }

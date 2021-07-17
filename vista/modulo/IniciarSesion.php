@@ -1,7 +1,6 @@
 <?php
-    if((isset($_SESSION["tipo-usuario"]) && isset($_SESSION["ingresado"]))){
+    if(isset($_SESSION["tipo-usuario"]) && isset($_SESSION["ingresado"])) {
         echo '<script>window.location = "index.php?pagina=Inicio"</script>';
-    }else{
     }
 ?>
 <div class="title">
@@ -24,8 +23,6 @@
             
             <input class="submit" type="submit" value="Iniciar">
         </div>
-            <?php 
-                $entrar = ControladorUsuario::iniciarSesionCtl();
-            ?>
+            <?php ControladorUsuario::iniciarSesionCtl(); ?>
     </form>
 </div>

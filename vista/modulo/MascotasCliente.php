@@ -1,11 +1,10 @@
 <?php 
-    if (!isset($_GET["um"])) {
-        echo '<script>window.location = "index.php?pagina=Error";</script>';
-    }
-    $clienteId = $_GET["um"];
+    $nameGET = 'um';
+    $clienteId = $_GET[$nameGET];
     $cliente = ControladorCliente::seleccionarClienteCtl($clienteId);
     $mascotasCliente = ControladorMascota::mascotasClienteCtl($clienteId);
     $mascotaEspecies = ControladorMascota::seleccionarEspeciesCtl();
+    $medicos = ControladorUsuario::medicosCtl();
 ?>
 <div class="title">
     <h2>Mascotas</h2>
@@ -95,8 +94,7 @@
                 <h2 class="f__title">Registro de consulta</h2>
                 <div class="line-top"></div>
                 <div class="f__datetime">
-                    <span>Folio. #12345678</span>
-                    <span>Fecha: 24/10/2021 </span>
+                    <span id="momento-consulta">Fecha: <?=date('d/m/Y');?></span>
                 </div>
                 <div class="tabs">
                     <a href="#tab-mascota">Datos de la Mascota</a>
@@ -105,23 +103,34 @@
                 <div name="tabs-content">
                     <div id="tab-mascota" class="ficha__info">
                         <table id="table">
-                            <tr><td>Nombre: </td><td>Laica</td></tr>
-                            <tr><td>Raza: </td><td>Pastor Alemán</td></tr>
-                            <tr><td>Sexo: </td><td>Hembra</td></tr>
-                            <tr><td>Edad: </td><td>13 años</td></tr>
-                            <tr><td>Condición corporal: </td><td>Normal</td></tr>
-                            <tr><td>Tamaño: </td><td>Mediano</td></tr>
-                            <tr><td>Peso: </td><td>13.700 Kg.</td></tr>
+                            <tr><td>Nombre: </td><td id="nombre-pet-consult-new"></td></tr>
+                            <tr><td>Raza: </td><td id="raza-pet-consult-new"></td></tr>
+                            <tr><td>Sexo: </td><td id="sexo-pet-consult-new"></td></tr>
+                            <tr><td>Edad: </td><td id="edad-pet-consult-new"></td></tr>
+                            <tr><td>Condición corporal: </td><td id="cc-pet-consult-new"></td></tr>
+                            <tr><td>Tamaño: </td><td id="tamano-pet-consult-new"></td></tr>
+                            <tr><td>Peso: </td><td id="peso-pet-consult-new"></td></tr>
                         </table>
                     </div>
                     
                     <div id="tab-propietario" class="ficha__info">
                         <table id="table">
-                            <tr><td>Nombre: </td><td>José Lameiras</td></tr>
-                            <tr><td>Teléfono: </td><td>1112223344</td></tr>
-                            <tr><td>Domicilio: </td><td>Colonia Centro, Calle I. Allende</td></tr>
+                            <tr><td>Nombre: </td><td id="nombre-client-consult-new"></td></tr>
+                            <tr><td>Teléfono: </td><td id="tel-client-consult-new"></td></tr>
+                            <tr><td>Correo: </td><td id="email-client-consult-new"></td></tr>
+                            <tr><td>Domicilio: </td><td id="address-client-consult-new"></td></tr>
                         </table>
                     </div>
+                </div>
+
+                <div class="i__group">
+                    <label class="label-checkbox" for="tipo-usuario-new">Médico que atendió</label>
+                    <select name="tipo-usuario-new" id="tipo-usuario-new" required>
+                        <option value="">Seleccione el médico</option>
+                        <?php foreach ($medicos as $key => $value) : ?>
+                            <option value="<?=$value["iduser"]?>"><?=$value["nombre"]?></option>
+                        <?php endforeach ?>
+                    </select>
                 </div>
                 
                 <div class="i__group">
@@ -153,6 +162,7 @@
                 </div>
                 
                 <!-- <input class="submit" type="button" value="Siguiente paso" id=""> -->
+                <input type="hidden" name="pet-id-add-consult" id="pet-id-add-consult" required>
                 <a href="#form-add-H-pet" id="btn-first" class="submit">Siguiente paso</a>
                 <?php 
                     // $crearUsuario = ControladorUsuario::crearCuentaCtl();
@@ -383,14 +393,14 @@
             <div class="i__group flex">
                 <label class="labels" for="pet-anos-new">Edad (años)</label>
                 <label class="labels left" for="pet-anos-new">Año de nacimiento</label>
-                <input class="inputs" type="number" id="pet-anos-new" name="pet-anos-new" required>
+                <input class="inputs" type="text" id="pet-anos-new" name="pet-anos-new" required>
                 <span class="inputs disabled" id="span-edad-new"></span>
                 <input type="hidden" id="pet-edad-new" name="pet-edad-new" required>
             </div>
 
             <div class="i__group">
                 <label class="labels" for="pet-peso-new">Peso (Kg)</label>
-                <input class="inputs" type="number" id="pet-peso-new" name="pet-peso-new" required>
+                <input class="inputs" type="text" id="pet-peso-new" name="pet-peso-new" required>
             </div>
 
             <div class="i__group">

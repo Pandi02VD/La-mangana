@@ -1,8 +1,6 @@
 <?php 
     $cargo = 0;
-    if(!(isset($_SESSION["tipo-usuario"]) && isset($_SESSION["ingresado"]))){
-        echo '<script>window.location = "index.php?pagina=IniciarSesion"</script>';
-    }else{
+    if(isset($_SESSION["tipo-usuario"])){
         $cargo = $_SESSION["tipo-usuario"];
     }
     $usuarios = ControladorUsuario::seleccionarUsuariosCtl();
@@ -28,6 +26,12 @@
             <input type="image" src="img/trash_32px.png" alt="imágen de acción" id="btn-delete-user" disabled>
             <span class="tooltip">Eliminar usuario</span>
         </div>
+    </div>
+
+    <div class="D-info">
+        <p class="info">Haga clic en un usuario para ver más información 
+            <button class="f__close unset" name="btn-close-info">x</button>
+        </p>
     </div>
 
     <table class="table" id="tbl-usuarios">
@@ -79,17 +83,6 @@
         </tr>
             <?php endforeach ?>
     </table>
-    
-    <div class="D-info">
-        <p class="info">Haga clic en un usuario para ver más información 
-            <button class="f__close unset" name="btn-close-info">x</button>
-        </p>
-    </div>
-    <!-- <div class="D-info">
-        <p class="info" style="background-color: cadetblue">Consulte la guía de usuario integrada en la sección "Ayuda" para saber más sobre el funcionamiento del sistema
-            <button class="f__close unset" name="btn-close-info">x</button>
-        </p>
-    </div> -->
 
     <div class="C__f oculto" id="form-add-user">
         <form method="post" class="f">
@@ -98,7 +91,7 @@
         <div class="line-top"></div>
         <div class="i__group">
             <label class="label-checkbox" for="tipo-usuario-new">Tipo de usuario</label>
-            <select name="tipo-usuario-new" id="tipo-usuario-new">
+            <select name="tipo-usuario-new" id="tipo-usuario-new" required>
                 <option value="">Seleccione el tipo de usuario</option>
                 <option value="2">Asistente</option>
                 <option value="3">Médico</option>
@@ -107,17 +100,17 @@
             
         <div class="i__group">
             <label class="labels" for="nombre-new">Nombre</label>
-            <input class="inputs" type="text" id="nombre-new" name="nombre-new">
+            <input class="inputs" type="text" id="nombre-new" name="nombre-new" required>
         </div>
 
         <div class="i__group">
             <label class="labels" for="usuario-new">Usuario</label>
-            <input class="inputs" type="text" id="usuario-new" name="usuario-new">
+            <input class="inputs" type="text" id="usuario-new" name="usuario-new" required>
         </div>
             
         <div class="i__group">
             <label class="labels" for="contrasena-new">Contraseña</label>
-            <input class="inputs" type="password" id="contrasena-new" name="contrasena-new">
+            <input class="inputs" type="password" id="contrasena-new" name="contrasena-new" required>
         </div>
         
         <input class="submit" type="submit" value="Crear">
@@ -135,7 +128,7 @@
             <div class="line-top"></div>
             <div class="i__group">
                 <!-- <label class="labels" for="tipo-usuario-edit">Tipo de usuario</label> -->
-                <select name="tipo-usuario-edit" id="tipo-usuario-edit">
+                <select name="tipo-usuario-edit" id="tipo-usuario-edit" required>
                     <option value="">Seleccione el tipo de usuario</option>
                     <option value="2">Asistente</option>
                     <option value="3">Médico</option>
@@ -144,7 +137,7 @@
 
             <div class="i__group">
                 <label class="labels" for="nombre-edit">Nombre</label>
-                <input class="inputs" type="text" id="nombre-edit" name="nombre-edit">
+                <input class="inputs" type="text" id="nombre-edit" name="nombre-edit" required>
             </div>
             
             <input class="submit" type="submit" value="Actualizar">

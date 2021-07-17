@@ -1,4 +1,7 @@
-<?php session_start();?>
+<?php 
+    session_start();
+    date_default_timezone_set('America/Mexico_City');
+?>
 
 <!DOCTYPE html>
 <html lang="es">
@@ -23,12 +26,15 @@
 
     <!-- API Google Places -->
     <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places"></script>
+
+    <!-- Notificaiones JS -->
+    <script src="js/Notificaciones.js"></script>
 </head>
 <body>
     <?php include "vista/modulo/Navegacion.php"; ?>
     <main>
-        <?php $contrl = new Controlador(); ?>
-        <?php $contrl -> traerPaginaCtl(); ?>
+        <?php $ctrl = new Controlador(); ?>
+        <?php $ctrl -> traerPaginaCtl(); ?>
     </main>
     
     <!-- Scripts -->
@@ -37,6 +43,7 @@
     <script src="js/ExcelExportar.js"></script>
     <script src="js/JQueryAcciones.js"></script>
     <script src="js/Interactividad.js"></script>
+    <script src="js/Validaciones.js"></script>
     <script src="js/CronoAcciones.js"></script>
 </body>
 </html>

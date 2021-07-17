@@ -13,49 +13,64 @@
                 isset($_POST["pet-tamano-new"]) && 
                 isset($_POST["pet-cuerpo-new"])
             ) {
-                $datosMascota = array(
-                    "nombre" => $_POST["pet-nombre-new"], 
-                    "propietarioId" => $_POST["pet-property-new"], 
-                    "raza" => $_POST["pet-raza-new"], 
-                    "sexo" => $_POST["pet-sexo-new"], 
-                    "edad" => $_POST["pet-edad-new"]
-                );
-
-                $mascotaRegistrada = CRUDMascota::nuevaMascotaBD($datosMascota);
-                $idmascota;
-                if($mascotaRegistrada != null) { 
-                    $idmascota = $mascotaRegistrada["id"];
-                    $atributos = array(
-                        "mascotaId" => $idmascota, 
-                        "peso" => $_POST["pet-peso-new"], 
-                        "tamano" => $_POST["pet-tamano-new"], 
-                        "cuerpo" => $_POST["pet-cuerpo-new"]
+                if (
+                    Validacion::nombresPropios($_POST["pet-nombre-new"], 2, 50) && 
+                    Validacion::enterosEnIntervalo($_POST["pet-edad-new"], 1, 2) && 
+                    Validacion::decimales($_POST["pet-peso-new"], 6)
+                ) {
+                    $datosMascota = array(
+                        "nombre" => $_POST["pet-nombre-new"], 
+                        "propietarioId" => $_POST["pet-property-new"], 
+                        "raza" => $_POST["pet-raza-new"], 
+                        "sexo" => $_POST["pet-sexo-new"], 
+                        "edad" => $_POST["pet-edad-new"]
                     );
-                    $atributosMascota = CRUDMascota::nuevosAtributosBD($atributos);
-                    if ($atributosMascota) {
-                        echo '
-                        <script>
-                            alert("Mascota agregada correctamente");
-                            window.location = "index.php?pagina=MascotasCliente&vru=' . $datosMascota["propietarioId"] . '";
-                        </script>
-                        ';
+    
+                    $mascotaRegistrada = CRUDMascota::nuevaMascotaBD($datosMascota);
+                    $idmascota;
+                    if($mascotaRegistrada != null) { 
+                        $idmascota = $mascotaRegistrada["id"];
+                        $atributos = array(
+                            "mascotaId" => $idmascota, 
+                            "peso" => $_POST["pet-peso-new"], 
+                            "tamano" => $_POST["pet-tamano-new"], 
+                            "cuerpo" => $_POST["pet-cuerpo-new"]
+                        );
+                        $atributosMascota = CRUDMascota::nuevosAtributosBD($atributos);
+                        if ($atributosMascota) {
+                            echo '
+                            <script>
+                                alert("Mascota agregada correctamente");
+                                window.location = "index.php?pagina=MascotasCliente&um=' . $datosMascota["propietarioId"] . '";
+                            </script>
+                            ';
+                        } else {
+                            echo '
+                            <script>
+                                alert("Mascota no agregada");
+                                window.location = "index.php?pagina=MascotasCliente&um=' . $datosMascota["propietarioId"] . '";
+                            </script>
+                            ';
+                        }
                     } else {
                         echo '
-                        <script>
-                            alert("Mascota no agregada");
-                            window.location = "index.php?pagina=MascotasCliente&vru=' . $datosMascota["propietarioId"] . '";
-                        </script>
-                        ';
+                            <script>
+                                alert("Mascota no agregada");
+                                window.location = "index.php?pagina=MascotasCliente&vru=' . $datosMascota["propietarioId"] . '";
+                            </script>
+                            ';
                     }
                 } else {
-                    echo '
-                        <script>
-                            alert("Mascota no agregada");
-                            window.location = "index.php?pagina=MascotasCliente&vru=' . $datosMascota["propietarioId"] . '";
-                        </script>
-                        ';
+                    echo '<script>alert("Debe llenar todos los campos correctamente.");</script>';
                 }
+                
             }
+        }
+
+        #Recuperar datos de una mascota de la base de datos.
+        public function datosMascotaCtl($mascotaId) {
+            $respuesta = CRUDMascota::datosMascotaBD($mascotaId);
+            return $respuesta;
         }
 
         #Seleccionar atributos de mascota para la gráfica.

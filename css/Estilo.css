@@ -453,10 +453,36 @@ textarea{
 	/* border-radius: 2px; */
 	color: var(--Form-Primary-Low);
 	border-color: var(--Form-Primary-Low);
+	box-sizing: border-box;
 }
 
 textarea:focus{
 	border-color: var(--Form-Primary-Active);
+}
+
+.tag{
+	/* position: absolute; */
+	display: inline-block;
+	width: auto;
+	margin: 2px 5px;
+	background-color: var(--Background);
+	/* top: 3px;
+	left: 3px; */
+	padding: 2px 5px;
+	color: var(--Background-Active);
+}
+
+.tag__close{
+	display: inline-block;
+	font-size: 12px;
+	font-weight: bold;
+	background-color: var(--Background-Active);
+	color: white;
+	border: none;
+	padding: 0px 4px;
+	margin: 0 0 0px 4px;
+	box-sizing: border-box;
+	cursor: pointer;
 }
 
 .selects:focus{
@@ -511,12 +537,35 @@ textarea:focus{
 	align-items: center;
 	float: left;
 	margin-top: 10px;
-	padding: 5px 10px;
+	padding: 5px 10px 5px 25px;
+	position: relative;
 	/* border-radius: 2px; */
 }
 
 .back:hover{
 	background-color: #ccc;
+}
+
+.back::before{
+	content: '';
+	position: absolute;
+	width: 4px;
+	height: 18px;
+	top: 2px;
+	left: 10px;
+	background: var(--Form-Primary-Low);
+	transform: rotate(45deg);
+}
+
+.back::after{
+	content: '';
+	position: absolute;
+	width: 4px;
+	height: 18px;
+	top: 12px;
+	left: 10px;
+	background: var(--Form-Primary-Low);
+	transform: rotate(315deg);
 }
 
 .buttons{
@@ -810,7 +859,8 @@ input[type="radio"]:checked + .label-radio{
 .f{
 	display: inline-block;
 	width: 450px;
-	min-width: max-content;
+	min-width: 30%;
+	/* min-width: max-content; */
 	padding: 20px 30px;
 	background-color: white;
 	box-shadow: 2px 2px 7px 0px var(--Form-Primary);

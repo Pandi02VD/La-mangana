@@ -145,11 +145,61 @@ function tableCellValues(tableCell, url) {
 	}
 }
 
+function tags(textarea) {
+	if (textarea) {
+		textarea.addEventListener('keyup', () => {
+			let textInput = textarea.value;
+			let splitString = textInput.split(',');
+			if (splitString.length > 1) {
+				let inputHidden = document.createElement('input');
+				let div = document.createElement('div');
+				let btn = document.createElement('div');
+				
+				inputHidden.setAttribute('type', 'hidden');
+				inputHidden.setAttribute('name', 'tags');
+				div.setAttribute('class', 'tag');
+				btn.setAttribute('name', 'btns-close-tag');
+				btn.setAttribute('class', 'tag__close');
+
+				div.innerText = splitString[0];
+				inputHidden.value = splitString[0];
+				console.log(inputHidden.value);
+				btn.innerText = 'x';
+				closeTags(btn);
+				div.appendChild(btn);
+				div.appendChild(inputHidden);
+				textarea.parentElement.appendChild(div);
+				textarea.value = '';
+			}
+		})
+	}
+}
+
+function closeTags(btn) {
+	if (btn) {
+		btn.addEventListener('click', () => {
+			btn.parentElement.remove();
+		});
+	}
+}
+
+function callForm(checkbox, form) {
+	if (checkbox && form) {
+		checkbox.addEventListener('click', () => {
+			if (checkbox.checked) {
+				form.setAttribute('name', 'ready');
+			} else {
+				form.setAttribute('name', 'form');
+			}
+		});
+	}
+}
+
 function momentoActual(element){
 	if (element) {
 		setInterval(() => {
 			let ahora = new Date();
-			element.innerText = "Fecha: " + ahora.getDate() + "/" + ahora.toLocaleString('es-mx', { month: 'long' }) + "/" + ahora.getFullYear() + " " + ahora.getHours() + ":" + ahora.getMinutes() + ":" + ahora.getSeconds()
+			element.innerText = "Registro: " + ahora.getDate() + " de " + ahora.toLocaleString('es-mx', { month: 'long' }) + " de " + ahora.getFullYear() + " - " + ahora.getHours() + ":" + ahora.getMinutes() + ":" + ahora.getSeconds()
 		}, 1000);
 	}
 }
@@ -226,6 +276,13 @@ interactFormModal(BTN_ASMAIN_CLIENT_EMAIL, BTN_CLOSE_FORM_ASMAIN_CLIENT_ELEMENT,
 interactFormModal(BTN_ASMAIN_CLIENT_PHONE, BTN_CLOSE_FORM_ASMAIN_CLIENT_ELEMENT, FORM_ASMAIN_CLIENT_ELEMENT);
 interactFormModal(BTN_ASMAIN_CLIENT_ADDRESS, BTN_CLOSE_FORM_ASMAIN_CLIENT_ELEMENT, FORM_ASMAIN_CLIENT_ELEMENT);
 
+tags(document.getElementById('acs-consult-new'));
+callForm(document.getElementById('service-H-consult-new'), document.getElementById('form-add-H-pet'));
+callForm(document.getElementById('service-C-consult-new'), document.getElementById('form-add-C-pet'));
+callForm(document.getElementById('service-M-consult-new'), document.getElementById('form-add-M-pet'));
+
+// momentoActual(document.getElementById('momento-consulta-new'));
+
 if(BTN_CLOSE_FORM_ADD_H_PET){
 	BTN_CLOSE_FORM_ADD_H_PET.addEventListener('click', () => {
 		FORM_ADD_H_PET.classList.add('oculto');
@@ -238,4 +295,19 @@ if (BTN_CLOSE_INFO) {
 			BTN_CLOSE_INFO[i].parentElement.parentElement.classList.add('none');
 		});
 	}
+}
+
+if (document.getElementById('service-H-consult-new')) {
+	let element = document.getElementById('service-H-consult-new');
+	let more = document.getElementById('lbl-service-C-consult-new');
+	let other = document.getElementById('lbl-service-M-consult-new');
+	element.addEventListener('click', () => {
+		if (element.checked) {
+			more.classList.remove('none');
+			other.innerText = 'Medicación';
+		} else {
+			more.classList.add('none');
+			other.innerText = 'Solo Medicación';
+		}
+	});
 }

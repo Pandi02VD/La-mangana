@@ -30,7 +30,7 @@
 
     <div class="D-info">
         <p class="info">Haga clic en un usuario para ver más información 
-            <button class="f__close unset" name="btn-close-info">x</button>
+            <button class="tag__close" name="btn-close-info">x</button>
         </p>
     </div>
 

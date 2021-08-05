@@ -396,7 +396,6 @@ editForm(BTN_ADD_CONSULT_PET, CHECK_PET, $('#pet-id-add-consult'), function (res
 	$('#raza-pet-consult-new').text('');
 	$('#sexo-pet-consult-new').text('');
 	$('#edad-pet-consult-new').text('');
-	$('#cc-pet-consult-new').text('');
 	$('#tamano-pet-consult-new').text('');
 	$('#peso-pet-consult-new').text('');
 	$('#nombre-client-consult-new').text('');
@@ -412,7 +411,9 @@ editForm(BTN_ADD_CONSULT_PET, CHECK_PET, $('#pet-id-add-consult'), function (res
 	let edad = new Date().getFullYear() - resultado["ano_nacimiento"];
 	let sexo = {'1':'Hembra', '2':'Macho'};
 	let cc = {'1':'Delgado', '2':'Normal', '3':'Robusto'};
+	let ccelement = $('#cc-pet-consult-new');
 	let tamano = {'1':'Chico', '2':'Mediano', '3':'Grande'};
+	let tamanoelement = $('[name=tamano-pet-consult-new]');
 	let numcasa;
 	let domicilio;
 	if (resultado["num_casaint"] && resultado["calle"] && resultado["colonia"]) {
@@ -422,9 +423,9 @@ editForm(BTN_ADD_CONSULT_PET, CHECK_PET, $('#pet-id-add-consult'), function (res
 		domicilio = 'Sin datos';
 	}
 
-	if (resultado["correo"] == undefined || resultado["numero"] == undefined || resultado["calle"] == undefined) {
+	if (resultado["correo"] == undefined && resultado["numero"] == undefined && resultado["calle"] == undefined) {
 		alert('No hay datos de contacto del dueño. Revisemos!');
-		let urlClientId = window.location.search
+		let urlClientId = window.location.search;
 		let clienteId = new URLSearchParams(urlClientId);
 		window.location = 'index.php?pagina=Cliente&uc=' + clienteId.get('um');
 	}
@@ -432,10 +433,9 @@ editForm(BTN_ADD_CONSULT_PET, CHECK_PET, $('#pet-id-add-consult'), function (res
 	$('#raza-pet-consult-new').text(resultado["raza"]);
 	$('#sexo-pet-consult-new').text(sexo[resultado["sexo"]]);
 	$('#edad-pet-consult-new').text(edad + ' años');
-	$('#cc-pet-consult-new').text(cc[resultado["condicion_corporal"]]);
-	$('#tamano-pet-consult-new').text(tamano[resultado["tamano"]]);
-	$('#peso-pet-consult-new').text(resultado["peso"] + ' Kg.');
-
+	ccelement[0].options[(resultado["condicion_corporal"])].selected = true;
+	$('#peso-pet-consult-new').val(resultado["peso"] + ' Kg.');
+	tamanoelement[(resultado["tamano"])].checked = true;
 	$('#nombre-client-consult-new').text(resultado["nombre"]);
 	$('#tel-client-consult-new').text(resultado["numero"]);
 	$('#email-client-consult-new').text(resultado["correo"]);

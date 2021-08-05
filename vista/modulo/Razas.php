@@ -1,12 +1,13 @@
 <?php 
 	$cargo = $_SESSION["tipo-usuario"];
-	$clientes = ControladorCliente::seleccionarClientesCtl();
+	$razas = ControladorMascota::seleccionarRazasCtl();
 ?>
 
 <div class="title">
-	<h2>Clientes</h2>
-	<a class="link-button" href="index.php?pagina=Usuarios">Usuarios</a>
-	<a class="link-button active" href="index.php?pagina=Clientes">Clientes</a>
+	<h2>Jaulas</h2>
+	<a class="link-button" href="index.php?pagina=Mascotas">Mascotas</a>
+	<a class="link-button active" href="index.php?pagina=Razas">Razas</a>
+	<a class="link-button" href="index.php?pagina=Jaulas">Jaulas</a>
 </div>
 
 <?php if($cargo == 1 || $cargo == 2) { ?>
@@ -15,27 +16,24 @@
 	<div class="Bar__Btns">
 		<div class="C__Btn">
 			<input type="image" src="img/add_32px.png" alt="imágen de acción" id="btn-add-client">
-			<span class="tooltip">Agregar cliente</span>
+			<span class="tooltip">Agregar Raza</span>
 		</div>
 		<div class="C__Btn">
 			<input type="image" src="img/edit_32px.png" alt="imágen de acción" id="btn-edit-client" disabled>
-			<span class="tooltip">Editar cliente</span>
+			<span class="tooltip">Editar Raza</span>
 		</div>
 		<div class="C__Btn">
 			<input type="image" src="img/trash_32px.png" alt="imágen de acción" id="btn-delete-client" disabled>
-			<span class="tooltip">Borrar cliente</span>
+			<span class="tooltip">Borrar Raza</span>
 		</div>
 		<div class="C__Btn__Last">
 			<a href="#search-client"><image src="img/search_32px.png"></image></a>
 			<input class="inputs" type="text" id="search-pet" name="search-pet" placeholder="Buscar cliente">
 		</div>
-		<!-- <div class="C__Btn__Last">
-			<input type="button" class="button" id="exportExcel" onClick="Exportar('tbl-clientes')" value="Exportar a Excel">
-		</div> -->
 	</div>
 
 	<div class="D-info">
-		<p class="info">Haga clic en un cliente para ver más información 
+		<p class="info">Más información
 			<button class="tag__close" name="btn-close-info">x</button>
 		</p>
 	</div>
@@ -46,23 +44,20 @@
 				<input type="checkbox" name="check-all-clients" id="check-all-clients">
 				<span class="tooltip">Seleccionar todo</span>
 			</th>
-			<th>Nombre</th>
-			<th>Fecha de registro</th>
-			<th>Mascotas vinculadas</th>
+			<th>Especie</th>
+			<th>Raza</th>
 		</tr>
 			<?php 
-				foreach($clientes as $key => $value) : 
-					$mascotasVinculadas = ControladorCliente::contarMascotasClienteCtl($value["iduser"]);
+				foreach($razas as $key => $value) : 
+				$especie = ControladorMascota::seleccionarEspecieByRazaCtl($value["idmascota_especie"]);
 			?>
-			
 		<tr>
 			<td>
-				<input type="checkbox" name="check-client" id="check-client<?=$value["iduser"]?>" value="<?=$value["iduser"]?>">
+				<input type="checkbox" name="check-client" id="check-client<?=$value["idmascota_raza"]?>" value="<?=$value["idmascota_raza"]?>">
 				<span class="tooltip">Seleccionar</span>
 			</td>
-			<td id="<?=$value["iduser"]?>" name="clients-table"><?=$value["nombre"]?></td>
-			<td id="<?=$value["iduser"]?>" name="clients-table"><?=$value["fecha"]?></td>
-			<td id="<?=$value["iduser"]?>" name="clients-table"><a href="index.php?pagina=MascotasCliente&um=<?=$value["iduser"]?>"><?=$mascotasVinculadas["num_mascotas"]?></a></td>
+			<td name="clients-table"><?=$especie["especie"]?></td>
+			<td name="clients-table"><?=$value["raza"]?></td>
 		</tr>
 			<?php endforeach ?>
 	</table>

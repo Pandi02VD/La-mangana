@@ -12,6 +12,8 @@
             'Mascotas' => "Mascotas", 
             'Mascota' => "Mascota", 
             'HistoriaClinica' => "HistoriaClinica", 
+            'Razas' => "Razas", 
+            'Jaulas' => "Jaulas", 
             'Salir' => "Salir", 
             'Error' => "Error"
         );

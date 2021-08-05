@@ -188,10 +188,33 @@
 			$sql = null;
 		}
 		
+		#seleccionar especie por raza de la base de datos.
+		public function seleccionarEspecieByRazaBD($especieId){
+			$sql = Conexion::conectar() -> prepare(
+				"SELECT especie FROM mascota_especie WHERE idmascota_especie = :idmascota_especie AND status = 1;"
+			);
+			$sql -> bindParam(":idmascota_especie", $especieId, PDO::PARAM_INT);
+			$sql -> execute();
+			return $sql -> fetch();
+			$sql -> close();
+			$sql = null;
+		}
+		
 		#seleccionar las especies de la base de datos.
 		public function seleccionarEspeciesBD(){
 			$sql = Conexion::conectar() -> prepare(
 				"SELECT * FROM mascota_especie WHERE status = 1;"
+			);
+			$sql -> execute();
+			return $sql -> fetchAll();
+			$sql -> close();
+			$sql = null;
+		}
+		
+		#seleccionar toas las razas.
+		public function seleccionarRazasBD(){
+			$sql = Conexion::conectar() -> prepare(
+				"SELECT * FROM mascota_raza WHERE status = 1;"
 			);
 			$sql -> execute();
 			return $sql -> fetchAll();
@@ -238,6 +261,17 @@
 			$sql -> bindParam(":idmascota_raza", $razaId, PDO::PARAM_INT);
 			$sql -> execute();
 			return $sql -> fetch();
+			$sql -> close();
+			$sql = null;
+		}
+
+		#Seleccionar jaulas de mascotas desde la base de datos.
+		public function seleccionarJaulasBD() {
+			$sql = Conexion::conectar() -> prepare(
+				"SELECT * FROM jaula WHERE status >= 1;"
+			);
+			$sql -> execute();
+			return $sql  -> fetchAll();
 			$sql -> close();
 			$sql = null;
 		}

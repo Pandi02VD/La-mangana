@@ -413,6 +413,22 @@ input[type="password"]{
 	text-align: center;
 }
 
+input[type="search"]{
+	margin-left: 0;
+	margin-right: 0;
+}
+
+.iconSearch {
+	display: inline-flex;
+	align-items: center;
+	padding: 0;
+	border: 2px solid var(--Form-Primary-Low);
+	border-left: none;
+	border-top: none;
+	height: 35px;
+	background-color: rgba(25, 173, 136, 0.4);
+}
+
 .inputs:focus{
 	border-bottom: 2px solid var(--Form-Primary);
 }
@@ -628,11 +644,12 @@ textarea:focus{
 
 .nodata{
 	display: inline-block;
-	width: calc(100% - 10px);
+	width: calc(100% - 12px);
 	font-size: 18px;
-	background-color: var(--Form-Basic-Low);
+	background-color: var(--Form-Basic);
 	text-align: center;
 	padding: 5px;
+	border: 1px solid var(--Form-Basic-Low);
 	/* border-radius: 2px; */
 }
 
@@ -640,6 +657,7 @@ textarea:focus{
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	color: var(--Form-Basic-Low);
 }
 
 .f__title{

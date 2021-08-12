@@ -79,15 +79,55 @@
 			$sql -> close();
 			$sql = null;
 		}
+
+		#Verificacion del primer correo de la tabla.
+		public function hayCorreosBD($userId){
+			$sql = Conexion::conectar() -> prepare(
+				"SELECT count(*) as correos FROM user_correo 
+				WHERE iduser = :iduser AND status >= 1;"
+			);
+			$sql -> bindParam(":iduser", $userId, PDO::PARAM_INT);
+			$sql -> execute();
+			return $sql -> fetch();
+			$sql -> close();
+			$sql = null;
+		}
+
+		#Verificacion del primer telefono de la tabla.
+		public function hayTelefonosBD($userId){
+			$sql = Conexion::conectar() -> prepare(
+				"SELECT count(*) as telefonos FROM user_telefono 
+				WHERE iduser = :iduser AND status >= 1;"
+			);
+			$sql -> bindParam(":iduser", $userId, PDO::PARAM_INT);
+			$sql -> execute();
+			return $sql -> fetch();
+			$sql -> close();
+			$sql = null;
+		}
+
+		#Verificacion del primer domicilio de la tabla.
+		public function hayDomiciliosBD($userId){
+			$sql = Conexion::conectar() -> prepare(
+				"SELECT count(*) as domicilios FROM user_domicilio 
+				WHERE iduser = :iduser AND status >= 1;"
+			);
+			$sql -> bindParam(":iduser", $userId, PDO::PARAM_INT);
+			$sql -> execute();
+			return $sql -> fetch();
+			$sql -> close();
+			$sql = null;
+		}
 		
 		#Agregar nuevo correo electrónico en la base de datos.
-		public function nuevoCorreoBD($datosCorreoPersona){
+		public function nuevoCorreoBD($datosCorreoPersona, $status){
 			$sql = Conexion::conectar() -> prepare(
 				"INSERT INTO user_correo(iduser, correo, status) 
-				VALUE(:iduser, :correo, 1);"
+				VALUE(:iduser, :correo, :status);"
 			);
 			$sql -> bindParam(":iduser", $datosCorreoPersona["personaId"], PDO::PARAM_INT);
 			$sql -> bindParam(":correo", $datosCorreoPersona["correo"], PDO::PARAM_STR);
+			$sql -> bindParam(":status", $status, PDO::PARAM_INT);
 			if($sql -> execute()) {
 				return true;
 			}else{
@@ -98,14 +138,15 @@
 		}
 		
 		#Agregar nuevo teléfono en la base de datos.
-		public function nuevoTelefonoBD($datosTelefonoPersona){
+		public function nuevoTelefonoBD($datosTelefonoPersona, $status){
 			$sql = Conexion::conectar() -> prepare(
 				"INSERT INTO user_telefono(iduser, tipo, numero, status) 
-				VALUE(:iduser, :tipo, :numero, 1);"
+				VALUE(:iduser, :tipo, :numero, :status);"
 			);
 			$sql -> bindParam(":iduser", $datosTelefonoPersona["personaId"], PDO::PARAM_INT);
 			$sql -> bindParam(":numero", $datosTelefonoPersona["telefono"], PDO::PARAM_STR);
 			$sql -> bindParam(":tipo", $datosTelefonoPersona["tipo"], PDO::PARAM_INT);
+			$sql -> bindParam(":status", $status, PDO::PARAM_INT);
 			if($sql -> execute()) {
 				return true;
 			}else{
@@ -116,7 +157,7 @@
 		}
 		
 		#Agregar nuevo domicilio en la base de datos.
-		public function nuevoDomicilioBD($datosDomicilioPersona){
+		public function nuevoDomicilioBD($datosDomicilioPersona, $status){
 			$sql = Conexion::conectar() -> prepare(
 				"INSERT INTO user_domicilio(
 					iduser, estado, localidad, colonia, calle, num_casaex, 
@@ -124,7 +165,7 @@
 				) 
 				VALUE(
 					:iduser, :estado, :localidad, :colonia, :calle, :num_casaex, 
-					:num_casaint, :calle1, :calle2, :referencia, 1
+					:num_casaint, :calle1, :calle2, :referencia, :status
 				);"
 			);
 
@@ -138,6 +179,7 @@
 			$sql -> bindParam(":calle1", $datosDomicilioPersona["calle1"], PDO::PARAM_STR);
 			$sql -> bindParam(":calle2", $datosDomicilioPersona["calle2"], PDO::PARAM_STR);
 			$sql -> bindParam(":referencia", $datosDomicilioPersona["referencia"], PDO::PARAM_STR);
+			$sql -> bindParam(":status", $status, PDO::PARAM_INT);
 			if($sql -> execute()) {
 				return true;
 			}else{

@@ -1,7 +1,7 @@
 var horaActual = new Date().getHours();
 var BTN_CLOSE_INFO = document.getElementsByName('btn-close-info');
 if (document.getElementById('saludo')) {
-    const SALUDO = document.getElementById('saludo');
+	const SALUDO = document.getElementById('saludo');
 }
 
 var USERS_TABLE = document.getElementsByName('users-table');
@@ -45,7 +45,6 @@ var FORM_DELETE_USER_PHONE = document.getElementById('form-delete-user-phone');
 var FORM_DELETE_USER_ADDRESS = document.getElementById('form-delete-user-address');
 var FORM_CARD_USER = document.getElementById('form-card-user');
 var FORM_CHANGE_PASSWORD = document.getElementById('form-change-password');
-var extrasUsuario = document.getElementsByName('extras-usuario');
 const BTN_CLOSE_FORM_ADD_USER = document.getElementById('btn-close-form-add-user');
 const BTN_CLOSE_FORM_ADD_USER_EMAIL = document.getElementById('btn-close-form-add-user-email');
 const BTN_CLOSE_FORM_ADD_USER_PHONE = document.getElementById('btn-close-form-add-user-phone');
@@ -104,7 +103,6 @@ var FORM_DELETE_CLIENT_PHONE = document.getElementById('form-delete-client-phone
 var FORM_DELETE_CLIENT_ADDRESS = document.getElementById('form-delete-client-address');
 var FORM_CARD_CLIENT = document.getElementById('form-card-client');
 var FORM_ASMAIN_CLIENT_ELEMENT = document.getElementById('form-asmain-client-element');
-var extrasCliente = document.getElementsByName('extras-cliente');
 const BTN_CLOSE_FORM_ADD_CLIENT = document.getElementById('btn-close-form-add-client');
 const BTN_CLOSE_FORM_ADD_CLIENT_EMAIL = document.getElementById('btn-close-form-add-client-email');
 const BTN_CLOSE_FORM_ADD_CLIENT_PHONE = document.getElementById('btn-close-form-add-client-phone');
@@ -139,3 +137,31 @@ const BTN_CLOSE_FORM_ADD_CONSULT_PET = document.getElementById('btn-close-form-a
 const BTN_CLOSE_FORM_ADD_H_PET = document.getElementById('btn-close-form-add-H-pet');
 const BTN_CLOSE_FORM_EDIT_PET = document.getElementById('btn-close-form-edit-pet');
 var BTN_CLOSE_FORM_DELETE_PET = document.getElementById('btn-close-form-delete-pet');
+
+var JAULAS_TABLE = document.getElementsByName('jaulas-table');
+const CHECK_ALL_JAULAS = document.getElementById('check-all-jaulas');
+const CHECK_JAULA = document.getElementsByName('check-jaula');
+const BTN_ADD_JAULA = document.getElementById('btn-add-jaula');
+const BTN_EDIT_JAULA = document.getElementById('btn-edit-jaula');
+const BTN_DELETE_JAULA = document.getElementById('btn-delete-jaula');
+var BTN_C_DELETE_JAULA = document.getElementById('btn-C-delete-jaula');
+const FORM_ADD_JAULA = document.getElementById('form-add-jaula');
+const FORM_EDIT_JAULA = document.getElementById('form-edit-jaula');
+var FORM_DELETE_JAULA = document.getElementById('form-delete-jaula');
+const BTN_CLOSE_FORM_ADD_JAULA = document.getElementById('btn-close-form-add-jaula');
+const BTN_CLOSE_FORM_EDIT_JAULA = document.getElementById('btn-close-form-edit-jaula');
+const BTN_CLOSE_FORM_DELETE_JAULA = document.getElementById('btn-close-form-delete-jaula');
+
+var RAZAS_TABLE = document.getElementsByName('razas-table');
+const CHECK_ALL_RAZAS = document.getElementById('check-all-razas');
+const CHECK_RAZA = document.getElementsByName('check-raza');
+const BTN_ADD_RAZA = document.getElementById('btn-add-raza');
+const BTN_EDIT_RAZA = document.getElementById('btn-edit-raza');
+const BTN_DELETE_RAZA = document.getElementById('btn-delete-raza');
+var BTN_C_DELETE_RAZA = document.getElementById('btn-C-delete-raza');
+const FORM_ADD_RAZA = document.getElementById('form-add-raza');
+const FORM_EDIT_RAZA = document.getElementById('form-edit-raza');
+var FORM_DELETE_RAZA = document.getElementById('form-delete-raza');
+const BTN_CLOSE_FORM_ADD_RAZA = document.getElementById('btn-close-form-add-raza');
+const BTN_CLOSE_FORM_EDIT_RAZA = document.getElementById('btn-close-form-edit-raza');
+const BTN_CLOSE_FORM_DELETE_RAZA = document.getElementById('btn-close-form-delete-raza');

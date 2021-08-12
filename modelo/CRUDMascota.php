@@ -1,5 +1,38 @@
 <?php
 	class CRUDMascota{
+		#Buscar raza desde la base de datos.
+		public function buscarRazaBD($search) {
+			$respuestas = array();
+			$sql = Conexion::conectar() -> prepare(
+				"SELECT * FROM mascota_raza 
+				WHERE raza LIKE '%$search%' AND status = 1;"
+			);
+			$sql -> execute();
+			$raza =  $sql  -> fetchAll();
+			if (sizeof($raza) > 0) {
+				for ($i = 0; $i < sizeof($raza); $i++) {
+					$especie = CRUDMascota::seleccionarEspecieByRazaBD($raza[$i]["idmascota_especie"]);
+					$respuestas[$i] = array_merge($raza[$i], $especie);
+				}
+				return $respuestas;
+			} else {
+				return null;
+			}
+			$sql -> close();
+			$sql = null;
+		}
+		
+		#Buscar jaula de mascota desde la base de datos.
+		public function buscarJaulaBD($search) {
+			$sql = Conexion::conectar() -> prepare(
+				"SELECT * FROM jaula WHERE jaula LIKE '%$search%' AND status >= 1;"
+			);
+			$sql -> execute();
+			return $sql  -> fetchAll();
+			$sql -> close();
+			$sql = null;
+		}
+
 		#Obtener el último registro insertado en una tabla por id.
 		public function lastIdFrom($tabla, $campo){
 			$sql = Conexion::conectar() -> prepare(
@@ -40,9 +73,23 @@
 
 		#Recuperar atributos de una mascota.
 		public function atributosMascota($mascotaId) {
+			$lastDate = CRUDMascota::ultimosAtributosMascota($mascotaId);
 			$sql = Conexion::conectar() -> prepare(
-				"SELECT max(fecha), peso, condicion_corporal, tamano 
-				FROM mascota_atributos WHERE idmascota = :idmascota;"
+				"SELECT peso, condicion_corporal, tamano 
+				FROM mascota_atributos WHERE idmascota = :idmascota AND fecha = :fecha;"
+			);
+			$sql -> bindParam(":idmascota", $mascotaId, PDO::PARAM_INT);
+			$sql -> bindParam(":fecha", $lastDate["lastdate"]);
+			$sql -> execute();
+			return $sql -> fetch();
+			$sql -> close();
+			$sql = null;
+		}
+
+		#Seleccionar el último registro de atributos de mascota.
+		public function ultimosAtributosMascota($mascotaId) {
+			$sql = Conexion::conectar() -> prepare(
+				"SELECT max(fecha) as lastdate FROM mascota_atributos WHERE idmascota = :idmascota;"
 			);
 			$sql -> bindParam(":idmascota", $mascotaId, PDO::PARAM_INT);
 			$sql -> execute();
@@ -210,11 +257,73 @@
 			$sql -> close();
 			$sql = null;
 		}
+
+		#Seleccionar datos de raza para editar desde la base de datos.
+		public function seleccionarDatosRazaBD($razaId) {
+			$sql = Conexion::conectar() -> prepare(
+				"SELECT * FROM mascota_raza WHERE idmascota_raza = :idmascota_raza AND status = 1;"
+			);
+			$sql -> bindParam(":idmascota_raza", $razaId, PDO::PARAM_INT);
+			$sql -> execute();
+			return $sql  -> fetch();
+			$sql -> close();
+			$sql = null;
+		}
+		
+		#Agregar nueva jaula en la base de datos.
+		public function nuevaRazaBD($datosRaza) {
+			$sql = Conexion::conectar() -> prepare(
+				"INSERT INTO mascota_raza(idmascota_especie, raza, status) 
+				VALUE(:especieId, :raza, 1);"
+			);
+			$sql -> bindParam(":especieId", $datosRaza["especieId"], PDO::PARAM_INT);
+			$sql -> bindParam(":raza", $datosRaza["raza"], PDO::PARAM_STR);
+			if($sql -> execute()) {
+				return true;
+			} else {
+				return false;
+			}
+			$sql -> close();
+			$sql = null;
+		}
+
+		#Actualizar raza en la base de datos.
+		public function actualizarRazaBD($datosRaza) {
+			$sql = Conexion::conectar() -> prepare(
+				"UPDATE mascota_raza set idmascota_especie = :idespecie, raza = :raza 
+				WHERE idmascota_raza = :idmascota AND status = 1;"
+			);
+			$sql -> bindParam(":idmascota", $datosRaza["razaId"], PDO::PARAM_INT);
+			$sql -> bindParam(":idespecie", $datosRaza["especieId"], PDO::PARAM_INT);
+			$sql -> bindParam(":raza", $datosRaza["raza"], PDO::PARAM_STR);
+			if($sql -> execute()) {
+				return true;
+			} else {
+				return false;
+			}
+			$sql -> close();
+			$sql = null;
+		}
+
+		#Deshabilitar una o más razas del sistema.
+		public function eliminarRazasBD($razaId){
+			$sql = Conexion::conectar() -> prepare(
+				"UPDATE mascota_raza SET status = 0 WHERE idmascota_raza = :idraza AND status = 1;"
+			);
+			$sql -> bindParam(":idraza", $razaId, PDO::PARAM_INT);
+			if ($sql -> execute()) {
+				return $razaId;
+			}else{
+				return false;
+			}
+			$sql -> close();
+			$sql = null;
+		}
 		
 		#seleccionar toas las razas.
 		public function seleccionarRazasBD(){
 			$sql = Conexion::conectar() -> prepare(
-				"SELECT * FROM mascota_raza WHERE status = 1;"
+				"SELECT * FROM mascota_raza WHERE status = 1 ORDER BY raza ASC;"
 			);
 			$sql -> execute();
 			return $sql -> fetchAll();
@@ -265,13 +374,83 @@
 			$sql = null;
 		}
 
+		#Seleccionar jaula de mascota desde la base de datos.
+		public function seleccionarJaulaBD($jaulaId) {
+			$sql = Conexion::conectar() -> prepare(
+				"SELECT * FROM jaula WHERE idjaula = :idjaula AND status >= 1;"
+			);
+			$sql -> bindParam(":idjaula", $jaulaId, PDO::PARAM_INT);
+			$sql -> execute();
+			return $sql  -> fetch();
+			$sql -> close();
+			$sql = null;
+		}
+		
 		#Seleccionar jaulas de mascotas desde la base de datos.
 		public function seleccionarJaulasBD() {
 			$sql = Conexion::conectar() -> prepare(
-				"SELECT * FROM jaula WHERE status >= 1;"
+				"SELECT * FROM jaula WHERE status >= 1 ORDER BY jaula ASC;"
 			);
 			$sql -> execute();
 			return $sql  -> fetchAll();
+			$sql -> close();
+			$sql = null;
+		}
+		
+		#Verificar si existe la jaula que se va a agregar en la base de datos.
+		public function existeJaulaBD($jaula) {
+			$sql = Conexion::conectar() -> prepare(
+				"SELECT jaula FROM jaula WHERE jaula = :jaula AND status >= 1;"
+			);
+			$sql -> bindParam(":jaula", $jaula, PDO::PARAM_INT);
+			$sql -> execute();
+			return $sql  -> fetch();
+			$sql -> close();
+			$sql = null;
+		}
+		
+		#Agregar nueva jaula en la base de datos.
+		public function nuevaJaulaBD($jaula) {
+			$sql = Conexion::conectar() -> prepare(
+				"INSERT INTO jaula(jaula, status) VALUE(:jaula, 1);"
+			);
+			$sql -> bindParam(":jaula", $jaula, PDO::PARAM_INT);
+			if($sql -> execute()) {
+				return true;
+			} else {
+				return false;
+			}
+			$sql -> close();
+			$sql = null;
+		}
+		
+		#Actualizar jaula en la base de datos.
+		public function actualizarJaulaBD($datosJaula) {
+			$sql = Conexion::conectar() -> prepare(
+				"UPDATE jaula set jaula = :jaula WHERE idjaula = :idjaula AND status >= 1;"
+			);
+			$sql -> bindParam(":idjaula", $datosJaula["jaulaId"], PDO::PARAM_INT);
+			$sql -> bindParam(":jaula", $datosJaula["jaula"], PDO::PARAM_INT);
+			if($sql -> execute()) {
+				return true;
+			} else {
+				return false;
+			}
+			$sql -> close();
+			$sql = null;
+		}
+
+		#Deshabilitar una o más jaulas del sistema.
+		public function eliminarJaulasBD($jaulaId){
+			$sql = Conexion::conectar() -> prepare(
+				"UPDATE jaula SET status = 0 WHERE idjaula = :idjaula AND status = 1;"
+			);
+			$sql -> bindParam(":idjaula", $jaulaId, PDO::PARAM_INT);
+			if ($sql -> execute()) {
+				return $jaulaId;
+			}else{
+				return false;
+			}
 			$sql -> close();
 			$sql = null;
 		}

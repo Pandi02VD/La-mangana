@@ -1,5 +1,27 @@
 <?php
 	class CRUDCliente{
+		#Buscar cliente en la base de datos.
+		public function buscarClienteBD($search){
+			$respuestas = array();
+			$sql = Conexion::conectar() -> prepare(
+				"SELECT *, date_format(fecha, '%d/%M/%Y') fecha FROM user 
+				WHERE nombre LIKE '%$search%' AND status = 1 AND tipo = 0;"
+			);
+			$sql -> execute();
+			$cliente = $sql -> fetchAll();
+			if (sizeof($cliente) > 0) {
+				for ($i = 0; $i < sizeof($cliente); $i++) {
+					$mascotasVinculadas = CRUDCliente::contarMascotasClienteBD($cliente[$i]["iduser"]);
+					$respuestas[$i] = array_merge($cliente[$i], $mascotasVinculadas);
+				}
+				return $respuestas;
+			} else {
+				return null;
+			}
+			$sql -> close();
+			$sql = null;
+		}
+		
 		#Seleccionar clientes de la base de datos.
 		public function seleccionarClientesBD(){
 			$sql = Conexion::conectar() -> prepare(

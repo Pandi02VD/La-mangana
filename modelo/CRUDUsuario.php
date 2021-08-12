@@ -1,5 +1,20 @@
 <?php
 	class CRUDUsuario{
+		#Buscar usuario en la base de datos.
+		public function buscarUsuarioBD($search){
+			$sql = Conexion::conectar() -> prepare(
+				"SELECT u.iduser, u.nombre, u.tipo, u.fecha, u_a.status, 
+				date_format(u.fecha, '%d/%M/%Y') fecha 
+				FROM user u 
+				INNER JOIN user_acceso u_a ON u.iduser = u_a.iduser 
+				WHERE nombre LIKE '%$search%' AND u.status = 1 AND u.tipo > 0;"
+			);
+			$sql -> execute();			
+			return $sql -> fetchAll();
+			$sql -> close();
+			$sql = null;
+		}
+		
 		#Seleccionar usuarios de la base de datos.
 		public function seleccionarUsuariosBD(){
 			$sql = Conexion::conectar() -> prepare(

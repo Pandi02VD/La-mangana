@@ -292,6 +292,33 @@ function autocompleteAddress (inputSearchAddress, inputEstado, inputMunicipio, i
 	}
 }
 
+function search(input, table, moduleSearch, callback) {
+	if (input && table) {
+		input.keyup(() => {
+			let txtSearch = input.val();
+			let formData = new FormData();
+			formData.append(moduleSearch, txtSearch);
+
+			$.ajax({
+				url: 'controlador/Ajax.php', 
+				method: 'post', 
+				data: formData, 
+				cache: false, 
+				contentType: false, 
+				processData: false, 
+				dataType: 'json', 
+				success: function (response) {
+					if (response) {
+						callback(response);
+					} else {
+						console.log('Sin respuesta');
+					}
+				}
+			});
+		});
+	}
+}
+
 fillSelectHTML(document.getElementsByName('pet-especie-new'), 'select-raza', function (resultado) {
 	let select = document.getElementById('pet-raza-new');
 	$('#pet-raza-new').empty();
@@ -407,12 +434,9 @@ editForm(BTN_ADD_CONSULT_PET, CHECK_PET, $('#pet-id-add-consult'), function (res
 			resultado[k] = 'Sin datos';
 		}
 	}
-	console.log(resultado);
 	let edad = new Date().getFullYear() - resultado["ano_nacimiento"];
 	let sexo = {'1':'Hembra', '2':'Macho'};
-	let cc = {'1':'Delgado', '2':'Normal', '3':'Robusto'};
 	let ccelement = $('#cc-pet-consult-new');
-	let tamano = {'1':'Chico', '2':'Mediano', '3':'Grande'};
 	let tamanoelement = $('[name=tamano-pet-consult-new]');
 	let numcasa;
 	let domicilio;
@@ -429,22 +453,48 @@ editForm(BTN_ADD_CONSULT_PET, CHECK_PET, $('#pet-id-add-consult'), function (res
 		let clienteId = new URLSearchParams(urlClientId);
 		window.location = 'index.php?pagina=Cliente&uc=' + clienteId.get('um');
 	}
+	
+	if (
+		resultado["condicion_corporal"] == undefined || 
+		resultado["peso"] == undefined || 
+		resultado["tamano"] == undefined
+	) {
+		$('#peso-pet-consult-new').val('Sin datos');
+		tamanoelement[0].checked = true;
+	} else {
+		$('#peso-pet-consult-new').val(resultado["peso"] + ' Kg.');
+		ccelement[0].options[(resultado["condicion_corporal"])].selected = true;
+		tamanoelement[resultado["tamano"] - 1].checked = true;
+	}
+	
 	$('#nombre-pet-consult-new').text(resultado["mascota"]);
 	$('#raza-pet-consult-new').text(resultado["raza"]);
 	$('#sexo-pet-consult-new').text(sexo[resultado["sexo"]]);
 	$('#edad-pet-consult-new').text(edad + ' años');
-	ccelement[0].options[(resultado["condicion_corporal"])].selected = true;
-	$('#peso-pet-consult-new').val(resultado["peso"] + ' Kg.');
-	tamanoelement[(resultado["tamano"])].checked = true;
 	$('#nombre-client-consult-new').text(resultado["nombre"]);
 	$('#tel-client-consult-new').text(resultado["numero"]);
 	$('#email-client-consult-new').text(resultado["correo"]);
 	$('#address-client-consult-new').text(domicilio);
 });
 
+editForm(BTN_EDIT_JAULA, CHECK_JAULA, $('#jaulaId-edit'), (resultado) => {
+	$('#jaula-num-edit').val(resultado["jaula"]);
+});
+
+editForm(BTN_EDIT_RAZA, CHECK_RAZA, $('#razaId-edit'), (resultado) => {
+	console.log(resultado);
+	let especieElement = $('[name=raza-especie-edit]');
+	especieElement[resultado["idmascota_especie"] - 1].checked = true;
+	$('#raza-nombre-edit').val(resultado["raza"]);
+});
+
 deleteForm(BTN_DELETE_CLIENT, BTN_C_DELETE_CLIENT, BTN_CLOSE_FORM_DELETE_CLIENT, CHECK_CLIENT, FORM_DELETE_CLIENT, 'clientsToDelete', 'Clientes');
 
 deleteForm(BTN_DELETE_USER, BTN_C_DELETE_USER, BTN_CLOSE_FORM_DELETE_USER, CHECK_USER, FORM_DELETE_USER, 'usersToDelete', 'Usuarios');
+
+deleteForm(BTN_DELETE_JAULA, BTN_C_DELETE_JAULA, BTN_CLOSE_FORM_DELETE_JAULA, CHECK_JAULA, FORM_DELETE_JAULA, 'jaulasToDelete', 'Jaulas');
+
+deleteForm(BTN_DELETE_RAZA, BTN_C_DELETE_RAZA, BTN_CLOSE_FORM_DELETE_RAZA, CHECK_RAZA, FORM_DELETE_RAZA, 'razasToDelete', 'Razas');
 
 let urlClient = 'Cliente&uc=' + $('#clientId').val();
 deleteForm(BTN_DELETE_CLIENT_EMAIL, BTN_C_DELETE_CLIENT_EMAIL, BTN_CLOSE_FORM_DELETE_CLIENT_EMAIL, CHECK_CLIENT_EMAIL, FORM_DELETE_CLIENT_EMAIL, 'emailsClientToDelete', urlClient);
@@ -466,3 +516,128 @@ asMain(BTN_ASMAIN_CLIENT_EMAIL, CHECK_CLIENT_EMAIL, $('#client-asmain-element'),
 asMain(BTN_ASMAIN_CLIENT_PHONE, CHECK_CLIENT_PHONE, $('#client-asmain-element'), BTN_C_ASMAIN_CLIENT_ELEMENT);
 
 asMain(BTN_ASMAIN_CLIENT_ADDRESS, CHECK_CLIENT_ADDRESS, $('#client-asmain-element'), BTN_C_ASMAIN_CLIENT_ELEMENT);
+
+search($('#search-client'), $('#tbl-clientes'), 'search-client', (respuesta) => {
+	let tabla = $('#tbl-clientes tr:gt(0)');
+	let tbl = $('#tbl-clientes > tbody');
+	if (respuesta.length > 0) {
+		tabla.empty();
+		for (const k in respuesta) {
+			let iduser = respuesta[k]["iduser"];
+			let nombre = respuesta[k]["nombre"];
+			let fecha = respuesta[k]["fecha"];
+			let mascotas = respuesta[k]["num_mascotas"];
+			let row = $(
+				'<tr>' + 
+					'<td>' + 
+						'<input type="checkbox" name="check-client" id="check-client' + iduser + '" value="' + iduser + '">' + 
+						'<span class="tooltip">Seleccionar</span>' + 
+					'</td>' + 
+					'<td id="' + iduser + '" name="clients-table">' + nombre + '</td>' + 
+					'<td id="' + iduser + '" name="clients-table">' + fecha + '</td>' + 
+					'<td id="' + iduser + '" name="clients-table"><a href="index.php?' + 'pagina=MascotasCliente&um=' + iduser + '">' + mascotas + '</a></td>' + 
+				'</tr>'
+			);
+			tbl.append(row);
+			checkBox(CHECK_ALL_CLIENTS, CHECK_CLIENT, BTN_EDIT_CLIENT, BTN_DELETE_CLIENT);
+			tableCellValues(CLIENTS_TABLE, 'index.php?pagina=Cliente&uc=');
+		}
+	}
+});
+
+search($('#search-usuario'), $('#tbl-usuarios'), 'search-usuario', (respuesta) => {
+	let tabla = $('#tbl-usuarios tr:gt(0)');
+	let tbl = $('#tbl-usuarios > tbody');
+	if (respuesta.length > 0) {
+		tabla.empty();
+		for (const k in respuesta) {
+			let tipoUsuario = {
+				'1': 'Administrador', 
+				'2': 'Asistente', 
+				'3': 'Médico'
+			};
+			let iduser = respuesta[k]["iduser"];
+			let nombre = respuesta[k]["nombre"];
+			let fecha = respuesta[k]["fecha"];
+			let tipo = respuesta[k]["tipo"];
+			let estado;
+			respuesta["status"] == 1 ? estado = 'En línea' : estado = 'Desconectado';
+			let checkItem;
+			let admin = '<img src="img/crown_20px.png" alt="Ícono de administrador"></img>';
+			let user = '<input type="checkbox" name="check-user" id="check-user' + iduser + '" value="' + iduser + '">' + 
+				'<span class="tooltip">Seleccionar</span>';
+			tipo == 1 ? checkItem = admin : checkItem = user;
+			let row = $(
+				'<tr>' + 
+					'<td>' + checkItem + '</td>' + 
+					'<td id="' + iduser + '" name="users-table">' + nombre + '</td>' + 
+					'<td id="' + iduser + '" name="users-table">' + tipoUsuario[tipo] + '</td>' + 
+					'<td id="' + iduser + '" name="users-table">' + fecha + '</td>' + 
+					'<td id="' + iduser + '" name="users-table">' + 
+						'<span name="user-status" id="' + iduser + '">' + estado + '</span>' + 
+						'<input type="hidden" name="' + estado + '">' + 
+					'</td>' + 
+				'</tr>'
+			);
+			tbl.append(row);
+			checkBox(CHECK_ALL_USERS, CHECK_USER, BTN_EDIT_USER, BTN_DELETE_USER);
+			tableCellValues(USERS_TABLE, 'index.php?pagina=Usuario&uu=');
+		}
+	}
+});
+
+
+
+search($('#search-raza'), $('#tbl-razas'), 'search-raza', (respuesta) => {
+	let tabla = $('#tbl-razas tr:gt(0)');
+	let tbl = $('#tbl-razas > tbody');
+	if (respuesta.length > 0) {
+		tabla.empty();
+		for (const k in respuesta) {
+			let idraza = respuesta[k]["idmascota_raza"];
+			let raza = respuesta[k]["raza"];
+			let especie = respuesta[k]["especie"];
+			let row = $(
+				'<tr>' + 
+					'<td>' + 
+						'<input type="checkbox" name="check-raza" id="check-raza' + idraza + '" value="' + idraza + '">' + 
+						'<span class="tooltip">Seleccionar</span>' + 
+					'</td>' + 
+					'<td id="' + idraza + '" name="razas-table">' + raza + '</td>' + 
+					'<td id="' + idraza + '" name="razas-table">' + especie + '</td>' + 
+				'</tr>'
+			);
+			tbl.append(row);
+			checkBox(CHECK_ALL_RAZAS, CHECK_RAZA, BTN_EDIT_RAZA, BTN_DELETE_RAZA);
+		}
+	}
+});
+
+search($('#search-jaula'), $('#tbl-jaulas'), 'search-jaula', (respuesta) => {
+	let tabla = $('#tbl-jaulas tr:gt(0)');
+	let tbl = $('#tbl-jaulas > tbody');
+	if (respuesta.length > 0) {
+		tabla.empty();
+		for (const k in respuesta) {
+			let idjaula = respuesta[k]["idjaula"];
+			let jaula = respuesta[k]["jaula"];
+			let status = respuesta[k]["status"];
+			let jaulaStatus = {
+				'1': 'Libre', 
+				'2': 'Ocupado'
+			};
+			let row = $(
+				'<tr>' + 
+					'<td>' + 
+						'<input type="checkbox" name="check-jaula" id="check-jaula' + idjaula + '" value="' + idjaula + '">' + 
+						'<span class="tooltip">Seleccionar</span>' + 
+					'</td>' + 
+					'<td id="' + idjaula + '" name="jaulas-table">' + jaula + '</td>' + 
+					'<td id="' + idjaula + '" name="jaulas-table">' + jaulaStatus[status] + '</td>' + 
+				'</tr>'
+			);
+			tbl.append(row);
+			checkBox(CHECK_ALL_JAULAS, CHECK_JAULA, BTN_EDIT_JAULA, BTN_DELETE_JAULA);
+		}
+	}
+});

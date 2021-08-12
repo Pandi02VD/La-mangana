@@ -1,5 +1,17 @@
 <?php
 	class ControladorMascota{
+		#Buscar raza.
+		public function buscarRazaCtl($search) {
+			$respuesta = CRUDMascota::buscarRazaBD($search);
+			return $respuesta;
+		}
+		
+		#Buscar jaula.
+		public function buscarJaulaCtl($search) {
+			$respuesta = CRUDMascota::buscarJaulaBD($search);
+			return $respuesta;
+		}
+
 		#Agregar nueva mascota de cliente.
 		public function nuevaMascotaCtl(){
 			if (
@@ -80,7 +92,77 @@
 			$respuesta = CRUDMascota::seleccionarEspeciesBD();
 			return $respuesta;
 		}
+
+		#Seleccionar datos de raza para editar.
+		public function seleccionarDatosRazaCtl($razaId) {
+			$respuesta = CRUDMascota::seleccionarDatosRazaBD($razaId);
+			return $respuesta;
+		}
+
+		#Agregar raza.
+		public function nuevaRazaCtl(){
+			if (isset($_POST["raza-especie-new"]) && isset($_POST["raza-nombre-new"])) {
+				if (Validacion::nombresPropios($_POST["raza-nombre-new"], 2, 30)) {
+					$datosRaza = array(
+						'especieId' => $_POST["raza-especie-new"], 
+						'raza' => $_POST["raza-nombre-new"]
+					);
+					$nuevaRaza = CRUDMascota::nuevaRazaBD($datosRaza);
+					if ($nuevaRaza) {
+						echo '<script>toast("Raza agregada correctamente");</script>';
+					} else {
+						echo '<script>toast("Raza no agregada");</script>';
+					}
+				} else {
+					echo '<script>toast("Debe llenar todos los campos correctamente.");</script>';
+				}
+			}
+		}
 		
+		#Actualizar informacion de una raza.
+		public function actualizarRazaCtl() {
+			if (
+				isset($_POST["razaId-edit"]) && 
+				isset($_POST["raza-especie-edit"]) && 
+				isset($_POST["raza-nombre-edit"])
+			) {
+				if (Validacion::nombresPropios($_POST["raza-nombre-edit"], 2, 30)) {
+					$datosRaza = array(
+						'razaId' => $_POST["razaId-edit"], 
+						'especieId' => $_POST["raza-especie-edit"], 
+						'raza' => $_POST["raza-nombre-edit"]
+					);
+					$actualizarRaza = CRUDMascota::actualizarRazaBD($datosRaza);
+					if ($actualizarRaza) {
+						echo '<script>toast("Raza actualizada correctamente");</script>';
+					} else {
+						echo '<script>toast("Raza no actualizada");</script>';
+					}
+				} else {
+					echo '<script>toast("Debe llenar todos los campos correctamente.");</script>';
+				}
+			}
+		}
+
+		#Deshabilitar una o más razas.
+		public function eliminarRazasCtl($razasEliminar){
+			$respuestas = array();
+			$conclusion = true;
+			for ($i = 0; $i < sizeof($razasEliminar); $i++) {
+				$respuesta = CRUDMascota::eliminarRazasBD($razasEliminar[$i]);
+				if ($respuesta == false) {
+					$respuestas[$i] = false;
+				}
+			}
+			
+			for ($i = 0; $i < sizeof($respuestas); $i++) {
+				if ($respuestas[$i] == false) {
+					$conclusion = false;
+				}
+			}
+			return $conclusion;
+		}
+
 		#Seleccionar especie por raza.
 		public function seleccionarEspecieByRazaCtl($especieId){
 			$respuesta = CRUDMascota::seleccionarEspecieByRazaBD($especieId);
@@ -111,9 +193,81 @@
 			return $respuesta;
 		}
 
+		#Seleccionar jaula de mascota.
+		public function seleccionarJaulaCtl($jaulaId) {
+			$respuesta = CRUDMascota::seleccionarJaulaBD($jaulaId);
+			return $respuesta;
+		}
+		
 		#Seleccionar jaulas de mascotas.
 		public function seleccionarJaulasCtl() {
 			$respuesta = CRUDMascota::seleccionarJaulasBD();
 			return $respuesta;
+		}
+
+		#Agregar jaula.
+		public function nuevaJaulaCtl(){
+			if (isset($_POST["jaula-num-new"])) {
+				if (Validacion::enterosEnIntervalo($_POST["jaula-num-new"], 1, 2)) {
+					$jaula = $_POST["jaula-num-new"];
+					$existeJaula = CRUDMascota::existeJaulaBD($jaula);
+					if($existeJaula == null) { 
+						$nuevaJaula = CRUDMascota::nuevaJaulaBD($jaula);
+						if ($nuevaJaula) {
+							echo '<script>toast("Jaula agregada correctamente");</script>';
+						} else {
+							echo '<script>toast("Jaula no agregada");</script>';
+						}
+					} else {
+						echo '<script>toast("Ya existe esta jaula, coloque otro número");</script>';
+					}
+				} else {
+					echo '<script>toast("Debe llenar todos los campos correctamente.");</script>';
+				}
+			}
+		}
+
+		#Actualizar informacion de una jaula.
+		public function actualizarJaulaCtl() {
+			if (isset($_POST["jaula-num-edit"]) && isset($_POST["jaulaId-edit"])) {
+				if (Validacion::enterosEnIntervalo($_POST["jaula-num-edit"], 1, 2)) {
+					$datosJaula = array(
+						'jaulaId' => $_POST["jaulaId-edit"], 
+						'jaula' => $_POST["jaula-num-edit"]
+					);
+					$existeJaula = CRUDMascota::existeJaulaBD($datosJaula["jaula"]);
+					if($existeJaula == null) { 
+						$actualizarJaula = CRUDMascota::actualizarJaulaBD($datosJaula);
+						if ($actualizarJaula) {
+							echo '<script>toast("Jaula actualizada correctamente");</script>';
+						} else {
+							echo '<script>toast("Jaula no actualizada");</script>';
+						}
+					} else {
+						echo '<script>toast("Ya existe esta jaula, coloque otro número");</script>';
+					}
+				} else {
+					echo '<script>toast("Debe llenar todos los campos correctamente.");</script>';
+				}
+			}
+		}
+
+		#Deshabilitar una o más jaulas.
+		public function eliminarJaulasCtl($jaulasEliminar){
+			$respuestas = array();
+			$conclusion = true;
+			for ($i = 0; $i < sizeof($jaulasEliminar); $i++) {
+				$respuesta = CRUDMascota::eliminarJaulasBD($jaulasEliminar[$i]);
+				if ($respuesta == false) {
+					$respuestas[$i] = false;
+				}
+			}
+			
+			for ($i = 0; $i < sizeof($respuestas); $i++) {
+				if ($respuestas[$i] == false) {
+					$conclusion = false;
+				}
+			}
+			return $conclusion;
 		}
 	}

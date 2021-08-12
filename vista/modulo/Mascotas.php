@@ -15,7 +15,9 @@
 			<input type="image" src="img/add_32px.png" alt="imágen de acción" id="btn-add-pet">
 			<span class="tooltip">Agregar mascota</span>
 		</div>
+
 		<div class="nodata"><span>Aún no hay registros</span></div>
+
 		<div class="C__f oculto" id="form-add-pet">
 			<form method="post" class="f">
 				<input class="f__close" type="button" id="btn-close-form-add-pet" value="x">
@@ -118,8 +120,8 @@
 				<span class="tooltip">Ver historial clínico</span>
 			</div>
 			<div class="C__Btn__Last">
-				<a href="#search-pet"><image src="img/search_32px.png"></image></a>
-				<input class="inputs" type="text" id="search-pet" name="search-pet" placeholder="Buscar mascota">
+				<input class="inputs" type="search" id="search-pet" name="search-pet" placeholder="Buscar mascota">
+				<span class="iconSearch"><image src="img/search_32px.png"></image></span>
 			</div>
 		</div>
 

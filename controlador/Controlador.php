@@ -63,7 +63,9 @@
 						"personaId" => $_POST["add-email-id"], 
 						"correo" => $_POST["correo-new"]
 					);
-					$respuesta = CRUD::nuevoCorreoBD($datosCorreoCliente);
+					$hayCorreos = CRUD::hayCorreosBD($datosCorreoCliente["personaId"]);
+					$hayCorreos["correos"] == 0 ? $status = 2 : $status = 1;
+					$respuesta = CRUD::nuevoCorreoBD($datosCorreoCliente, $status);
 					if ($respuesta == true) {
 						echo '<script>toast("Correo electrónico agregado correctamente!");</script>';
 					} else {
@@ -88,7 +90,9 @@
 						"telefono" => $_POST["telefono-new"], 
 						"tipo" => $_POST["tipotelefono-new"]
 					);
-					$respuesta = CRUD::nuevoTelefonoBD($datosTelefonoCliente);
+					$hayTelefonos = CRUD::hayTelefonosBD($datosTelefonoCliente["personaId"]);
+					$hayTelefonos["telefonos"] == 0 ? $status = 2 : $status = 1;
+					$respuesta = CRUD::nuevoTelefonoBD($datosTelefonoCliente, $status);
 					if ($respuesta) {
 						echo '<script>toast("Telefono agregado correctamente!");</script>';
 					}else{
@@ -137,7 +141,9 @@
 						"calle2" => $_POST["domicilio-calle2-new"], 
 						"referencia" => $_POST["domicilio-referencia-new"], 
 					);
-					$respuesta = CRUD::nuevoDomicilioBD($datosDomicilioCliente);
+					$hayDomicilios = CRUD::hayDomiciliosBD($datosDomicilioCliente["personaId"]);
+					$hayDomicilios["domicilios"] == 0 ? $status = 2 : $status = 1;
+					$respuesta = CRUD::nuevoDomicilioBD($datosDomicilioCliente, $status);
 					if ($respuesta) {
 						echo '<script>toast("Domicilio agregado correctamente");</script>';
 					}else{

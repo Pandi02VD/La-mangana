@@ -26,8 +26,8 @@
 			<span class="tooltip">Borrar cliente</span>
 		</div>
 		<div class="C__Btn__Last">
-			<a href="#search-client"><image src="img/search_32px.png"></image></a>
-			<input class="inputs" type="text" id="search-pet" name="search-pet" placeholder="Buscar cliente">
+			<input class="inputs" type="search" id="search-client" name="search-client" placeholder="Buscar Cliente">
+			<span class="iconSearch"><image src="img/search_32px.png"></image></span>
 		</div>
 		<!-- <div class="C__Btn__Last">
 			<input type="button" class="button" id="exportExcel" onClick="Exportar('tbl-clientes')" value="Exportar a Excel">

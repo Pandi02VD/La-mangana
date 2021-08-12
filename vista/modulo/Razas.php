@@ -1,6 +1,7 @@
 <?php 
 	$cargo = $_SESSION["tipo-usuario"];
 	$razas = ControladorMascota::seleccionarRazasCtl();
+	$especies = ControladorMascota::seleccionarEspeciesCtl();
 ?>
 
 <div class="title">
@@ -12,23 +13,29 @@
 
 <?php if($cargo == 1 || $cargo == 2) { ?>
 <div class="C__Table">
-
+	<?php if ($razas == null) { ?>
+		<div class="C__Btn">
+			<input type="image" src="img/add_32px.png" alt="imágen de acción" id="btn-add-raza">
+			<span class="tooltip">Agregar Raza</span>
+		</div>
+		<div class="nodata"><span>Aún no hay registros</span></div>
+	<?php } else { ?>
 	<div class="Bar__Btns">
 		<div class="C__Btn">
-			<input type="image" src="img/add_32px.png" alt="imágen de acción" id="btn-add-client">
+			<input type="image" src="img/add_32px.png" alt="imágen de acción" id="btn-add-raza">
 			<span class="tooltip">Agregar Raza</span>
 		</div>
 		<div class="C__Btn">
-			<input type="image" src="img/edit_32px.png" alt="imágen de acción" id="btn-edit-client" disabled>
+			<input type="image" src="img/edit_32px.png" alt="imágen de acción" id="btn-edit-raza" disabled>
 			<span class="tooltip">Editar Raza</span>
 		</div>
 		<div class="C__Btn">
-			<input type="image" src="img/trash_32px.png" alt="imágen de acción" id="btn-delete-client" disabled>
+			<input type="image" src="img/trash_32px.png" alt="imágen de acción" id="btn-delete-raza" disabled>
 			<span class="tooltip">Borrar Raza</span>
 		</div>
 		<div class="C__Btn__Last">
-			<a href="#search-client"><image src="img/search_32px.png"></image></a>
-			<input class="inputs" type="text" id="search-pet" name="search-pet" placeholder="Buscar cliente">
+			<input class="inputs" type="search" id="search-raza" name="search-raza" placeholder="Buscar Raza">
+			<span class="iconSearch"><image src="img/search_32px.png"></image></span>
 		</div>
 	</div>
 
@@ -38,14 +45,14 @@
 		</p>
 	</div>
 
-	<table class="table" id="tbl-clientes">
+	<table class="table" id="tbl-razas">
 		<tr>
 			<th>
-				<input type="checkbox" name="check-all-clients" id="check-all-clients">
+				<input type="checkbox" name="check-all-razas" id="check-all-razas">
 				<span class="tooltip">Seleccionar todo</span>
 			</th>
-			<th>Especie</th>
 			<th>Raza</th>
+			<th>Especie</th>
 		</tr>
 			<?php 
 				foreach($razas as $key => $value) : 
@@ -53,57 +60,51 @@
 			?>
 		<tr>
 			<td>
-				<input type="checkbox" name="check-client" id="check-client<?=$value["idmascota_raza"]?>" value="<?=$value["idmascota_raza"]?>">
+				<input type="checkbox" name="check-raza" id="check-raza<?=$value["idmascota_raza"]?>" value="<?=$value["idmascota_raza"]?>">
 				<span class="tooltip">Seleccionar</span>
 			</td>
-			<td name="clients-table"><?=$especie["especie"]?></td>
-			<td name="clients-table"><?=$value["raza"]?></td>
+			<td name="razas-table"><?=$value["raza"]?></td>
+			<td name="razas-table"><?=$especie["especie"]?></td>
 		</tr>
 			<?php endforeach ?>
 	</table>
 
-	<div class="C__f oculto" id="form-add-client">
+	<div class="C__f oculto" id="form-edit-raza">
 		<form method="post" class="f">
-			<input class="f__close" type="button" id="btn-close-form-add-client" value="x">
-			<h2 class="f__title">Crear Cliente</h2>
+		<input class="f__close" type="button" id="btn-close-form-edit-raza" value="x">
+			<h2 class="f__title">Editar Raza</h2>
 			<div class="line-top"></div>
 			<div class="i__group">
-				<input class="inputs" type="text" id="cliente-new" name="cliente-new" required>
-				<label class="labels" for="cliente-new">Nombre del cliente</label>
+				<label class="i-b w100 label-checkbox">Especie</label>
+				<?php foreach ($especies as $key => $value) : ?>
+					<input 
+						type="radio" 
+						name="raza-especie-edit" 
+						id="raza-<?=$value['especie']?>-edit" 
+						value="<?=$value['idmascota_especie']?>" 
+						required>
+					<label 
+						class="label-radio" 
+						for="raza-<?=$value['especie']?>-edit">
+						<?=$value['especie']?>
+						</label>
+				<?php endforeach ?>
 			</div>
 
 			<div class="i__group">
-				<label class="label-checkbox" for="vinculo-animal">Registrar vínculo animal</label>
-				<input type="checkbox" name="vinculo-animal" id="vinculo-animal">
-				<div class="D-info">
-					<p class="info"><i>i</i> Active la casilla si desea registrar los datos de una mascota a nombre de ese cliente.</p>
-				</div>
-			</div>
-			
-			<input class="submit" type="submit" value="Crear">
-			<?php ControladorCliente::crearClienteCtl(); ?>
-		</form>
-	</div>
-
-	<div class="C__f oculto" id="form-edit-client">
-		<form method="post" class="f">
-		<input class="f__close" type="button" id="btn-close-form-edit-client" value="x">
-			<h2 class="f__title">Editar Cliente</h2>
-			<div class="line-top"></div>
-			<div class="i__group">
-				<input class="inputs" type="text" name="cliente-edit" id="cliente-edit" required>
-				<label class="labels" for="cliente-edit">Nombre del cliente</label>
+				<input class="inputs" type="text" id="raza-nombre-edit" name="raza-nombre-edit" required>
+				<label class="labels" for="raza-nombre-edit">Raza</label>
 			</div>
 
-			<input type="hidden" name="clienteId-edit" id="clienteId-edit" required>
+			<input type="hidden" name="razaId-edit" id="razaId-edit" required>
 			<input class="submit" type="submit" value="Actualizar">
-			<?php $actualizarCliente = ControladorCliente::actualizarClienteCtl(); ?>
+			<?php ControladorMascota::actualizarRazaCtl(); ?>
 		</form>
 	</div>
 	
-	<div class="C__f oculto" id="form-delete-client">
+	<div class="C__f oculto" id="form-delete-raza">
 		<form method="post" class="f">
-			<input class="f__close" type="button" id="btn-close-form-delete-client" value="x">
+			<input class="f__close" type="button" id="btn-close-form-delete-raza" value="x">
 			<h2 class="f__title">Confirmación</h2>
 			<div class="line-top"></div>
 			<div class="i__group">
@@ -112,7 +113,39 @@
 			<div class="D-info">
 				<p class="info"><i>i</i> También se eliminarán los datos pertenecientes a este registro.</p>
 			</div>
-			<input class="submit" type="button" id="btn-C-delete-client" value="Confirmar">
+			<input class="submit" type="button" id="btn-C-delete-raza" value="Confirmar">
+		</form>
+	</div>
+	<?php } ?>
+	<div class="C__f oculto" id="form-add-raza">
+		<form method="post" class="f">
+			<input class="f__close" type="button" id="btn-close-form-add-raza" value="x">
+			<h2 class="f__title">Agregar Raza</h2>
+			<div class="line-top"></div>
+			<div class="i__group">
+				<label class="i-b w100 label-checkbox">Especie</label>
+				<?php foreach ($especies as $key => $value) : ?>
+					<input 
+						type="radio" 
+						name="raza-especie-new" 
+						id="raza-<?=$value['especie']?>-new" 
+						value="<?=$value['idmascota_especie']?>" 
+						required>
+					<label 
+						class="label-radio" 
+						for="raza-<?=$value['especie']?>-new">
+						<?=$value['especie']?>
+						</label>
+				<?php endforeach ?>
+			</div>
+			
+			<div class="i__group">
+				<input class="inputs" type="text" id="raza-nombre-new" name="raza-nombre-new" required>
+				<label class="labels" for="raza-nombre-new">Raza</label>
+			</div>
+
+			<input class="submit" type="submit" value="Agregar">
+			<?php ControladorMascota::nuevaRazaCtl(); ?>
 		</form>
 	</div>
 </div>

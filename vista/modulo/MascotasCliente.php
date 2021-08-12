@@ -43,8 +43,8 @@
 				<span class="tooltip">Ver historial clínico</span>
 			</div>
 			<div class="C__Btn__Last">
-				<a href="#search-pet"><image src="img/search_32px.png"></image></a>
-				<input class="inputs" type="text" id="search-pet" name="search-pet" placeholder="Buscar mascota">
+				<input class="inputs" type="search" id="search-pet" name="search-pet" placeholder="Buscar Mascota">
+				<span class="iconSearch"><image src="img/search_32px.png"></image></span>
 			</div>
 		</div>
 
@@ -88,7 +88,7 @@
 				<?php endforeach ?>
 		</table>
 		
-		<!-- <div class="C__f oculto" id="form-add-Consult-pet">
+		<div class="C__f oculto" id="form-add-Consult-pet">
 			<form method="post" class="f">
 				<input class="f__close" type="button" id="btn-close-form-add-Consult-pet" value="x">
 				<h2 class="f__title">Registro de consulta</h2>
@@ -196,7 +196,7 @@
 				<input type="hidden" name="pet-id-add-consult" id="pet-id-add-consult" required>
 				<a href="#form-add-H-pet" id="btn-first" class="submit">Siguiente paso</a>
 			</form>
-		</div> -->
+		</div>
 
 		<!-- <div class="C__f oculto" id="form-add-H-pet">
 			<form method="post" class="f">

@@ -16,17 +16,20 @@
 		public $correosClienteEliminar;
 		public $telefonosClienteEliminar;
 		public $domiciliosClienteEliminar;
+		public $petInfoEliminar;
 		
 		
 		public $requestClientEdit;
 		public $requestUserEdit;
 		public $requestClientDataEdit;
+		public $requestPetDataEdit;
 		public $asMain;
 
 		public $datosMascota;
 
 		public $grafica;
 		public $selectRaza;
+		public $search;
 
 		#Recuperar datos de usuario para editarlos.
 		public function datosUsuarioAjax(){
@@ -82,6 +85,20 @@
 			$respuesta = ControladorUsuario::eliminarUsuariosCtl($datos);
 			echo json_encode($respuesta);
 		}
+		
+		#Deshabilitar una o más jaulas.
+		public function eliminarJaulasAjax(){
+			$datos = $this -> petInfoEliminar;
+			$respuesta = ControladorMascota::eliminarJaulasCtl($datos);
+			echo json_encode($respuesta);
+		}
+		
+		#Deshabilitar una o más razas.
+		public function eliminarRazasAjax(){
+			$datos = $this -> petInfoEliminar;
+			$respuesta = ControladorMascota::eliminarRazasCtl($datos);
+			echo json_encode($respuesta);
+		}
 
 		#Seleccionar correo electrónico del cliente para editar.
 		public function seleccionarCorreoAjax(){
@@ -101,6 +118,20 @@
 		public function seleccionarDomicilioAjax(){
 			$requestCD = $this -> requestClientDataEdit;
 			$respuesta = Controlador::seleccionarDomicilioCtl($requestCD);
+			echo json_encode($respuesta);
+		}
+
+		#Seleccionar jaula para editar.
+		public function seleccionarJaulaAjax(){
+			$requestCD = $this -> requestPetDataEdit;
+			$respuesta = ControladorMascota::seleccionarJaulaCtl($requestCD);
+			echo json_encode($respuesta);
+		}
+		
+		#Seleccionar datos de raza para editar.
+		public function seleccionarDatosRazaAjax(){
+			$requestCD = $this -> requestPetDataEdit;
+			$respuesta = ControladorMascota::seleccionarDatosRazaCtl($requestCD);
 			echo json_encode($respuesta);
 		}
 		
@@ -129,6 +160,35 @@
 		public function datosMascotaAjax(){
 			$mascotaId = $this -> datosMascota;
 			$respuesta = ControladorMascota::datosMascotaCtl($mascotaId);
+			echo json_encode($respuesta);
+		}
+		
+		#Buscar cliente.
+		public function buscarClienteAjax(){
+			$search = $this -> search;
+			$respuesta = ControladorCliente::buscarClienteCtl($search);
+			echo json_encode($respuesta);
+		}
+		
+		#Buscar usuario.
+		public function buscarUsuarioAjax(){
+			$search = $this -> search;
+			$respuesta = ControladorUsuario::buscarUsuarioCtl($search);
+			echo json_encode($respuesta);
+		}
+		
+		
+		#Buscar raza.
+		public function buscarRazaAjax(){
+			$search = $this -> search;
+			$respuesta = ControladorMascota::buscarRazaCtl($search);
+			echo json_encode($respuesta);
+		}
+		
+		#Buscar jaula.
+		public function buscarJaulaAjax(){
+			$search = $this -> search;
+			$respuesta = ControladorMascota::buscarJaulaCtl($search);
 			echo json_encode($respuesta);
 		}
 	}
@@ -161,6 +221,18 @@
 		$objIdEliminar = new Ajax();
 		$objIdEliminar -> domiciliosClienteEliminar = json_decode($_POST["addressClientToDelete"]);
 		$objIdEliminar -> eliminarDomiciliosAjax();
+	}
+	
+	if (isset($_POST["jaulasToDelete"])) {
+		$objIdEliminar = new Ajax();
+		$objIdEliminar -> petInfoEliminar = json_decode($_POST["jaulasToDelete"]);
+		$objIdEliminar -> eliminarJaulasAjax();
+	}
+	
+	if (isset($_POST["razasToDelete"])) {
+		$objIdEliminar = new Ajax();
+		$objIdEliminar -> petInfoEliminar = json_decode($_POST["razasToDelete"]);
+		$objIdEliminar -> eliminarRazasAjax();
 	}
 	
 	if (isset($_POST["estado-usuarios"])) {
@@ -197,6 +269,18 @@
 		$objRequestUserEdit -> requestUserEdit = $_POST["usuarioId-edit"];
 		$objRequestUserEdit -> datosUsuarioAjax();
 	}
+
+	if (isset($_POST["jaulaId-edit"])) {
+		$objJaulaEdit = new Ajax();
+		$objJaulaEdit -> requestPetDataEdit = $_POST["jaulaId-edit"];
+		$objJaulaEdit -> seleccionarJaulaAjax();
+	}
+	
+	if (isset($_POST["razaId-edit"])) {
+		$objRazaEdit = new Ajax();
+		$objRazaEdit -> requestPetDataEdit = $_POST["razaId-edit"];
+		$objRazaEdit -> seleccionarDatosRazaAjax();
+	}
 	
 	if (isset($_POST["graficaMascota"])) {
 		$objGrafica = new Ajax();
@@ -232,4 +316,29 @@
 		$objInfoPet = new Ajax();
 		$objInfoPet -> datosMascota = $_POST["pet-id-add-consult"];
 		$objInfoPet -> datosMascotaAjax();
+	}
+	
+	if (isset($_POST["search-client"])) {
+		$objSearch = new Ajax();
+		$objSearch -> search = $_POST["search-client"];
+		$objSearch -> buscarClienteAjax();
+	}
+	
+	if (isset($_POST["search-usuario"])) {
+		$objSearch = new Ajax();
+		$objSearch -> search = $_POST["search-usuario"];
+		$objSearch -> buscarUsuarioAjax();
+	}
+	
+	
+	if (isset($_POST["search-raza"])) {
+		$objSearch = new Ajax();
+		$objSearch -> search = $_POST["search-raza"];
+		$objSearch -> buscarRazaAjax();
+	}
+	
+	if (isset($_POST["search-jaula"])) {
+		$objSearch = new Ajax();
+		$objSearch -> search = $_POST["search-jaula"];
+		$objSearch -> buscarJaulaAjax();
 	}

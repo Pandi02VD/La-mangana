@@ -1,5 +1,62 @@
 <?php
 	class CRUDMascota{
+		#Buscar mascota desde la base de datos.
+		public function buscarMascotaBD($search) {
+			$respuestas = array();
+			$sql = Conexion::conectar() -> prepare(
+				"SELECT 
+				u.nombre as cliente, m.idmascota, m.nombre as mascota, 
+				m.sexo, m.ano_nacimiento, m_r.idmascota_raza 
+				FROM mascota m 
+				INNER JOIN user u ON m.iduser = u.iduser 
+				INNER JOIN mascota_raza m_r ON m.idmascota_raza = m_r.idmascota_raza 
+				INNER JOIN mascota_especie m_e ON m_r.idmascota_especie = m_e.idmascota_especie 
+				WHERE m.nombre LIKE '%$search%' AND m.status = 1;"
+			);
+			$sql -> execute();
+			$razaId =  $sql  -> fetchAll();
+			if (sizeof($razaId) > 0) {
+				for ($i = 0; $i < sizeof($razaId); $i++) {
+					$raza = CRUDMascota::seleccionarRazaMascotaBD($razaId[$i]["idmascota_raza"]);
+					$respuestas[$i] = array_merge($razaId[$i], $raza);
+				}
+				return $respuestas;
+			} else {
+				return null;
+			}
+			$sql -> close();
+			$sql = null;
+		}
+		
+		#Buscar mascota por cliente desde la base de datos.
+		public function buscarMascotaClienteBD($search, $clienteId) {
+			$respuestas = array();
+			$sql = Conexion::conectar() -> prepare(
+				"SELECT 
+				m.idmascota, m.nombre as mascota, 
+				m.sexo, m.ano_nacimiento, m_r.idmascota_raza 
+				FROM mascota m 
+				INNER JOIN user u ON m.iduser = u.iduser 
+				INNER JOIN mascota_raza m_r ON m.idmascota_raza = m_r.idmascota_raza 
+				INNER JOIN mascota_especie m_e ON m_r.idmascota_especie = m_e.idmascota_especie 
+				WHERE m.nombre LIKE '%$search%' AND m.iduser = :iduser;"
+			);
+			$sql -> bindParam(":iduser", $clienteId, PDO::PARAM_INT);
+			$sql -> execute();
+			$razaId =  $sql  -> fetchAll();
+			if (sizeof($razaId) > 0) {
+				for ($i = 0; $i < sizeof($razaId); $i++) {
+					$raza = CRUDMascota::seleccionarRazaMascotaBD($razaId[$i]["idmascota_raza"]);
+					$respuestas[$i] = array_merge($razaId[$i], $raza);
+				}
+				return $respuestas;
+			} else {
+				return null;
+			}
+			$sql -> close();
+			$sql = null;
+		}
+		
 		#Buscar raza desde la base de datos.
 		public function buscarRazaBD($search) {
 			$respuestas = array();

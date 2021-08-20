@@ -35,7 +35,7 @@
 		</div>
 		<div class="C__Btn__Last">
 			<input class="inputs" type="search" id="search-raza" name="search-raza" placeholder="Buscar Raza">
-			<span class="iconSearch"><image src="img/search_32px.png"></image></span>
+			<span class="iconSearch"><image src="img/search_20px.png"></image></span>
 		</div>
 	</div>
 

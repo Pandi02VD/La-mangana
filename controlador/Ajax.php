@@ -177,6 +177,13 @@
 			echo json_encode($respuesta);
 		}
 		
+		#Buscar usuario.
+		public function buscarMascotaAjax(){
+			$search = $this -> search;
+			$respuesta = $search;
+			$respuesta = ControladorMascota::buscarMascotaCtl($search);
+			echo json_encode($respuesta);
+		}
 		
 		#Buscar raza.
 		public function buscarRazaAjax(){
@@ -330,6 +337,11 @@
 		$objSearch -> buscarUsuarioAjax();
 	}
 	
+	if (isset($_POST["search-pet"])) {
+		$objSearch = new Ajax();
+		$objSearch -> search = json_decode($_POST["search-pet"]);
+		$objSearch -> buscarMascotaAjax();
+	}
 	
 	if (isset($_POST["search-raza"])) {
 		$objSearch = new Ajax();

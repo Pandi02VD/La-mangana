@@ -121,7 +121,7 @@
 			</div>
 			<div class="C__Btn__Last">
 				<input class="inputs" type="search" id="search-pet" name="search-pet" placeholder="Buscar mascota">
-				<span class="iconSearch"><image src="img/search_32px.png"></image></span>
+				<span class="iconSearch"><image src="img/search_20px.png"></image></span>
 			</div>
 		</div>
 

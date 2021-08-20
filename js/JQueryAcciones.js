@@ -14,21 +14,40 @@ function tabsModal(){
 	});
 }
 
-function multiFormModal(){    
-	$('#btn-first').click(function(){
-		$('#form-add-Consult-pet').addClass('oculto');
-		$('#form-add-H-pet').removeClass('oculto');
-	});
+// function multiFormModal() {
+// 	let btnMF = $('#btn-MF');
+// 	let btnRetMF = $('#btn-ret-MF');
+// 	let btnF = $('#btn-F');
+// 	let btnS = $('#btn-S');
+// 	let btnT = $('#btn-T');
 	
-	$('#btn-return-to-first').click(function(){
-		$('#form-add-Consult-pet').removeClass('oculto');
-		$('#form-add-H-pet').addClass('oculto');
-	});
-}
+// 	btnMF.click(function(){
+// 		var formF = $('[name=first]');
+// 		var formS = $('[name=second]');
+// 		var formT = $('[name=third]');
+// 		FORM_ADD_CONSULT_PET.classList.add('oculto');
+// 		formF.removeClass('oculto');
+// 	});
+	
+// 	btnRetMF.click(function(){
+// 		FORM_ADD_CONSULT_PET.classList.remove('oculto');
+// 		formF.addClass('oculto');
+// 	});
+
+// 	if (btnF) {
+// 		btnF.click(() => {
+// 			if (btnS) {
+// 				formF.addClass('oculto');
+// 				formS.removeClass('oculto');
+// 			} else {
+// 				formF.addClass('oculto');
+// 			}
+// 		});
+// 	}
+// }
 
 $(document).ready(function(){
 	tabsModal();
-	multiFormModal();
 });
 
 function elementChecked (checkElement) {
@@ -297,6 +316,14 @@ function search(input, table, moduleSearch, callback) {
 		input.keyup(() => {
 			let txtSearch = input.val();
 			let formData = new FormData();
+			if (moduleSearch == 'search-pet') {
+				let url = window.location.search;
+				let getVar = new URLSearchParams(url).get('um');
+				let arreglo = [];
+				getVar != null ? arreglo = [input.val(), getVar] : arreglo = input.val() ;
+				txtSearch = JSON.stringify(arreglo);
+
+			}
 			formData.append(moduleSearch, txtSearch);
 
 			$.ajax({
@@ -586,7 +613,53 @@ search($('#search-usuario'), $('#tbl-usuarios'), 'search-usuario', (respuesta) =
 	}
 });
 
+search($('#search-pet'), $('#tbl-mascotas-cliente'), 'search-pet', (respuesta) => {
+	let tabla = $('#tbl-mascotas-cliente tr:gt(0)');
+	let tbl = $('#tbl-mascotas-cliente > tbody');
 
+	if (respuesta.length > 0) {
+		tabla.empty();
+		for (const k in respuesta) {
+			let cliente = respuesta[k]["cliente"];
+			let idmascota = respuesta[k]["idmascota"];
+			let mascota = respuesta[k]["mascota"];
+			let raza = respuesta[k]["raza"];
+			let sexo = respuesta[k]["sexo"];
+			let generos = {'1': 'Hembra', '2': 'Macho'};
+			let edad = new Date().getFullYear() - respuesta[k]["ano_nacimiento"];
+			let datos;
+
+			if(cliente != undefined) {
+				datos = '<td id="' + idmascota + '" name="pets-table">' + cliente + '</td>' + 
+						'<td id="' + idmascota + '" name="pets-table">' + mascota + '</td>' + 
+						'<td id="' + idmascota + '" name="pets-table">' + raza + '</td>' + 
+						'<td id="' + idmascota + '" name="pets-table">' + generos[sexo] + '</td>' + 
+						'<td id="' + idmascota + '" name="pets-table">' + edad + '</td>';
+			} else {
+				datos = '<td id="' + idmascota + '" name="pets-table">' + mascota + '</td>' + 
+						'<td id="' + idmascota + '" name="pets-table">' + raza + '</td>' + 
+						'<td id="' + idmascota + '" name="pets-table">' + generos[sexo] + '</td>' + 
+						'<td id="' + idmascota + '" name="pets-table">' + edad + '</td>';
+			}
+
+			let row = $(
+				'<tr>' + 
+					'<td>' + 
+						'<input type="checkbox" name="check-pet" id="check-pet' + idmascota + '" value="' + idmascota + '">' + 
+						'<span class="tooltip">Seleccionar</span>' + 
+					'</td>' + datos +
+				'</tr>'
+			);
+			tbl.append(row);
+			setAttr(BTN_EDIT_PET, 'name', 'btns-one-check-pet');
+			setAttr(BTN_ADD_CONSULT_PET, 'name', 'btns-one-check-pet');
+			setAttr(BTN_SEE_HC_PET, 'name', 'btns-one-check-pet');
+			let btnsOneCheckPet = document.getElementsByName('btns-one-check-pet');
+			checkBox(CHECK_ALL_PETS, CHECK_PET, btnsOneCheckPet, BTN_DELETE_PET);
+			tableCellValues(PETS_TABLE, 'index.php?pagina=Mascota&um=');
+		}
+	}
+});
 
 search($('#search-raza'), $('#tbl-razas'), 'search-raza', (respuesta) => {
 	let tabla = $('#tbl-razas tr:gt(0)');

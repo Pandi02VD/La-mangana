@@ -421,12 +421,14 @@ input[type="search"]{
 .iconSearch {
 	display: inline-flex;
 	align-items: center;
-	padding: 0;
+	justify-content: center;
+	background-color: rgba(25, 173, 136, 0.4);
 	border: 2px solid var(--Form-Primary-Low);
 	border-left: none;
 	border-top: none;
+	padding: 0;
 	height: 35px;
-	background-color: rgba(25, 173, 136, 0.4);
+	width: 35px;
 }
 
 .inputs:focus{
@@ -930,7 +932,7 @@ input[type="radio"]:checked + .label-radio{
 i{
 	font-size: 16px;
 	font-weight: bold;
-	font-family: auto;
+	font-family: monospace;
 	border: 1px solid currentColor;
 	border-radius: 100%;
 	padding: 0 6px;

@@ -35,7 +35,7 @@
 		</div>
 		<div class="C__Btn__Last">
 			<input class="inputs" type="search" id="search-jaula" name="search-jaula" placeholder="Buscar Jaula">
-			<span class="iconSearch"><image src="img/search_32px.png"></image></span>
+			<span class="iconSearch"><image src="img/search_20px.png"></image></span>
 		</div>
 	</div>
 

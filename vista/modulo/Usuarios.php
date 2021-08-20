@@ -28,7 +28,7 @@
 		</div>
 		<div class="C__Btn__Last">
 			<input class="inputs" type="search" id="search-usuario" name="search-usuario" placeholder="Buscar Usuario">
-			<span class="iconSearch"><image src="img/search_32px.png"></image></span>
+			<span class="iconSearch"><image src="img/search_20px.png"></image></span>
 		</div>
 	</div>
 

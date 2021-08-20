@@ -44,7 +44,7 @@
 			</div>
 			<div class="C__Btn__Last">
 				<input class="inputs" type="search" id="search-pet" name="search-pet" placeholder="Buscar Mascota">
-				<span class="iconSearch"><image src="img/search_32px.png"></image></span>
+				<span class="iconSearch"><image src="img/search_20px.png"></image></span>
 			</div>
 		</div>
 
@@ -194,13 +194,14 @@
 				</div>
 				
 				<input type="hidden" name="pet-id-add-consult" id="pet-id-add-consult" required>
-				<a href="#form-add-H-pet" id="btn-first" class="submit">Siguiente paso</a>
+				<input type="button" id="btn-MF" class="submit" value="Siguiente Paso">
 			</form>
 		</div>
 
-		<!-- <div class="C__f oculto" id="form-add-H-pet">
+		<div class="C__f oculto" id="form-add-H-pet">
 			<form method="post" class="f">
-				<a class="back" href="#form-add-Consult-pet" id="btn-return-to-first"> Regresar</a>
+				<!-- <a class="back" href="#" id="btn-return-to-MF"> Regresar</a> -->
+				<input type="button" class="back" value="Regresar">
 				<h2 class="f__title">Orden de Hospitalización</h2>
 				<div class="line-top"></div>
 				<div class="C__group">
@@ -237,13 +238,15 @@
 					<input class="inputs" type="text" id="costo-H-new" name="costo-H-new">
 				</div>
 				
-				<a href="#form-add-C-pet" id="btn-second" class="submit">Guardar orden</a>
+				<!-- <a href="#form-add-C-pet" id="btn-second" class="submit">Guardar orden</a> -->
+				<input type="button" class="submit" value="Guardar Orden">
 			</form>
-		</div> -->
+		</div>
 
-		<!-- <div class="C__f oculto" id="form-add-C-pet">
+		<div class="C__f oculto" id="form-add-C-pet">
 			<form method="post" class="f">
-				<a class="back" href="#form-add-H-pet" id="btn-return-to-second">Regresar</a>
+			<input type="button" class="back" value="Regresar">
+				<!-- <a class="back" href="#form-add-H-pet" id="btn-return-to-second">Regresar</a> -->
 				<h2 class="f__title">Anestesia y Cirujía</h2>
 				<div class="line-top"></div>
 				<div class="C__group">
@@ -270,13 +273,15 @@
 					<input class="d-none" type="checkbox" id="confirmar-C-new" name="confirmar-C-new">
 				</div>
 				
-				<input class="submit" type="submit" value="Siguiente paso">
+				<!-- <input class="submit" type="submit" value="Siguiente paso"> -->
+				<input type="button" class="submit" value="Programar">
 			</form>
-		</div> -->
+		</div>
 
 		<div class="C__f oculto" id="form-add-M-pet">
 			<form method="post" class="f">
-				<a class="back" href="#form-add-H-pet" id="btn-return-to-first">Regresar</a>
+				<input type="button" class="back" value="Regresar">
+				<!-- <a class="back" href="#form-add-H-pet" id="btn-return-to-first">Regresar</a> -->
 				<h2 class="f__title">Medicación</h2>
 				<div class="line-top"></div>
 				
@@ -306,7 +311,7 @@
 
 				<input class="submit" type="button" value="Agregar">
 
-				<input class="submit" type="submit" value="Listo">
+				<input type="button" class="submit" value="Siguiente Paso">
 			</form>
 		</div>
 

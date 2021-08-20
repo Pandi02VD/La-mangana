@@ -1,5 +1,17 @@
 <?php
 	class ControladorMascota{
+		#Buscar mascota.
+		public function buscarMascotaCtl($search) {
+			if(is_array($search)) {
+				$txtSearch = $search[0];
+				$clienteId = $search[1];
+				$respuesta = CRUDMascota::buscarMascotaClienteBD($txtSearch, $clienteId);
+			} else {
+				$respuesta = CRUDMascota::buscarMascotaBD($search);
+			}
+			return $respuesta;
+		}
+		
 		#Buscar raza.
 		public function buscarRazaCtl($search) {
 			$respuesta = CRUDMascota::buscarRazaBD($search);

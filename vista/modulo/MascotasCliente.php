@@ -200,8 +200,7 @@
 
 		<div class="C__f oculto" id="form-add-H-pet">
 			<form method="post" class="f">
-				<!-- <a class="back" href="#" id="btn-return-to-MF"> Regresar</a> -->
-				<input type="button" class="back" value="Regresar">
+				<input class="f__close" type="button" id="btn-close-form-add-Consult-pet" value="x">
 				<h2 class="f__title">Orden de Hospitalización</h2>
 				<div class="line-top"></div>
 				<div class="C__group">
@@ -237,16 +236,18 @@
 					<label class="labels" for="costo-H-new">Costo de Hospitalización ($ MNX)</label>
 					<input class="inputs" type="text" id="costo-H-new" name="costo-H-new">
 				</div>
-				
-				<!-- <a href="#form-add-C-pet" id="btn-second" class="submit">Guardar orden</a> -->
-				<input type="button" class="submit" value="Guardar Orden">
+				<div>
+					<input type="button" class="back" id="skip" value="Omitir">
+				</div>
+				<div>
+					<input type="button" class="submit" value="Guardar Orden">
+				</div>
 			</form>
 		</div>
 
 		<div class="C__f oculto" id="form-add-C-pet">
 			<form method="post" class="f">
-			<input type="button" class="back" value="Regresar">
-				<!-- <a class="back" href="#form-add-H-pet" id="btn-return-to-second">Regresar</a> -->
+			<input class="f__close" type="button" id="btn-close-form-add-Consult-pet" value="x">
 				<h2 class="f__title">Anestesia y Cirujía</h2>
 				<div class="line-top"></div>
 				<div class="C__group">
@@ -272,16 +273,18 @@
 					<label class="label-checkbox" for="confirmar-C-new">El responsable del paciente ha leído el <a href="#" target="_blank">Consentimiento informado de Anestesia y Cirujía</a> y acepto lo expreso en dicho documento</label>
 					<input class="d-none" type="checkbox" id="confirmar-C-new" name="confirmar-C-new">
 				</div>
-				
-				<!-- <input class="submit" type="submit" value="Siguiente paso"> -->
-				<input type="button" class="submit" value="Programar">
+				<div>
+					<input type="button" class="back" id="skip" value="Omitir">
+				</div>
+				<div>
+					<input type="button" class="submit" value="Programar">
+				</div>
 			</form>
 		</div>
 
 		<div class="C__f oculto" id="form-add-M-pet">
 			<form method="post" class="f">
-				<input type="button" class="back" value="Regresar">
-				<!-- <a class="back" href="#form-add-H-pet" id="btn-return-to-first">Regresar</a> -->
+				<input class="f__close" type="button" id="btn-close-form-add-Consult-pet" value="x">
 				<h2 class="f__title">Medicación</h2>
 				<div class="line-top"></div>
 				
@@ -310,8 +313,12 @@
 				</div>
 
 				<input class="submit" type="button" value="Agregar">
-
-				<input type="button" class="submit" value="Siguiente Paso">
+				<div>
+					<input type="button" class="back" id="skip" value="Omitir">
+				</div>
+				<div>
+					<input type="button" class="submit" value="Siguiente Paso">
+				</div>
 			</form>
 		</div>
 

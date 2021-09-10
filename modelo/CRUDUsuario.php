@@ -73,7 +73,9 @@
 		#Recuperar datos de usuario de la base de datos.
 		public function datosUsuarioBD($usuarioId){
 			$sql = Conexion::conectar() -> prepare(
-				"SELECT iduser, nombre, tipo FROM user 
+				"SELECT iduser, nombre, tipo, fecha, 
+				date_format(fecha, '%d de %M de %Y') fecha 
+				FROM user 
 				WHERE tipo > 0 AND tipo < 4 AND status = 1 AND iduser = :iduser;"
 			);
 			$sql -> bindParam(":iduser", $usuarioId, PDO::PARAM_INT);

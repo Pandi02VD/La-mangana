@@ -1,5 +1,5 @@
 <?php isset($_SESSION["ingresado"]) ? $login = true : $login = false; ?>
-<div>
+<div class="nav">
 	<nav>
 		<div class="D-Logo">
 			<img class="Logo" src="img/LogoNombre_G.png" alt="Logotipo">

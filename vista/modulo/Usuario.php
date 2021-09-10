@@ -1,10 +1,37 @@
 <?php 
 	$nameGET = 'uu';
+	$cargo = ['Administrador', 'Asistente', 'Médico'];
 	
 	$usuario = ControladorUsuario::datosUsuarioCtl($_GET[$nameGET]);
 	$usuarioCorreos = Controlador::seleccionarCorreosCtl($_GET[$nameGET]);
 	$usuarioTelefonos = Controlador::seleccionarTelefonosCtl($_GET[$nameGET]);
 	$usuarioDomicilios = Controlador::seleccionarDomiciliosCtl($_GET[$nameGET]);
+
+	$correoPrincipal = 'No se ha asignado';
+	$telefonoPrincipal = 'No se ha asignado';
+	$domicilioPrincipal = 'No se ha asignado';
+	$numcasaext = 's/n';
+	if($usuarioCorreos == null) {
+	} else {
+		foreach ($usuarioCorreos as $key => $value) {
+			$value["status"] == 2 ? $correoPrincipal = $value["correo"] : $correoPrincipal ;
+		}
+	}
+	if($usuarioTelefonos == null) {
+	} else {
+		foreach ($usuarioTelefonos as $key => $value) {
+			$value["status"] == 2 ? $telefonoPrincipal = $value["numero"] : $telefonoPrincipal ;
+		}
+	}
+	if($usuarioDomicilios == null) {
+	} else {
+		foreach ($usuarioDomicilios as $key => $value) {
+			if ($value["status"] == 2) {
+				$value["num_casaex"] != null ? $numcasaext = '#'.$value["num_casaex"] : $value["num_casaex"];
+				$domicilioPrincipal = $value["calle"] . ', ' . $numcasaext . ', ' . $value["colonia"];
+			} 
+		}
+	}
 ?>
 <div class="title">
 	<h2>Usuarios</h2>
@@ -14,16 +41,47 @@
 
 <div class="C__F" id="form-card-user">
 	<div class="Cards">
-		<div><span name="Card-user-name"></span></div>
-		<div class="C__Btn">
-			<input 
-				id="btn-change-password" 
-				style="font-size: 14px; padding: 4px 10px; margin-bottom: 10px" 
-				class="submit" 
-				type="submit" 
-				value="Cambiar contraseña">
+		<div class="Cards__Contentinfo">
+			<div class="Cards__logo"></div>
+			<div class="Cards__info">
+				<h3 id="Cards-user-name"><?=substr($usuario["nombre"], 0, 25)?></h3>
+			</div>
 		</div>
-		<div>
+		
+		<div class="Cards__main">
+			<h4>Información principal</h4>
+			<div>
+				<span>Cargo:</span>
+				<span><?=$cargo[$usuario["tipo"] - 1]?></span>
+			</div>
+			<div>
+				<span>Correo electrónico:</span>
+				<span><?= $correoPrincipal ?></span>
+			</div>
+			<div>
+				<span>Teléfono:</span>
+				<span><?= $telefonoPrincipal ?></span>
+			</div>
+			<div>
+				<span>Domicilio:</span>
+				<span><?= $domicilioPrincipal ?></span>
+			</div>
+			<div>
+				<span>Contraseña:</span>
+				<span>
+					<div class="C__Btn">
+						<input 
+							id="btn-change-password" 
+							class="buttonSmall" 
+							type="submit" 
+							value="Cambiar contraseña">
+					</div>
+				</span>
+			</div>
+		</div>
+
+
+		<div class="Cards__tabs" name="Información de contacto">
 			<div class="tabs">
 				<a href="#tab-user-emails">Correos electrónicos</a>
 				<a href="#tab-user-phones">Teléfonos</a>
@@ -46,8 +104,17 @@
 							<input type="image" src="img/trash_32px.png" alt="imágen de acción" id="btn-delete-user-email" disabled>
 							<span class="tooltip">Borrar Correo Electrónico</span>
 						</div>
+						<div class="C__Btn__Last">
+							<span><?=sizeof($usuarioCorreos)?> / 5</span>
+						</div>
+						<div class="C__Btn">
+							<input 
+								id="btn-asmain-user-email" 
+								class="buttonSmall" 
+								type="submit" 
+								value="Establecer como principal" disabled>
+						</div>
 						<table class="table" id="tbl-user-emails">
-							<caption>Correos electrónicos</caption>
 							<tr>
 								<th>
 									<input type="checkbox" name="check-all-user-emails" id="check-all-user-emails">
@@ -83,8 +150,17 @@
 							<input type="image" src="img/trash_32px.png" alt="imágen de acción" id="btn-delete-user-phone" disabled>
 							<span class="tooltip">Borrar Teléfono</span>
 						</div>
+						<div class="C__Btn">
+							<input 
+								id="btn-asmain-user-phone" 
+								class="buttonSmall" 
+								type="submit" 
+								value="Establecer como principal" disabled>
+						</div>
+						<div class="C__Btn__Last">
+							<span><?=sizeof($usuarioTelefonos)?> / 5</span>
+						</div>
 						<table class="table" id="tbl-user-phones">
-							<caption>Teléfonos</caption>
 							<tr>
 								<th>
 									<input type="checkbox" name="check-all-user-phones" id="check-all-user-phones">
@@ -128,8 +204,17 @@
 							<input type="image" src="img/trash_32px.png" alt="imágen de acción" id="btn-delete-user-address" disabled>
 							<span class="tooltip">Borrar domicilio</span>
 						</div>
+						<div class="C__Btn">
+							<input 
+								id="btn-asmain-user-address" 
+								class="buttonSmall" 
+								type="submit" 
+								value="Establecer como principal" disabled>
+						</div>
+						<div class="C__Btn__Last">
+							<span><?=sizeof($usuarioDomicilios)?> / 5</span>
+						</div>
 						<table class="table" id="tbl-user-address">
-							<caption>Domicilios</caption>
 							<tr>
 								<th>
 									<input type="checkbox" name="check-all-user-address" id="check-all-user-address">

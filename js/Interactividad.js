@@ -378,6 +378,9 @@ function multiForm() {
 	let btnFRet = document.getElementById('btn-F-ret');
 	let btnSRet = document.getElementById('btn-S-ret');
 	let btnTRet = document.getElementById('btn-T-ret');
+	skipForm(formF);
+	skipForm(formS);
+	skipForm(formT);
 
 	if (formF) {
 		btnF = formF.lastElementChild;
@@ -395,7 +398,7 @@ function multiForm() {
 		FORM_ADD_CONSULT_PET.classList.add('oculto');
 		formF.classList.remove('oculto');
 		
-		if (btnF && btnFRet) {
+		if (btnF) {
 			btnF.addEventListener('click', function() {
 				if (formS) {
 					formF.classList.add('oculto');
@@ -404,14 +407,9 @@ function multiForm() {
 					formF.classList.add('oculto');
 				}
 			});
-
-			btnFRet.addEventListener('click', function() {
-				FORM_ADD_CONSULT_PET.classList.remove('oculto');
-				formF.classList.add('oculto');
-			});
 		}
 		
-		if (btnS && btnSRet) {
+		if (btnS) {
 			btnS.addEventListener('click', function() {
 				if (formT) {
 					formS.classList.add('oculto');
@@ -420,24 +418,22 @@ function multiForm() {
 					formS.classList.add('oculto');
 				}
 			});
-
-			btnSRet.addEventListener('click', function() {
-				formF.classList.remove('oculto');
-				formS.classList.add('oculto');
-			});
 		}
 		
-		if (btnT && btnTRet) {
+		if (btnT) {
 			btnT.addEventListener('click', function() {
-				formT.classList.add('oculto');
-			});
-
-			btnTRet.addEventListener('click', function() {
-				formS.classList.remove('oculto');
 				formT.classList.add('oculto');
 			});
 		}
 	} else {
 		alert('Debe seleccionar Motivo de consulta');
 	}
+}
+
+function skipForm(form) {
+	let skip = form.querySelector('#skip');
+	skip.addEventListener('click', () => {
+		form.parentElement.classList.add('oculto');
+		console.log('Formulario omitido: ' + form.getAttribute('id'));
+	});
 }

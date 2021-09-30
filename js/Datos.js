@@ -4,6 +4,13 @@ if (document.getElementById('saludo')) {
 	const SALUDO = document.getElementById('saludo');
 }
 
+var BTN_ASMAIN_EMAIL = document.getElementById('btn-asmain-email');
+var BTN_ASMAIN_PHONE = document.getElementById('btn-asmain-phone');
+var BTN_ASMAIN_ADDRESS = document.getElementById('btn-asmain-address');
+var BTN_C_ASMAIN_ELEMENT = document.getElementById('btn-C-asmain-element');
+var FORM_ASMAIN_ELEMENT = document.getElementById('form-asmain-element');
+var BTN_CLOSE_FORM_ASMAIN_ELEMENT = document.getElementById('btn-close-form-asmain-element');
+
 var USERS_TABLE = document.getElementsByName('users-table');
 var USER_STATUS = document.getElementsByName('user-status');
 const CHECK_ALL_USERS = document.getElementById('check-all-users');
@@ -74,9 +81,6 @@ const BTN_ADD_CLIENT_EMAIL = document.getElementById('btn-add-client-email');
 const BTN_ADD_CLIENT_PHONE = document.getElementById('btn-add-client-phone');
 const BTN_ADD_CLIENT_ADDRESS = document.getElementById('btn-add-client-address');
 const BTN_EDIT_CLIENT = document.getElementById('btn-edit-client');
-var BTN_ASMAIN_CLIENT_EMAIL = document.getElementById('btn-asmain-client-email');
-var BTN_ASMAIN_CLIENT_PHONE = document.getElementById('btn-asmain-client-phone');
-var BTN_ASMAIN_CLIENT_ADDRESS = document.getElementById('btn-asmain-client-address');
 var BTN_EDIT_CLIENT_EMAIL = document.getElementById('btn-edit-client-email');
 var BTN_EDIT_CLIENT_PHONE = document.getElementById('btn-edit-client-phone');
 var BTN_EDIT_CLIENT_ADDRESS = document.getElementById('btn-edit-client-address');
@@ -88,7 +92,6 @@ var BTN_C_DELETE_CLIENT = document.getElementById('btn-C-delete-client');
 var BTN_C_DELETE_CLIENT_EMAIL = document.getElementById('btn-C-delete-client-email');
 var BTN_C_DELETE_CLIENT_PHONE = document.getElementById('btn-C-delete-client-phone');
 var BTN_C_DELETE_CLIENT_ADDRESS = document.getElementById('btn-C-delete-client-address');
-var BTN_C_ASMAIN_CLIENT_ELEMENT = document.getElementById('btn-C-asmain-client-element');
 const FORM_ADD_CLIENT = document.getElementById('form-add-client');
 const FORM_ADD_CLIENT_EMAIL = document.getElementById('form-add-client-email');
 const FORM_ADD_CLIENT_PHONE = document.getElementById('form-add-client-phone');
@@ -102,7 +105,6 @@ var FORM_DELETE_CLIENT_EMAIL = document.getElementById('form-delete-client-email
 var FORM_DELETE_CLIENT_PHONE = document.getElementById('form-delete-client-phone');
 var FORM_DELETE_CLIENT_ADDRESS = document.getElementById('form-delete-client-address');
 var FORM_CARD_CLIENT = document.getElementById('form-card-client');
-var FORM_ASMAIN_CLIENT_ELEMENT = document.getElementById('form-asmain-client-element');
 const BTN_CLOSE_FORM_ADD_CLIENT = document.getElementById('btn-close-form-add-client');
 const BTN_CLOSE_FORM_ADD_CLIENT_EMAIL = document.getElementById('btn-close-form-add-client-email');
 const BTN_CLOSE_FORM_ADD_CLIENT_PHONE = document.getElementById('btn-close-form-add-client-phone');
@@ -115,7 +117,7 @@ var BTN_CLOSE_FORM_DELETE_CLIENT = document.getElementById('btn-close-form-delet
 var BTN_CLOSE_FORM_DELETE_CLIENT_EMAIL = document.getElementById('btn-close-form-delete-client-email');
 var BTN_CLOSE_FORM_DELETE_CLIENT_PHONE = document.getElementById('btn-close-form-delete-client-phone');
 var BTN_CLOSE_FORM_DELETE_CLIENT_ADDRESS = document.getElementById('btn-close-form-delete-client-address');
-var BTN_CLOSE_FORM_ASMAIN_CLIENT_ELEMENT = document.getElementById('btn-close-form-asmain-client-element');
+
 
 var PETS_TABLE = document.getElementsByName('pets-table');
 const CHECK_ALL_PETS = document.getElementById('check-all-pets');

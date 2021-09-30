@@ -301,21 +301,21 @@
 		$objSelectRaza -> seleccionarRazasByEspecieAjax();
 	}
 	
-	if (isset($_POST["client-asmain-email"])) {
+	if (isset($_POST["asmain-email"])) {
 		$objAsMain = new Ajax();
-		$objAsMain -> asMain = $_POST["client-asmain-email"];
+		$objAsMain -> asMain = $_POST["asmain-email"];
 		$objAsMain -> asMainElementAjax("user_correo");
 	}
 	
-	if (isset($_POST["client-asmain-phone"])) {
+	if (isset($_POST["asmain-phone"])) {
 		$objAsMain = new Ajax();
-		$objAsMain -> asMain = $_POST["client-asmain-phone"];
+		$objAsMain -> asMain = $_POST["asmain-phone"];
 		$objAsMain -> asMainElementAjax("user_telefono");
 	}
 	
-	if (isset($_POST["client-asmain-address"])) {
+	if (isset($_POST["asmain-address"])) {
 		$objAsMain = new Ajax();
-		$objAsMain -> asMain = $_POST["client-asmain-address"];
+		$objAsMain -> asMain = $_POST["asmain-address"];
 		$objAsMain -> asMainElementAjax("user_domicilio");
 	}
 	

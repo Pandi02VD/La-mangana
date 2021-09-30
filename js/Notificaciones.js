@@ -1,7 +1,7 @@
 function toast(mensaje) {
-    let urlReload = window.location.href;
-    alert(mensaje);
-    window.location = urlReload;
+	let urlReload = window.location.href;
+	alert(mensaje);
+	window.location = urlReload;
 }
 // function createToast(mensaje){
 //     var toastSuccess = document.createElement('div');

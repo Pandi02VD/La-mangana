@@ -6,31 +6,9 @@
 	$clienteTelefonos = Controlador::seleccionarTelefonosCtl($_GET[$nameGET]);
 	$clienteDomicilios = Controlador::seleccionarDomiciliosCtl($_GET[$nameGET]);
 
-	$correoPrincipal = 'No se ha asignado';
-	$telefonoPrincipal = 'No se ha asignado';
-	$domicilioPrincipal = 'No se ha asignado';
-	$numcasaext = 's/n';
-	if($clienteCorreos == null) {
-	} else {
-		foreach ($clienteCorreos as $key => $value) {
-			$value["status"] == 2 ? $correoPrincipal = $value["correo"] : $correoPrincipal ;
-		}
-	}
-	if($clienteTelefonos == null) {
-	} else {
-		foreach ($clienteTelefonos as $key => $value) {
-			$value["status"] == 2 ? $telefonoPrincipal = $value["numero"] : $telefonoPrincipal ;
-		}
-	}
-	if($clienteDomicilios == null) {
-	} else {
-		foreach ($clienteDomicilios as $key => $value) {
-			if ($value["status"] == 2) {
-				$value["num_casaex"] != null ? $numcasaext = '#'.$value["num_casaex"] : $value["num_casaex"];
-				$domicilioPrincipal = $value["calle"] . ', ' . $numcasaext . ', ' . $value["colonia"];
-			} 
-		}
-	}
+	$correoPrincipal = MainInfo::obtenerCorreoPrincipal($clienteCorreos);
+	$telefonoPrincipal = MainInfo::obtenerTelefonoPrincipal($clienteTelefonos);
+	$domicilioPrincipal = MainInfo::obtenerDomicilioPrincipal($clienteDomicilios);
 ?>
 <div class="title">
 	<h2>Clientes</h2>
@@ -88,7 +66,7 @@
 						</div>
 						<div class="C__Btn">
 							<input 
-								id="btn-asmain-client-email" 
+								id="btn-asmain-email" 
 								class="buttonSmall" 
 								type="submit" 
 								value="Establecer como principal" disabled>
@@ -139,7 +117,7 @@
 						</div>
 						<div class="C__Btn">
 							<input 
-								id="btn-asmain-client-phone" 
+								id="btn-asmain-phone" 
 								class="buttonSmall" 
 								type="submit" 
 								value="Establecer como principal" disabled>
@@ -196,7 +174,7 @@
 						</div>
 						<div class="C__Btn">
 							<input 
-								id="btn-asmain-client-address" 
+								id="btn-asmain-address" 
 								class="buttonSmall" 
 								type="submit" 
 								value="Establecer como principal" disabled>
@@ -485,9 +463,9 @@
 	</form>
 </div>
 
-<div class="C__f oculto" id="form-asmain-client-element">
+<div class="C__f oculto" id="form-asmain-element">
 	<form method="post" class="f">
-		<input class="f__close" type="button" id="btn-close-form-asmain-client-element" value="x">
+		<input class="f__close" type="button" id="btn-close-form-asmain-element" value="x">
 		<h2 class="f__title">Confirmación</h2>
 		<div class="line-top"></div>
 		<div class="i__group">
@@ -497,8 +475,8 @@
 			<p class="info"><i>i</i> Aparecerá el siguiente ícono al lado del elemento principal 
 				<img src="img/crown2_20px.png" alt="imagen de elemento principal">
 			</p>
-			<input type="hidden" name="client-asmain-element" id="client-asmain-element" required>
+			<input type="hidden" name="asmain-element" id="asmain-element" required>
 		</div>
-		<input class="submit" type="button" id="btn-C-asmain-client-element" value="Confirmar">
+		<input class="submit" type="button" id="btn-C-asmain-element" value="Confirmar">
 	</form>
 </div>

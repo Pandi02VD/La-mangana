@@ -14,38 +14,6 @@ function tabsModal(){
 	});
 }
 
-// function multiFormModal() {
-// 	let btnMF = $('#btn-MF');
-// 	let btnRetMF = $('#btn-ret-MF');
-// 	let btnF = $('#btn-F');
-// 	let btnS = $('#btn-S');
-// 	let btnT = $('#btn-T');
-	
-// 	btnMF.click(function(){
-// 		var formF = $('[name=first]');
-// 		var formS = $('[name=second]');
-// 		var formT = $('[name=third]');
-// 		FORM_ADD_CONSULT_PET.classList.add('oculto');
-// 		formF.removeClass('oculto');
-// 	});
-	
-// 	btnRetMF.click(function(){
-// 		FORM_ADD_CONSULT_PET.classList.remove('oculto');
-// 		formF.addClass('oculto');
-// 	});
-
-// 	if (btnF) {
-// 		btnF.click(() => {
-// 			if (btnS) {
-// 				formF.addClass('oculto');
-// 				formS.removeClass('oculto');
-// 			} else {
-// 				formF.addClass('oculto');
-// 			}
-// 		});
-// 	}
-// }
-
 $(document).ready(function(){
 	tabsModal();
 });
@@ -171,14 +139,14 @@ function asMain(btnShowForm, checkElement, inputId, btnConfirmAsMain) {
 		$(btnShowForm).click(function (){
 			recordId = elementChecked(checkElement);
 			inputId.val(recordId);
-			if(btnShowForm.getAttribute('id') == 'btn-asmain-client-email') {
-				nameRequest = 'client-asmain-email';
+			if(btnShowForm.getAttribute('id') == 'btn-asmain-email') {
+				nameRequest = 'asmain-email';
 				console.log(nameRequest + ' - ' + recordId);
-			} else if(btnShowForm.getAttribute('id') == 'btn-asmain-client-phone') {
-				nameRequest = 'client-asmain-phone';
+			} else if(btnShowForm.getAttribute('id') == 'btn-asmain-phone') {
+				nameRequest = 'asmain-phone';
 				console.log(nameRequest);
-			} else if(btnShowForm.getAttribute('id') == 'btn-asmain-client-address') {
-				nameRequest = 'client-asmain-address';
+			} else if(btnShowForm.getAttribute('id') == 'btn-asmain-address') {
+				nameRequest = 'asmain-address';
 				console.log(nameRequest);
 			}
 		});
@@ -538,11 +506,21 @@ deleteForm(BTN_DELETE_USER_PHONE, BTN_C_DELETE_USER_PHONE, BTN_CLOSE_FORM_DELETE
 deleteForm(BTN_DELETE_USER_ADDRESS, BTN_C_DELETE_USER_ADDRESS, BTN_CLOSE_FORM_DELETE_USER_ADDRESS, CHECK_USER_ADDRESS, FORM_DELETE_USER_ADDRESS, 'addressUserToDelete', urlUser);
 
 // A partir del nombre del botón clicado se nombrará la variable post que se envía al backend AJAX.
-asMain(BTN_ASMAIN_CLIENT_EMAIL, CHECK_CLIENT_EMAIL, $('#client-asmain-element'), BTN_C_ASMAIN_CLIENT_ELEMENT);
-
-asMain(BTN_ASMAIN_CLIENT_PHONE, CHECK_CLIENT_PHONE, $('#client-asmain-element'), BTN_C_ASMAIN_CLIENT_ELEMENT);
-
-asMain(BTN_ASMAIN_CLIENT_ADDRESS, CHECK_CLIENT_ADDRESS, $('#client-asmain-element'), BTN_C_ASMAIN_CLIENT_ELEMENT);
+let urlll = window.location.search;
+let paginaaa = new URLSearchParams(urlll).get('pagina');
+if (paginaaa == "Cliente") {
+	asMain(BTN_ASMAIN_EMAIL, CHECK_CLIENT_EMAIL, $('#asmain-element'), BTN_C_ASMAIN_ELEMENT);
+	asMain(BTN_ASMAIN_PHONE, CHECK_CLIENT_PHONE, $('#asmain-element'), BTN_C_ASMAIN_ELEMENT);
+	asMain(BTN_ASMAIN_ADDRESS, CHECK_CLIENT_ADDRESS, $('#asmain-element'), BTN_C_ASMAIN_ELEMENT);
+}
+let urll = window.location.search;
+let paginaa = new URLSearchParams(urll).get('pagina');
+if (paginaa == "Usuario") {
+	console.log('Página de usuario');
+	asMain(BTN_ASMAIN_EMAIL, CHECK_USER_EMAIL, $('#asmain-element'), BTN_C_ASMAIN_ELEMENT);
+	asMain(BTN_ASMAIN_PHONE, CHECK_USER_PHONE, $('#asmain-element'), BTN_C_ASMAIN_ELEMENT);
+	asMain(BTN_ASMAIN_ADDRESS, CHECK_USER_ADDRESS, $('#asmain-element'), BTN_C_ASMAIN_ELEMENT);
+}
 
 search($('#search-client'), $('#tbl-clientes'), 'search-client', (respuesta) => {
 	let tabla = $('#tbl-clientes tr:gt(0)');

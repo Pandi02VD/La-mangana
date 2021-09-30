@@ -64,12 +64,17 @@ body{
 	max-height: auto;
 	height: 100vh;
 	/* height: -webkit-fill-available; */
-	background-color: bisque;
+	/* background-color: bisque; */
+}
+
+.nav {
+	height: 94px;
 }
 
 main{
 	display: inline-block;
-	height: calc(100% - 124px);
+	/* height: calc(100% - 124px); */
+	min-height: 100%;
 	width: calc(100% - 80px);
 	padding: 0 40px 30px 40px;
 	background-color: var(--Background);

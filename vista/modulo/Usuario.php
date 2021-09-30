@@ -7,31 +7,9 @@
 	$usuarioTelefonos = Controlador::seleccionarTelefonosCtl($_GET[$nameGET]);
 	$usuarioDomicilios = Controlador::seleccionarDomiciliosCtl($_GET[$nameGET]);
 
-	$correoPrincipal = 'No se ha asignado';
-	$telefonoPrincipal = 'No se ha asignado';
-	$domicilioPrincipal = 'No se ha asignado';
-	$numcasaext = 's/n';
-	if($usuarioCorreos == null) {
-	} else {
-		foreach ($usuarioCorreos as $key => $value) {
-			$value["status"] == 2 ? $correoPrincipal = $value["correo"] : $correoPrincipal ;
-		}
-	}
-	if($usuarioTelefonos == null) {
-	} else {
-		foreach ($usuarioTelefonos as $key => $value) {
-			$value["status"] == 2 ? $telefonoPrincipal = $value["numero"] : $telefonoPrincipal ;
-		}
-	}
-	if($usuarioDomicilios == null) {
-	} else {
-		foreach ($usuarioDomicilios as $key => $value) {
-			if ($value["status"] == 2) {
-				$value["num_casaex"] != null ? $numcasaext = '#'.$value["num_casaex"] : $value["num_casaex"];
-				$domicilioPrincipal = $value["calle"] . ', ' . $numcasaext . ', ' . $value["colonia"];
-			} 
-		}
-	}
+	$correoPrincipal = MainInfo::obtenerCorreoPrincipal($usuarioCorreos);
+	$telefonoPrincipal = MainInfo::obtenerTelefonoPrincipal($usuarioTelefonos);
+	$domicilioPrincipal = MainInfo::obtenerDomicilioPrincipal($usuarioDomicilios);
 ?>
 <div class="title">
 	<h2>Usuarios</h2>
@@ -104,15 +82,15 @@
 							<input type="image" src="img/trash_32px.png" alt="imágen de acción" id="btn-delete-user-email" disabled>
 							<span class="tooltip">Borrar Correo Electrónico</span>
 						</div>
-						<div class="C__Btn__Last">
-							<span><?=sizeof($usuarioCorreos)?> / 5</span>
-						</div>
 						<div class="C__Btn">
 							<input 
-								id="btn-asmain-user-email" 
+								id="btn-asmain-email" 
 								class="buttonSmall" 
 								type="submit" 
 								value="Establecer como principal" disabled>
+						</div>
+						<div class="C__Btn__Last">
+							<span><?=sizeof($usuarioCorreos)?> / 5</span>
 						</div>
 						<table class="table" id="tbl-user-emails">
 							<tr>
@@ -128,7 +106,12 @@
 									<input type="checkbox" name="check-user-email" id="check-user-email<?=$value["iduser_correo"]?>" value="<?=$value["iduser_correo"]?>">
 									<span class="tooltip">Seleccionar</span>
 								</td>
-								<td><?=$value["correo"]?></td>
+								<td>
+									<?php if($value["status"] == 2) : ?>
+										<img class="iconJoin" src="img/crown2_20px.png" alt="imagen de elemento principal">
+									<?php endif ?>
+									<span><?=$value["correo"]?></span>
+								</td>
 							</tr>
 							<?php endforeach ?>
 						</table>
@@ -152,7 +135,7 @@
 						</div>
 						<div class="C__Btn">
 							<input 
-								id="btn-asmain-user-phone" 
+								id="btn-asmain-phone" 
 								class="buttonSmall" 
 								type="submit" 
 								value="Establecer como principal" disabled>
@@ -167,7 +150,6 @@
 									<span class="tooltip">Seleccionar todo</span>
 								</th>
 								<th>Número</th>
-								<th>Tipo</th>
 							</tr>
 							<?php foreach ($usuarioTelefonos as $key => $value) : ?>
 								<?php switch ($value["tipo"]){
@@ -181,8 +163,12 @@
 										<input type="checkbox" name="check-user-phone" id="check-user-phone<?=$value["iduser_telefono"]?>" value="<?=$value["iduser_telefono"]?>">
 										<span class="tooltip">Seleccionar</span>
 									</td>
-									<td><?=$value["numero"]?></td>
-									<td><?=$tipo?></td>
+									<td>
+										<?php if($value["status"] == 2) : ?>
+											<img class="iconJoin" src="img/crown2_20px.png" alt="imagen de elemento principal">
+										<?php endif ?>
+										<span><?=$value["numero"]?> (<?=$tipo?>)</span>
+									</td>
 								</tr>
 							<?php endforeach ?>
 						</table>
@@ -206,7 +192,7 @@
 						</div>
 						<div class="C__Btn">
 							<input 
-								id="btn-asmain-user-address" 
+								id="btn-asmain-address" 
 								class="buttonSmall" 
 								type="submit" 
 								value="Establecer como principal" disabled>
@@ -228,7 +214,12 @@
 									<input type="checkbox" name="check-user-address" id="check-user-address<?=$value["iduser_domicilio"]?>" value="<?=$value["iduser_domicilio"]?>">
 									<span class="tooltip">Seleccionar</span>
 								</td>
-								<td><?=$value["calle"]?>, #<?=$value["num_casaex"]?>, <?=$value["colonia"]?></td>
+								<td>
+									<?php if($value["status"] == 2) : ?>
+										<img class="iconJoin" src="img/crown2_20px.png" alt="imagen de elemento principal">
+									<?php endif ?>
+									<span><?=$value["calle"]?>, #<?=$value["num_casaex"]?>, <?=$value["colonia"]?></span>
+								</td>
 							</tr>
 							<?php endforeach ?>
 						</table>
@@ -508,5 +499,23 @@
 		<input type="hidden" id="usuarioId" name="usuarioId" value="<?=$usuario["iduser"]?>" required>
 		<input class="submit" type="submit" value="Actualizar">
 		<?php ControladorUsuario::actualizarPicCtl(); ?>
+	</form>
+</div>
+
+<div class="C__f oculto" id="form-asmain-element">
+	<form method="post" class="f">
+		<input class="f__close" type="button" id="btn-close-form-asmain-element" value="x">
+		<h2 class="f__title">Confirmación</h2>
+		<div class="line-top"></div>
+		<div class="i__group">
+			<span class="label-checkbox">¿Desea establecer este dato como principal?</span>
+		</div>
+		<div class="D-info">
+			<p class="info"><i>i</i> Aparecerá el siguiente ícono al lado del elemento principal 
+				<img src="img/crown2_20px.png" alt="imagen de elemento principal">
+			</p>
+			<input type="hidden" name="asmain-element" id="asmain-element" required>
+		</div>
+		<input class="submit" type="button" id="btn-C-asmain-element" value="Confirmar">
 	</form>
 </div>

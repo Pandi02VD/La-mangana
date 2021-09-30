@@ -11,6 +11,7 @@ let arrayURL = {
 	'HistoriaClinica' : "Mascotas", 
 	'Razas' : "Mascotas", 
 	'Jaulas' : "Mascotas", 
+	'Servicios' : "Servicios", 
 	'Salir' : "Salir", 
 	'Error' : "Error"
 };

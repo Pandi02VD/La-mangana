@@ -156,7 +156,7 @@ function tags(textarea) {
 				let btn = document.createElement('div');
 				
 				inputHidden.setAttribute('type', 'hidden');
-				inputHidden.setAttribute('name', 'tags');
+				inputHidden.setAttribute('name', 'tags[]');
 				div.setAttribute('class', 'tag');
 				btn.setAttribute('name', 'btns-close-tag');
 				btn.setAttribute('class', 'tag__close');
@@ -207,24 +207,40 @@ tableCellValues(PETS_TABLE, 'index.php?pagina=Mascota&um=');
 checkBox(CHECK_ALL_CLIENTS, CHECK_CLIENT, BTN_EDIT_CLIENT, BTN_DELETE_CLIENT);
 
 setAttr(BTN_EDIT_CLIENT_EMAIL, 'name', 'btns-one-check-client-email');
-setAttr(BTN_ASMAIN_CLIENT_EMAIL, 'name', 'btns-one-check-client-email');
+setAttr(BTN_ASMAIN_EMAIL, 'name', 'btns-one-check-client-email');
 let btnsOneCheckClientEmail = document.getElementsByName('btns-one-check-client-email');
 checkBox(CHECK_ALL_CLIENT_EMAILS, CHECK_CLIENT_EMAIL, btnsOneCheckClientEmail, BTN_DELETE_CLIENT_EMAIL);
 
 setAttr(BTN_EDIT_CLIENT_PHONE, 'name', 'btns-one-check-client-phone');
-setAttr(BTN_ASMAIN_CLIENT_PHONE, 'name', 'btns-one-check-client-phone');
+setAttr(BTN_ASMAIN_PHONE, 'name', 'btns-one-check-client-phone');
 let btnsOneCheckClientPhone = document.getElementsByName('btns-one-check-client-phone');
 checkBox(CHECK_ALL_CLIENT_PHONES, CHECK_CLIENT_PHONE, btnsOneCheckClientPhone, BTN_DELETE_CLIENT_PHONE);
 
 setAttr(BTN_EDIT_CLIENT_ADDRESS, 'name', 'btns-one-check-client-address');
-setAttr(BTN_ASMAIN_CLIENT_ADDRESS, 'name', 'btns-one-check-client-address');
+setAttr(BTN_ASMAIN_ADDRESS, 'name', 'btns-one-check-client-address');
 let btnsOneCheckClientAddress = document.getElementsByName('btns-one-check-client-address');
 checkBox(CHECK_ALL_CLIENT_ADDRESS, CHECK_CLIENT_ADDRESS, btnsOneCheckClientAddress, BTN_DELETE_CLIENT_ADDRESS);
 
 checkBox(CHECK_ALL_USERS, CHECK_USER, BTN_EDIT_USER, BTN_DELETE_USER);
-checkBox(CHECK_ALL_USER_EMAILS, CHECK_USER_EMAIL, BTN_EDIT_USER_EMAIL, BTN_DELETE_USER_EMAIL);
-checkBox(CHECK_ALL_USER_PHONES, CHECK_USER_PHONE, BTN_EDIT_USER_PHONE, BTN_DELETE_USER_PHONE);
-checkBox(CHECK_ALL_USER_ADDRESS, CHECK_USER_ADDRESS, BTN_EDIT_USER_ADDRESS, BTN_DELETE_USER_ADDRESS);
+
+let urla = window.location.search;
+let paginal = new URLSearchParams(urla).get('pagina');
+if (paginal == 'Usuario') {
+	setAttr(BTN_EDIT_CLIENT_EMAIL, 'name', 'btns-one-check-user-email');
+	setAttr(BTN_ASMAIN_EMAIL, 'name', 'btns-one-check-user-email');
+	let btnsOneCheckUserEmail = document.getElementsByName('btns-one-check-user-email');
+	checkBox(CHECK_ALL_USER_EMAILS, CHECK_USER_EMAIL, btnsOneCheckUserEmail, BTN_DELETE_USER_EMAIL);
+
+	setAttr(BTN_EDIT_CLIENT_EMAIL, 'name', 'btns-one-check-user-phone');
+	setAttr(BTN_ASMAIN_PHONE, 'name', 'btns-one-check-user-phone');
+	let btnsOneCheckUserPhone = document.getElementsByName('btns-one-check-user-phone');
+	checkBox(CHECK_ALL_USER_PHONES, CHECK_USER_PHONE, btnsOneCheckUserPhone, BTN_DELETE_USER_PHONE);
+
+	setAttr(BTN_EDIT_CLIENT_EMAIL, 'name', 'btns-one-check-user-address');
+	setAttr(BTN_ASMAIN_ADDRESS, 'name', 'btns-one-check-user-address');
+	let btnsOneCheckUserAddress = document.getElementsByName('btns-one-check-user-address');
+	checkBox(CHECK_ALL_USER_ADDRESS, CHECK_USER_ADDRESS, btnsOneCheckUserAddress, BTN_DELETE_USER_ADDRESS);
+}
 
 setAttr(BTN_EDIT_PET, 'name', 'btns-one-check-pet');
 setAttr(BTN_ADD_CONSULT_PET, 'name', 'btns-one-check-pet');
@@ -273,10 +289,9 @@ interactFormModal(BTN_DELETE_RAZA, BTN_CLOSE_FORM_DELETE_RAZA, FORM_DELETE_RAZA)
 
 interactFormModal(BTN_CHANGE_PASSWORD, BTN_CLOSE_FORM_CHANGE_PASSWORD, FORM_CHANGE_PASSWORD);
 
-interactFormModal(BTN_ASMAIN_CLIENT_EMAIL, BTN_CLOSE_FORM_ASMAIN_CLIENT_ELEMENT, FORM_ASMAIN_CLIENT_ELEMENT);
-interactFormModal(BTN_ASMAIN_CLIENT_PHONE, BTN_CLOSE_FORM_ASMAIN_CLIENT_ELEMENT, FORM_ASMAIN_CLIENT_ELEMENT);
-interactFormModal(BTN_ASMAIN_CLIENT_ADDRESS, BTN_CLOSE_FORM_ASMAIN_CLIENT_ELEMENT, FORM_ASMAIN_CLIENT_ELEMENT);
-
+interactFormModal(BTN_ASMAIN_EMAIL, BTN_CLOSE_FORM_ASMAIN_ELEMENT, FORM_ASMAIN_ELEMENT);
+interactFormModal(BTN_ASMAIN_PHONE, BTN_CLOSE_FORM_ASMAIN_ELEMENT, FORM_ASMAIN_ELEMENT);
+interactFormModal(BTN_ASMAIN_ADDRESS, BTN_CLOSE_FORM_ASMAIN_ELEMENT, FORM_ASMAIN_ELEMENT);
 tags(document.getElementById('acs-consult-new'));
 
 
@@ -363,77 +378,66 @@ callForm(checkMed, () => {
 	}
 });
 
-if(document.getElementById('btn-MF')) {
-	var btnMF = document.getElementById('btn-MF');
-	btnMF.addEventListener('click', multiForm);
-}
+// if(document.getElementById('btn-MF')) {
+// 	var btnMF = document.getElementById('btn-MF');
+// 	btnMF.addEventListener('click', multiForm);
+// }
 
-function multiForm() {
-	let formF = document.getElementById('first');
-	let formS = document.getElementById('second');
-	let formT = document.getElementById('third');
-	let btnF;
-	let btnS;
-	let btnT;
-	let btnFRet = document.getElementById('btn-F-ret');
-	let btnSRet = document.getElementById('btn-S-ret');
-	let btnTRet = document.getElementById('btn-T-ret');
-	skipForm(formF);
-	skipForm(formS);
-	skipForm(formT);
+// function multiForm() {
+// 	let formF = document.getElementById('first');
+// 	let formS = document.getElementById('second');
+// 	let formT = document.getElementById('third');
+// 	let btnF;
+// 	let btnS;
+// 	let btnT;
+// 	let btnFRet = document.getElementById('btn-F-ret');
+// 	let btnSRet = document.getElementById('btn-S-ret');
+// 	let btnTRet = document.getElementById('btn-T-ret');
 
-	if (formF) {
-		btnF = formF.lastElementChild;
-		formF = formF.parentElement;
+// 	if (formF) {
+// 		btnF = formF.lastElementChild;
+// 		formF = formF.parentElement;
 
-		if (formS) {
-			btnS = formS.lastElementChild;
-			formS = formS.parentElement;
-		}
-		if (formT) {
-			btnT = formT.lastElementChild;
-			formT = formT.parentElement;
-		}
+// 		if (formS) {
+// 			btnS = formS.lastElementChild;
+// 			formS = formS.parentElement;
+// 		}
+// 		if (formT) {
+// 			btnT = formT.lastElementChild;
+// 			formT = formT.parentElement;
+// 		}
 
-		FORM_ADD_CONSULT_PET.classList.add('oculto');
-		formF.classList.remove('oculto');
+// 		FORM_ADD_CONSULT_PET.classList.add('oculto');
+// 		formF.classList.remove('oculto');
 		
-		if (btnF) {
-			btnF.addEventListener('click', function() {
-				if (formS) {
-					formF.classList.add('oculto');
-					formS.classList.remove('oculto');
-				} else {
-					formF.classList.add('oculto');
-				}
-			});
-		}
+// 		if (btnF) {
+// 			btnF.addEventListener('click', function() {
+// 				if (formS) {
+// 					formF.classList.add('oculto');
+// 					formS.classList.remove('oculto');
+// 				} else {
+// 					formF.classList.add('oculto');
+// 				}
+// 			});
+// 		}
 		
-		if (btnS) {
-			btnS.addEventListener('click', function() {
-				if (formT) {
-					formS.classList.add('oculto');
-					formT.classList.remove('oculto');
-				} else {
-					formS.classList.add('oculto');
-				}
-			});
-		}
+// 		if (btnS) {
+// 			btnS.addEventListener('click', function() {
+// 				if (formT) {
+// 					formS.classList.add('oculto');
+// 					formT.classList.remove('oculto');
+// 				} else {
+// 					formS.classList.add('oculto');
+// 				}
+// 			});
+// 		}
 		
-		if (btnT) {
-			btnT.addEventListener('click', function() {
-				formT.classList.add('oculto');
-			});
-		}
-	} else {
-		alert('Debe seleccionar Motivo de consulta');
-	}
-}
-
-function skipForm(form) {
-	let skip = form.querySelector('#skip');
-	skip.addEventListener('click', () => {
-		form.parentElement.classList.add('oculto');
-		console.log('Formulario omitido: ' + form.getAttribute('id'));
-	});
-}
+// 		if (btnT) {
+// 			btnT.addEventListener('click', function() {
+// 				formT.classList.add('oculto');
+// 			});
+// 		}
+// 	} else {
+// 		alert('Debe seleccionar Motivo de consulta');
+// 	}
+// }

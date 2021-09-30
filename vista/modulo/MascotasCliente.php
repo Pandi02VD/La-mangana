@@ -94,8 +94,8 @@
 				<h2 class="f__title">Registro de consulta</h2>
 				<div class="line-top"></div>
 				<div class="f__datetime">
-					<span id="momento-consult-new">Registro: <?=date('d/m/Y - H:i:s');?></span>
-					<input type="hidden" name="momento-consult-new" value="<?=date('d/m/Y - H:i:s');?>">
+					<span>Registro: <?=date('d/m/Y - H:i:s');?></span>
+					<input type="hidden" id="momento-consult-new" name="momento-consult-new" value="<?=date('Y-m-d H:i:s');?>">
 				</div>
 				<div class="tabs">
 					<a href="#tab-mascota">Datos de la Mascota</a>
@@ -178,7 +178,7 @@
 					</div>
 				</div>
 
-				<div class="i__group">
+				<div class="C__group">
 					<label class="i-b w100 label-checkbox" for="acs-consult-new">Accesorios con los que llega la mascota a la consulta.</label>
 					<div class="D-info">
 						<p class="info"><i>i</i> Separe con una coma (,) cada accesorio.</p>
@@ -189,12 +189,18 @@
 				</div>
 
 				<div class="i__group">
+					<label class="labels" for="observaciones-consult-new">Observaciones</label>
+					<textarea id="observaciones-consult-new" name="observaciones-consult-new" required></textarea>
+				</div>
+				
+				<div class="i__group">
 					<label class="labels" for="costo-consult-new">Costo de Consulta ($ MNX)</label>
 					<input class="inputs" type="text" id="costo-consult-new" name="costo-consult-new" required>
 				</div>
 				
 				<input type="hidden" name="pet-id-add-consult" id="pet-id-add-consult" required>
-				<input type="button" id="btn-MF" class="submit" value="Siguiente Paso">
+				<input type="submit" id="btn-MF" class="submit" value="Siguiente Paso">
+				<?php ControladorServicios::nuevaConsultaCtl(); ?>
 			</form>
 		</div>
 

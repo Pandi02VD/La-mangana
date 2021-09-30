@@ -25,7 +25,7 @@
 		<link rel="stylesheet" href="css/Estilo.css">
 
 		<!-- API Google Places -->
-		<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places"></script>
+		<script src="https://maps.googleapis.com/maps/api/js?key=&libraries=places"></script>
 
 		<!-- Notificaiones JS -->
 		<script src="js/Notificaciones.js"></script>

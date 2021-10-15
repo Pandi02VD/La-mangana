@@ -1,5 +1,8 @@
 <?php 
-	$cargo = $_SESSION["tipo-usuario"];
+	$cargo = 0;
+	if(isset($_SESSION["tipo-usuario"])){
+		$cargo = $_SESSION["tipo-usuario"];
+	}
 	$clientes = ControladorCliente::seleccionarClientesCtl();
 ?>
 

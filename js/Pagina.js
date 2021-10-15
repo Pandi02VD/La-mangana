@@ -12,6 +12,9 @@ let arrayURL = {
 	'Razas' : "Mascotas", 
 	'Jaulas' : "Mascotas", 
 	'Servicios' : "Servicios", 
+	'Hospitalizacion' : "Servicios", 
+	'Cirugia' : "Servicios", 
+	'Medicina' : "Servicios", 
 	'Salir' : "Salir", 
 	'Error' : "Error"
 };

@@ -457,7 +457,7 @@
 		#Verificar si existe la jaula que se va a agregar en la base de datos.
 		public function existeJaulaBD($jaula) {
 			$sql = Conexion::conectar() -> prepare(
-				"SELECT jaula FROM jaula WHERE jaula = :jaula AND status >= 1;"
+				"SELECT * FROM jaula WHERE jaula = :jaula AND status >= 1;"
 			);
 			$sql -> bindParam(":jaula", $jaula, PDO::PARAM_INT);
 			$sql -> execute();

@@ -204,7 +204,7 @@
 			</form>
 		</div>
 
-		<div class="C__f oculto" id="form-add-H-pet">
+		<!-- <div class="C__f oculto" id="form-add-H-pet">
 			<form method="post" class="f">
 				<input class="f__close" type="button" id="btn-close-form-add-Consult-pet" value="x">
 				<h2 class="f__title">Orden de Hospitalización</h2>
@@ -326,7 +326,7 @@
 					<input type="button" class="submit" value="Siguiente Paso">
 				</div>
 			</form>
-		</div>
+		</div> -->
 
 		<div class="C__f oculto" id="form-edit-pet">
 			<form method="post" class="f">

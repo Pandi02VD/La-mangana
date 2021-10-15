@@ -314,30 +314,30 @@ let checkCir = document.getElementById('service-C-consult-new');
 let checkMed = document.getElementById('service-M-consult-new');
 let lblMed = document.getElementById('lbl-service-M-consult-new');
 let lblCir = document.getElementById('lbl-service-C-consult-new');
-let formH = FORM_ADD_H_PET.firstElementChild;
-let formC = FORM_ADD_C_PET.firstElementChild;
-let formM = FORM_ADD_M_PET.firstElementChild;
+// let formH = FORM_ADD_H_PET.firstElementChild;
+// let formC = FORM_ADD_C_PET.firstElementChild;
+// let formM = FORM_ADD_M_PET.firstElementChild;
 
 callForm(checkHos, () => {
 	if (checkHos.checked) {
 		lblCir.classList.remove('none');
 		lblMed.innerText = 'Medicación';
-		formH.setAttribute('id', 'first');
-		formH.firstElementChild.setAttribute('id', 'btn-F-ret');
+		// formH.setAttribute('id', 'first');
+		// formH.firstElementChild.setAttribute('id', 'btn-F-ret');
 		if(checkMed.checked) {
 			checkMed.checked = false; 
-			formM.setAttribute('id', '');
-			formM.firstElementChild.setAttribute('id', '');
+			// formM.setAttribute('id', '');
+			// formM.firstElementChild.setAttribute('id', '');
 		}
 	} else {
 		lblCir.classList.add('none');
 		lblMed.innerText = 'Solo Medicación';
-		formH.setAttribute('id', '');
-		formC.setAttribute('id', '');
-		formM.setAttribute('id', '');
-		formH.firstElementChild.setAttribute('id', '');
-		formC.firstElementChild.setAttribute('id', '');
-		formM.firstElementChild.setAttribute('id', '');
+		// formH.setAttribute('id', '');
+		// formC.setAttribute('id', '');
+		// formM.setAttribute('id', '');
+		// formH.firstElementChild.setAttribute('id', '');
+		// formC.firstElementChild.setAttribute('id', '');
+		// formM.firstElementChild.setAttribute('id', '');
 		checkCir.checked = false;
 		checkMed.checked = false;
 	}
@@ -345,18 +345,18 @@ callForm(checkHos, () => {
 
 callForm(checkCir, () => {
 	if (checkCir.checked) {
-		formC.setAttribute('id', 'second');
-		formC.firstElementChild.setAttribute('id', 'btn-S-ret');
+		// formC.setAttribute('id', 'second');
+		// formC.firstElementChild.setAttribute('id', 'btn-S-ret');
 		if(checkMed.checked) {
-			formM.setAttribute('id', 'third');
-			formM.firstElementChild.setAttribute('id', 'btn-T-ret');
+			// formM.setAttribute('id', 'third');
+			// formM.firstElementChild.setAttribute('id', 'btn-T-ret');
 		}
 	} else {
-		formC.setAttribute('id', '');
-		formC.firstElementChild.setAttribute('id', '');
+		// formC.setAttribute('id', '');
+		// formC.firstElementChild.setAttribute('id', '');
 		if(checkMed.checked) {
-			formM.setAttribute('id', 'second');
-			formM.firstElementChild.setAttribute('id', 'btn-S-ret');
+			// formM.setAttribute('id', 'second');
+			// formM.firstElementChild.setAttribute('id', 'btn-S-ret');
 		}
 	}
 });
@@ -364,17 +364,17 @@ callForm(checkCir, () => {
 callForm(checkMed, () => {
 	if (checkMed.checked) {
 		if (lblMed.innerText == 'Solo Medicación') {
-			formM.setAttribute('id', 'first');
-			formM.firstElementChild.setAttribute('id', 'btn-F-ret');
+			// formM.setAttribute('id', 'first');
+			// formM.firstElementChild.setAttribute('id', 'btn-F-ret');
 		} else if (checkHos.checked && !checkCir.checked) {
-			formM.setAttribute('id', 'second');
-			formM.firstElementChild.setAttribute('id', 'btn-S-ret');
+			// formM.setAttribute('id', 'second');
+			// formM.firstElementChild.setAttribute('id', 'btn-S-ret');
 		} else if (checkHos.checked && checkCir.checked) {
-			formM.setAttribute('id', 'third');
-			formM.firstElementChild.setAttribute('id', 'btn-T-ret');
+			// formM.setAttribute('id', 'third');
+			// formM.firstElementChild.setAttribute('id', 'btn-T-ret');
 		}
 	} else {
-		formM.setAttribute('id', '');
+		// formM.setAttribute('id', '');
 	}
 });
 

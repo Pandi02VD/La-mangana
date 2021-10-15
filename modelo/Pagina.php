@@ -15,6 +15,9 @@
 			'Razas' => "Razas", 
 			'Jaulas' => "Jaulas", 
 			'Servicios' => "Servicios", 
+			'Hospitalizacion' => "Hospitalizacion", 
+			'Cirugia' => "Cirugia", 
+			'Medicina' => "Medicina", 
 			'Salir' => "Salir", 
 			'Error' => "Error"
 		);

@@ -1,7 +1,7 @@
 <?php 
 	$cargo = $_SESSION["tipo-usuario"];
 	$jaulas = ControladorMascota::seleccionarJaulasCtl();
-	$jaulaStatus = array('1' => 'Libre', '2' => 'Ocupado');
+	$jaulaStatus = array('1' => 'Disponible', '2' => 'Ocupado');
 ?>
 
 <div class="title">

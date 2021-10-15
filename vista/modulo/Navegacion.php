@@ -23,6 +23,7 @@
 				<a class="link-button" id="Inicio" href="index.php?pagina=Inicio">Inicio</a>
 				<a class="link-button" id="Mascotas" href="index.php?pagina=Mascotas">Mascotas</a>
 				<a class="link-button" id="Clientes" href="index.php?pagina=Clientes">Clientes & Usuarios</a>
+				<a class="link-button" id="Servicios" href="index.php?pagina=Servicios">Servicios</a>
 			<?php } ?>
 		</div>
 	</div>

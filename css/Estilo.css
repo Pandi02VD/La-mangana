@@ -1105,7 +1105,38 @@ table tr:last-child td:last-child {
 }
 
 .table tr:active{
-  background-color: skyblue;
+	background-color: skyblue;
+}
+
+.table tr td .clip{
+	display: flex;
+	font-size: 12px;
+	width: inherit;
+	justify-content: center;
+	color: white;
+	background-color: var(--Form-Secondary-Active);
+	border: none;
+}
+
+.table tr td .clip.disabled{
+	height: auto !important;
+	padding-top: 0px !important;
+}
+
+.warn {
+	background-color: red !important;
+}
+
+.init {
+	background-color: red !important;
+}
+
+.progress {
+	background-color: red !important;
+}
+
+.finish {
+	background-color: red !important;
 }
 
 .table tr td a, .button{
@@ -1236,6 +1267,7 @@ input[type="checkbox"]{
 	border: 2px solid var(--Form-Primary-Low);
 	background-color: white;
 	/* border-radius: 2px; */
+	border-radius: 50%;
 	appearance: none;
 	-webkit-appearance: none;
 	-moz-appearance: none;
@@ -1265,6 +1297,7 @@ input[type="checkbox"]:checked::before{
 	top: 15%;
 	left: 15%;
 	/* border-radius: 2px; */
+	border-radius: 50%;
 	background-color: var(--Form-Primary-Low);
 }
 /* Tooltip, Checkbox & Botones de acción */

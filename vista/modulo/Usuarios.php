@@ -3,7 +3,21 @@
 	if(isset($_SESSION["tipo-usuario"])){
 		$cargo = $_SESSION["tipo-usuario"];
 	}
-	$usuarios = ControladorUsuario::seleccionarUsuariosCtl();
+	$size = 3;
+	$init = 0;
+	$inicio = 0;
+	$modulo = '';
+	if(isset($_GET["pag"])){
+		$init = $_GET["pag"];
+	}
+	if(isset($_GET["pagina"])){
+		$modulo = $_GET["pagina"];
+	}
+
+	$arrayUsuarios = ControladorUsuario::seleccionarUsuariosCtl();
+	$paginacion = Paginacion::pnt($modulo, sizeof($arrayUsuarios), $init, $size);
+	$paginacion != null ? $inicio = $paginacion['inicio'] : null ;
+	$usuarios = array_slice($arrayUsuarios, $inicio, $size);
 ?>
 <div class="title">
 	<h2>Usuarios</h2>
@@ -12,7 +26,18 @@
 </div>
 
 <?php if($cargo == 1) :?>
-<div class="C__Table">    
+<div class="C__Table">
+	<?php if($paginacion != null) : ?>
+		<div class="Pnt">
+			<a <?=$paginacion['onPrev']?> href="<?=$paginacion['hrefPrev']?>">&#60</a>
+			<?php for($i = 1; $i <= $paginacion['pags']; $i++) : ?>
+				<a 
+					class="<?=$i == $init ? 'active' : ''?>"
+					href="index.php?pagina=<?=$modulo?>&pag=<?=$i?>"><?=$i?></a>
+			<?php endfor ?>
+			<a <?=$paginacion['onNext']?> href="<?=$paginacion['hrefNext']?>">&#62</a>
+		</div>
+	<?php endif ?>
 	<div>
 		<div class="C__Btn">
 			<input type="image" src="img/add_32px.png" alt="imágen de acción" id="btn-add-user">

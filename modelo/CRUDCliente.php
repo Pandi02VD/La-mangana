@@ -26,7 +26,9 @@
 		public function seleccionarClientesBD(){
 			$sql = Conexion::conectar() -> prepare(
 				"SELECT u.iduser, u.nombre, u.tipo, u.fecha, 
-				date_format(u.fecha, '%d/%M/%Y') fecha FROM user u WHERE u.status = 1 AND u.tipo = 0;"
+				date_format(u.fecha, '%d/%M/%Y') fecha 
+				FROM user u WHERE u.status = 1 AND u.tipo = 0 
+				ORDER BY u.iduser DESC;"
 			);
 			$sql -> execute();
 			return $sql -> fetchAll();

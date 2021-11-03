@@ -1,5 +1,20 @@
 <?php 
-	$mascotas = ControladorMascota::seleccionarMascotasCtl();
+	$arrayMascotas = ControladorMascota::seleccionarMascotasCtl();
+
+	$size = 3;
+	$init = 0;
+	$inicio = 0;
+	$modulo = '';
+	if(isset($_GET["pag"])){
+		$init = $_GET["pag"];
+	}
+	if(isset($_GET["pagina"])){
+		$modulo = $_GET["pagina"];
+	}
+
+	$paginacion = Paginacion::pnt($modulo, sizeof($arrayMascotas), $init, $size);
+	$paginacion != null ? $inicio = $paginacion['inicio'] : null ;
+	$mascotas = array_slice($arrayMascotas, $inicio, $size);
 ?>
 
 <div class="title">
@@ -96,6 +111,17 @@
 
 		</div>
 	<?php }else{ ?>
+		<?php if($paginacion != null) : ?>
+			<div class="Pnt">
+				<a <?=$paginacion['onPrev']?> href="<?=$paginacion['hrefPrev']?>">&#60</a>
+				<?php for($i = 1; $i <= $paginacion['pags']; $i++) : ?>
+					<a 
+						class="<?=$i == $init ? 'active' : ''?>"
+						href="index.php?pagina=<?=$modulo?>&pag=<?=$i?>"><?=$i?></a>
+				<?php endfor ?>
+				<a <?=$paginacion['onNext']?> href="<?=$paginacion['hrefNext']?>">&#62</a>
+			</div>
+		<?php endif ?>
 		<div class="Bar__Btns">
 			<div class="C__Btn">
 				<input type="image" src="img/add_32px.png" alt="imágen de acción" id="btn-add-pet">

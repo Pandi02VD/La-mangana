@@ -263,6 +263,12 @@
 				}
 			}
 		}
+		
+		// #Ocupar informacion de una jaula.
+		// public function ocuparJaulaCtl($jaulaId) {
+		// 	$respuesta = CRUDMascota::ocuparJaulaBD($jaulaId);
+		// 	return $respuesta;
+		// }
 
 		#Deshabilitar una o más jaulas.
 		public function eliminarJaulasCtl($jaulasEliminar){

@@ -16,8 +16,11 @@
 			'Jaulas' => "Jaulas", 
 			'Servicios' => "Servicios", 
 			'Hospitalizacion' => "Hospitalizacion", 
+			'HospitalizacionInfo' => "HospitalizacionInfo", 
 			'Cirugia' => "Cirugia", 
+			'CirugiaInfo' => "CirugiaInfo", 
 			'Medicina' => "Medicina", 
+			'MedicinaInfo' => "MedicinaInfo", 
 			'Salir' => "Salir", 
 			'Error' => "Error"
 		);

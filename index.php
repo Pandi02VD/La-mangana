@@ -14,5 +14,6 @@
 	require_once 'controlador/Validacion.php';
 	require_once 'controlador/Pic.php';
 	require_once 'controlador/MainInfo.php';
+	require_once 'controlador/Paginacion.php';
 	$main = new Controlador();
 	$main -> plantilla();

@@ -12,16 +12,24 @@
 		echo '<script>window.location = "index.php?pagina=Servicios&error=true"</script>';
 	}
 
-	$consulta = ControladorServicios::obtenerConsultaCtl($servicioId);
+	$jaulas = ControladorMascota::seleccionarJaulasCtl();
+	$consulta = ControladorServicios::personasConsultaCtl($servicioId);
 	$siguiente = json_decode($consulta["servicios"]);
 	if (isset($siguiente->cirugia)) {
-		$siguiente = "pagina=Cirugia";
+		if(ControladorServicios::servicioPendienteCtl("cirujia", $servicioId) != null) {
+			$siguiente = "pagina=Servicios" ;
+		} else {
+			$siguiente = "pagina=Cirugia&us=".$servicioId;
+		}
 	} else if (isset($siguiente->medicina)) {
-		$siguiente = "pagina=Medicina";
+		if(ControladorServicios::servicioPendienteCtl("medicina", $servicioId) != null) {
+			$siguiente = "pagina=Servicios";
+		} else {
+			$siguiente = "pagina=Medicina&us=".$servicioId;
+		}
 	} else {
 		$siguiente = "pagina=Servicios";
 	}
-	$jaulas = ControladorMascota::seleccionarJaulasCtl();
 ?>
 
 <div class="title">
@@ -61,14 +69,14 @@
 				?>
 					<option 
 						class="option-free" 
-						value="<?=$value["jaula"]?>"><?=$value["jaula"]?> <?="disponible"?>
+						value="<?=$value["idjaula"]?>"><?=$value["jaula"]?> <?="disponible"?>
 					</option>
 				<?php
 						} elseif ($value["status"] == 2) {
 				?>
 					<option 
 						class="option-booked" 
-						value="<?=$value["jaula"]?>" disabled><?=$value["jaula"]?> <?="ocupado"?>
+						value="<?=$value["idjaula"]?>" disabled><?=$value["jaula"]?> <?="ocupado"?>
 					</option>
 				<?php
 						}

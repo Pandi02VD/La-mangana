@@ -25,7 +25,7 @@
 		<link rel="stylesheet" href="css/Estilo.css">
 
 		<!-- API Google Places -->
-		<script src="https://maps.googleapis.com/maps/api/js?key=&libraries=places"></script>
+		<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places"></script>
 
 		<!-- Notificaiones JS -->
 		<script src="js/Notificaciones.js"></script>
@@ -43,8 +43,8 @@
 		<script src="js/Graficas.js"></script>
 		<script src="js/ExcelExportar.js"></script>
 		<script src="js/JQueryAcciones.js"></script>
-		<script src="js/Interactividad.js"></script>
 		<script src="js/Validaciones.js"></script>
+		<script src="js/Interactividad.js"></script>
 		<script src="js/CronoAcciones.js"></script>
 	</body>
 </html>

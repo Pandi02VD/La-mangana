@@ -455,9 +455,10 @@ editForm(BTN_ADD_CONSULT_PET, CHECK_PET, $('#pet-id-add-consult'), function (res
 		resultado["tamano"] == undefined
 	) {
 		$('#peso-pet-consult-new').val('Sin datos');
-		tamanoelement[0].checked = true;
+		$.each(tamanoelement, (k) => {tamanoelement[k].checked = false});
+		ccelement[0].options[0].selected = true;
 	} else {
-		$('#peso-pet-consult-new').val(resultado["peso"] + ' Kg.');
+		$('#peso-pet-consult-new').val(resultado["peso"]);
 		ccelement[0].options[(resultado["condicion_corporal"])].selected = true;
 		tamanoelement[resultado["tamano"] - 1].checked = true;
 	}

@@ -106,7 +106,7 @@
 			$infoMascota = CRUDMascota::infoMascota($mascotaId);
 			$atributos = CRUDMascota::atributosMascota($mascotaId);
 			$infoDueno = CRUDMascota::infoDueno($infoMascota["iduser"]);
-			$mascota = array_merge($infoMascota, $atributos);
+			$atributos != null ? $mascota = array_merge($infoMascota, $atributos) : $mascota = $infoMascota;
 			return array_merge($mascota, $infoDueno);
 		}
 
@@ -455,11 +455,11 @@
 		}
 		
 		#Verificar si existe la jaula que se va a agregar en la base de datos.
-		public function existeJaulaBD($jaula) {
+		public function existeJaulaBD($jaulaId) {
 			$sql = Conexion::conectar() -> prepare(
-				"SELECT * FROM jaula WHERE jaula = :jaula AND status >= 1;"
+				"SELECT * FROM jaula WHERE idjaula = :idjaula AND status >= 1;"
 			);
-			$sql -> bindParam(":jaula", $jaula, PDO::PARAM_INT);
+			$sql -> bindParam(":idjaula", $jaulaId, PDO::PARAM_INT);
 			$sql -> execute();
 			return $sql  -> fetch();
 			$sql -> close();
@@ -488,6 +488,21 @@
 			);
 			$sql -> bindParam(":idjaula", $datosJaula["jaulaId"], PDO::PARAM_INT);
 			$sql -> bindParam(":jaula", $datosJaula["jaula"], PDO::PARAM_INT);
+			if($sql -> execute()) {
+				return true;
+			} else {
+				return false;
+			}
+			$sql -> close();
+			$sql = null;
+		}
+		
+		#Ocupar jaula en la base de datos.
+		public function ocuparJaulaBD($jaulaId) {
+			$sql = Conexion::conectar() -> prepare(
+				"UPDATE jaula set status = 2 WHERE idjaula = :idjaula;"
+			);
+			$sql -> bindParam(":idjaula", $jaulaId, PDO::PARAM_INT);
 			if($sql -> execute()) {
 				return true;
 			} else {

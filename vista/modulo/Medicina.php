@@ -12,8 +12,7 @@
 		echo '<script>window.location = "index.php?pagina=Servicios&error=true"</script>';
 	}
 
-	$consulta = ControladorServicios::obtenerConsultaCtl($servicioId);
-	$siguiente = "pagina=Servicios";
+	$consulta = ControladorServicios::personasConsultaCtl($servicioId);
 ?>
 <div class="title">
 	<h2>Servicios</h2>
@@ -32,38 +31,48 @@
 		<h2 class="f__title">Medicamento</h2>
 		<div class="line-top"></div>
 		
-		<div class="i__group">
-			<label class="labels" for="pet-H-motivo">Nombre del medicamento</label>
-			<input class="inputs" type="text" name="pet-H-motivo" id="pet-H-motivo" autofocus>
-			<input type="hidden" name="next-service-new" id="next-service-new" value="<?=$siguiente?>">
-			<input type="hidden" name="consultaId-new" id="consultaId-new" value="<?=$servicioId?>">
-		</div>
-		
-		<div class="i__group flex">
-			<label class="labels" for="pet-H-motivo">Dosis</label>
-			<label class="labels left" for="pet-H-motivo">Unidad</label>
-			<input class="inputs" type="text" name="pet-H-motivo" id="pet-H-motivo">
-			<select name="pet-H-jaula" id="pet-H-jaula">
-				<option value="">Ampolleta</option>
-				<option value="">Inyección</option>
-				<option value="">Gotas</option>
-				<option value="">Gramos</option>
-				<option value="">Mililítro</option>
-				<option value="">Píldora / Pastilla</option>
-			</select>
-		</div>
-
-		<div class="i__group">
-			<label class="labels" for="pet-H-motivo">Frecuencia</label>
-			<input class="inputs" type="text" name="pet-H-motivo" id="pet-H-motivo">
-		</div>
-
-		<input class="submit" type="button" value="Agregar">
-		<!-- <div>
-			<input type="button" class="back" id="skip" value="Omitir">
-		</div> -->
 		<div>
-			<input type="button" class="submit" value="Siguiente Paso">
+			<div class="i__group">
+				<label class="labels" for="nombre-M-new">Nombre del medicamento</label>
+				<input class="inputs" type="text" name="nombre-M-new" id="nombre-M-new" autofocus>
+				<input type="hidden" name="consultaId-new" id="consultaId-new" value="<?=$servicioId?>">
+			</div>
+			
+			<div class="i__group flex">
+				<label class="labels" for="dosis-M-new">Dosis</label>
+				<label class="labels left" for="unidad-M-new">Unidad</label>
+				<input class="inputs" type="text" name="dosis-M-new" id="dosis-M-new">
+				<select name="unidad-M-new" id="unidad-M-new">
+					<option value="">Ampolleta</option>
+					<option value="">Inyección</option>
+					<option value="">Gotas</option>
+					<option value="">Gramos</option>
+					<option value="">Mililítro</option>
+					<option value="">Píldora / Pastilla</option>
+				</select>
+			</div>
+			
+			<div class="i__group">
+				<label class="labels" for="frecuencia-M-new">Frecuencia</label>
+				<input class="inputs" type="text" name="frecuencia-M-new" id="frecuencia-M-new">
+			</div>
+			<input name="add-M-new" id="add-M-new" class="submit" type="button" value="Agregar">
+		</div>
+		<div class="C__group">
+			<ul id="list"></ul>
+		</div>
+		<template id="medic-template">
+			<li>
+				<span name="nombre">Nombre</span>
+				<div class="C__Btn__Last">
+					<img name="drop" src="img/trash_32px.png" alt="Quitar">
+				</div>
+				<input type="hidden" name="medical-M-new[]">
+			</li>
+		</template>
+		<div>
+			<input type="submit" class="submit" value="Finalizar">
+			<?php ControladorServicios::nuevaMedicacionCtl(); ?>
 		</div>
 	</form>
 </div>

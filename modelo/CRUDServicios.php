@@ -7,9 +7,9 @@
 				consulta (idmascota, idmedico, observaciones, acs_mascota, servicios, costo, momento, status) 
 				VALUE (:idmascota, :idmedico, :observaciones, :acs_mascota, :servicios, :costo, :momento, 1);"
 			);
-			$tags != null ? $JSONtags = CRUDServicios::JSONAccesorios($tags) : $JSONtags = null;
+			$tags != null ? $JSONtags = CRUDServicios::JSONItems($tags) : $JSONtags = null;
 
-			$sql -> bindParam(":idmascota", $datosConsulta["mascota"], PDO::PARAM_INT);
+			$sql -> bindParam(":idmascota", $datosConsulta["mascotaId"], PDO::PARAM_INT);
 			$sql -> bindParam(":idmedico", $datosConsulta["medico"], PDO::PARAM_INT);
 			$sql -> bindParam(":observaciones", $datosConsulta["observaciones"], PDO::PARAM_STR);
 			$sql -> bindParam(":acs_mascota", $JSONtags);
@@ -28,12 +28,11 @@
 			$sql = null;
 		}
 
-		#Generar el JSON de accesorios de mascota.
-		public function JSONAccesorios($tags) {
+		#Generar el JSON de un array de mascota.
+		public function JSONItems($items) {
 			$arrayAccesorios = array();
-			$arrayTags = $tags;
-			for ($i=0; $i < sizeof($arrayTags); $i++) { 
-				$arrayAccesorios["acs".$i] = $arrayTags[$i];
+			for ($i = 0; $i < sizeof($items); $i++) { 
+				$arrayAccesorios['item'.$i] = $items[$i];
 			}
 			return json_encode($arrayAccesorios);
 		}
@@ -51,7 +50,7 @@
 		}
 		
 		#Obtener consulta.
-		public function obtenerConsultaBD($servicioId) {
+		public function personasConsultaBD($servicioId) {
 			$sql = Conexion::conectar() -> prepare(
 				"SELECT u.nombre AS medico, m.nombre AS mascota, c.servicios 
 				FROM consulta c 
@@ -133,6 +132,91 @@
 				FROM consulta c 
 				INNER JOIN medicina m ON m.idconsulta = c.idconsulta
 				WHERE m.status = 1 AND m.idconsulta = :idconsulta;"
+			);
+			$sql -> bindParam(":idconsulta", $consultaId, PDO::PARAM_INT);
+			$sql -> execute();
+			return $sql -> fetch();
+			$sql -> close();
+			$sql = null;
+		}
+
+		#Nueva Hospitalización.
+		public function nuevaHospitalizacionBD($datosHospital) {
+			$sql = Conexion::conectar() -> prepare(
+				"INSERT INTO 
+					hospitalizacion (
+						idconsulta, idjaula, motivo, observaciones, entrada, salida, costo, status
+					) 
+					VALUE (
+						:idconsulta, :idjaula, :motivo, :observaciones, :entrada, null, :costo, 1
+					);"
+			);
+			$sql -> bindParam(":idconsulta", $datosHospital["consultaId"], PDO::PARAM_INT);
+			$sql -> bindParam(":idjaula", $datosHospital["jaula"], PDO::PARAM_INT);
+			$sql -> bindParam(":motivo", $datosHospital["motivo"], PDO::PARAM_STR);
+			$sql -> bindParam(":observaciones", $datosHospital["obs"]);
+			$sql -> bindParam(":entrada", $datosHospital["entrada"]);
+			$sql -> bindParam(":costo", $datosHospital["costo"]);
+			if($sql -> execute()) {
+				return true;
+			} else {
+				return false;
+			}
+			$sql -> close();
+			$sql = null;
+		}
+		
+		#Nueva Cirugía.
+		public function nuevaCirugiaBD($datosCirugia) {
+			$sql = Conexion::conectar() -> prepare(
+				"INSERT INTO 
+					cirujia (
+						idconsulta, tipo_cirujia, entrada, salida, costo, observaciones, documento, status
+					) 
+					VALUE (
+						:idconsulta, :tipo_cirujia, :entrada, null, :costo, :observaciones, null, 1
+					);"
+			);
+			$sql -> bindParam(":idconsulta", $datosCirugia["consultaId"], PDO::PARAM_INT);
+			$sql -> bindParam(":tipo_cirujia", $datosCirugia["nombre"], PDO::PARAM_STR);
+			$sql -> bindParam(":entrada", $datosCirugia["entrada"]);
+			$sql -> bindParam(":costo", $datosCirugia["costo"]);
+			$sql -> bindParam(":observaciones", $datosCirugia["obs"]);
+			if($sql -> execute()) {
+				return true;
+			} else {
+				return false;
+			}
+			$sql -> close();
+			$sql = null;
+		}
+		
+		#Nueva Receta Médica.
+		public function nuevaMedicacionBD($consultaId, $medical) {
+			$sql = Conexion::conectar() -> prepare(
+				"INSERT INTO 
+					medicina (
+						idconsulta, diagnostico, medicacion, status
+					) 
+					VALUE (
+						:idconsulta, null, :medicacion, 1
+					);"
+			);
+			$sql -> bindParam(":idconsulta", $consultaId, PDO::PARAM_INT);
+			$sql -> bindParam(":medicacion", $medical);
+			if($sql -> execute()) {
+				return true;
+			} else {
+				return false;
+			}
+			$sql -> close();
+			$sql = null;
+		}
+
+		#Validar si un servicio está pendiente por llenar.
+		public function servicioPendienteBD($tabla, $consultaId) {
+			$sql = Conexion::conectar() -> prepare(
+				"SELECT status FROM $tabla WHERE idconsulta = :idconsulta;"
 			);
 			$sql -> bindParam(":idconsulta", $consultaId, PDO::PARAM_INT);
 			$sql -> execute();

@@ -8,6 +8,16 @@ if (document.getElementById('pet-anos-new')) {
 	});
 }
 
+if (document.getElementById('pet-anos-edit')) {
+	let edadMascota = document.getElementById('pet-anos-edit');
+	edadMascota.addEventListener('keyup', () => {
+		let fechaActual = new Date();
+		fecha = fechaActual.getFullYear() - edadMascota.value;
+		document.getElementById('pet-edad-edit').value = fecha;
+		document.getElementById('span-edad-edit').innerText = fecha;
+	});
+}
+
 function interactFormModal (buttonShow, buttonHide, form) {
 	if (buttonShow && form && buttonHide) {
 		buttonShow.addEventListener('click', () => {

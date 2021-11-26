@@ -126,6 +126,7 @@ const BTN_ADD_PET = document.getElementById('btn-add-pet');
 const BTN_ADD_CONSULT_PET = document.getElementById('btn-add-Consult-pet');
 const BTN_EDIT_PET = document.getElementById('btn-edit-pet');
 const BTN_DELETE_PET = document.getElementById('btn-delete-pet');
+const BTN_C_DELETE_PET = document.getElementById('btn-C-delete-pet');
 const BTN_ADD_H_PET = document.getElementById('btn-add-H-pet');
 const BTN_SEE_HC_PET = document.getElementById('btn-see-HC-pet');
 const FORM_ADD_PET = document.getElementById('form-add-pet');

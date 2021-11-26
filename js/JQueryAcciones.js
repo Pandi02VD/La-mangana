@@ -332,6 +332,23 @@ fillSelectHTML(document.getElementsByName('pet-especie-new'), 'select-raza', fun
 	}
 });
 
+fillSelectHTML(document.getElementsByName('pet-especie-edit'), 'select-raza', function (resultado) {
+	let select = document.getElementById('pet-raza-edit');
+	$('#pet-raza-edit').empty();
+
+	let optionDefault = document.createElement('option');
+	optionDefault.setAttribute('value', '');
+	optionDefault.innerHTML = 'Seleccione la raza';
+	select.appendChild(optionDefault);
+	
+	for (let i = 0; i < resultado.length; i++) {
+		let option = document.createElement('option');
+		option.setAttribute('value', resultado[i]['idmascota_raza']);
+		option.innerHTML = resultado[i]['raza'];
+		select.appendChild(option);
+	}
+});
+
 autocompleteAddress(
 	document.getElementById('domicilio-ubicacion-new'), 
 	document.getElementById('domicilio-estado-new'), 
@@ -473,6 +490,25 @@ editForm(BTN_ADD_CONSULT_PET, CHECK_PET, $('#pet-id-add-consult'), function (res
 	$('#address-client-consult-new').text(domicilio);
 });
 
+editForm(BTN_EDIT_PET, CHECK_PET, $('#petId-edit'), function (resultado) {
+	let sexo = $('[name=pet-sexo-edit]');
+	let especie = $('[name=pet-especie-edit]');
+	$('#pet-nombre-edit').val(resultado['mascota']);
+	especie[resultado["idmascota_especie"] - 1].checked = true;
+
+	let select = document.getElementById('pet-raza-edit');
+	let option = document.createElement('option');
+	option.setAttribute('value', resultado['idmascota_raza']);
+	option.innerHTML = resultado['raza'];
+	select.appendChild(option);
+	select[1].selected = true;
+
+	sexo[resultado["sexo"] - 1].checked = true;
+	$('#pet-anos-edit').val(new Date().getFullYear() - resultado['ano_nacimiento']);
+	$('#pet-edad-edit').val(resultado['ano_nacimiento']);
+	$('#span-edad-edit').text(resultado['ano_nacimiento']);
+});
+
 editForm(BTN_EDIT_JAULA, CHECK_JAULA, $('#jaulaId-edit'), (resultado) => {
 	$('#jaula-num-edit').val(resultado["jaula"]);
 });
@@ -487,6 +523,13 @@ editForm(BTN_EDIT_RAZA, CHECK_RAZA, $('#razaId-edit'), (resultado) => {
 deleteForm(BTN_DELETE_CLIENT, BTN_C_DELETE_CLIENT, BTN_CLOSE_FORM_DELETE_CLIENT, CHECK_CLIENT, FORM_DELETE_CLIENT, 'clientsToDelete', 'Clientes');
 
 deleteForm(BTN_DELETE_USER, BTN_C_DELETE_USER, BTN_CLOSE_FORM_DELETE_USER, CHECK_USER, FORM_DELETE_USER, 'usersToDelete', 'Usuarios');
+
+let urlMascota = window.location.search;
+let uriMascota;
+let paginaMascota = new URLSearchParams(urlMascota).get('pagina');
+paginaMascota == 'MascotasCliente' ? uriMascota = 'MascotasCliente&um=' + $('#clienteId').val() : uriMascota = 'Mascotas';
+console.log(uriMascota);
+deleteForm(BTN_DELETE_PET, BTN_C_DELETE_PET, BTN_CLOSE_FORM_DELETE_PET, CHECK_PET, FORM_DELETE_PET, 'petsToDelete', uriMascota);
 
 deleteForm(BTN_DELETE_JAULA, BTN_C_DELETE_JAULA, BTN_CLOSE_FORM_DELETE_JAULA, CHECK_JAULA, FORM_DELETE_JAULA, 'jaulasToDelete', 'Jaulas');
 

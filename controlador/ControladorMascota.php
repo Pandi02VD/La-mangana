@@ -74,6 +74,41 @@
 				}
 			}
 		}
+		
+		#Actualizar la información de una mascota de cliente.
+		public function actualizarMascotaCtl(){
+			if (
+				isset($_POST["petId-edit"]) && 
+				isset($_POST["pet-nombre-edit"]) && 
+				isset($_POST["pet-property-edit"]) && 
+				isset($_POST["pet-especie-edit"]) && 
+				isset($_POST["pet-raza-edit"]) && 
+				isset($_POST["pet-sexo-edit"]) && 
+				isset($_POST["pet-edad-edit"])
+			) {
+				if (
+					Validacion::nombresPropios($_POST["pet-nombre-edit"], 2, 50) && 
+					Validacion::enterosSinIntervalo($_POST["pet-edad-edit"], 4)
+				) {
+					$datosMascota = array(
+						"mascotaId" => $_POST["petId-edit"], 
+						"nombre" => $_POST["pet-nombre-edit"], 
+						"propietarioId" => $_POST["pet-property-edit"], 
+						"raza" => $_POST["pet-raza-edit"], 
+						"sexo" => $_POST["pet-sexo-edit"], 
+						"edad" => $_POST["pet-edad-edit"]
+					);
+					$mascotaActualizada = CRUDMascota::actualizarMascotaBD($datosMascota);
+					if($mascotaActualizada != false) { 
+							echo '<script>toast("Mascota actualizada correctamente");</script>';
+					} else {
+						echo '<script>toast("Mascota no actualizada");</script>';
+					}
+				} else {
+					echo '<script>toast("Debe llenar todos los campos correctamente.");</script>';
+				}
+			}
+		}
 
 		#Recuperar datos de una mascota de la base de datos.
 		public function datosMascotaCtl($mascotaId) {
@@ -95,7 +130,13 @@
 		
 		#Seleccionar una mascota.
 		public function seleccionarMascotaCtl($mascotaId){
-			$respuesta = CRUDMascota::seleccionarMascotaBD($mascotaId);
+			$respuesta = CRUDMascota::datosMascotaBD($mascotaId);
+			return $respuesta;
+		}
+		
+		#Recuperar la información de una mascota para editar.
+		public function infoMascotaCtl($mascotaId){
+			$respuesta = CRUDMascota::infoMascota($mascotaId);
 			return $respuesta;
 		}
 
@@ -276,6 +317,25 @@
 			$conclusion = true;
 			for ($i = 0; $i < sizeof($jaulasEliminar); $i++) {
 				$respuesta = CRUDMascota::eliminarJaulasBD($jaulasEliminar[$i]);
+				if ($respuesta == false) {
+					$respuestas[$i] = false;
+				}
+			}
+			
+			for ($i = 0; $i < sizeof($respuestas); $i++) {
+				if ($respuestas[$i] == false) {
+					$conclusion = false;
+				}
+			}
+			return $conclusion;
+		}
+		
+		#Deshabilitar una o más mascotas.
+		public function eliminarMascotasCtl($mascotasEliminar){
+			$respuestas = array();
+			$conclusion = true;
+			for ($i = 0; $i < sizeof($mascotasEliminar); $i++) {
+				$respuesta = CRUDMascota::eliminarMascotasBD($mascotasEliminar[$i]);
 				if ($respuesta == false) {
 					$respuestas[$i] = false;
 				}

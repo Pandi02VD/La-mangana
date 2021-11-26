@@ -212,11 +212,11 @@ nav::before{
 .title{
 	display: inline-block;
 	width: 100%;
-	background-color: whitesmoke;
+	background-color: white;
 	height: auto;
 	text-align: center;
-	border-bottom-left-radius: 6px;
-	border-bottom-right-radius: 6px;
+	border-bottom-left-radius: 4px;
+	border-bottom-right-radius: 4px;
 	box-shadow: 0px 1px 4px 0px gray;
 	animation: titleDawn .5s cubic-bezier(0.18, 0.89, 0.32, 1.28);
 }
@@ -231,7 +231,7 @@ nav::before{
 
 @keyframes titleDawn {
 	from {
-		transform: scaleX(0);
+		transform: scaleX(50%);
 	}
 	to {
 		transform: scaleX(100%);
@@ -340,7 +340,7 @@ input[type="password"]{
 	text-align: center;
 }
 
-input[type="search"]{
+input[type="text"]{
 	margin-left: 0;
 	margin-right: 0;
 }
@@ -555,6 +555,10 @@ textarea:focus{
 /* Formulario en página */
 
 /* Estilos genéricos */
+.box {
+	box-sizing: border-box;
+}
+
 .w100{
 	width: 100%;
 }
@@ -798,7 +802,7 @@ input[type="radio"]:checked + .label-radio{
 	line-height: 80px;
 	height: 80px;
 	width: calc(80% - 20px);
-	background-color: var(--CardTitle);
+	background-color: var(--CardPrimary);
 	color: var(--CardTitleText);
 }
 
@@ -812,6 +816,7 @@ input[type="radio"]:checked + .label-radio{
 	width: 100%;
 	height: auto;
 	margin-bottom: 35px;
+	border: 1px solid var(--CardPrimary);
 }
 
 .Cards__main h4 {
@@ -823,7 +828,6 @@ input[type="radio"]:checked + .label-radio{
 	font-weight: lighter;
 	font-size: 16px;
 	text-align: center;
-	border-bottom: 2px solid rgb(139, 136, 136);
 }
 
 .Cards__main div {
@@ -838,13 +842,11 @@ input[type="radio"]:checked + .label-radio{
 }
 
 .Cards__main div span:first-child {
-	background-color: var(--Form-Secondary-Low);
 	padding: 10px;
 	width: calc(32% - 20px);
 }
 
 .Cards__main div span:last-child {
-	background-color: var(--CardSecondary);
 	padding: 10px;
 	width: calc(68% - 20px);
 }
@@ -865,11 +867,9 @@ input[type="radio"]:checked + .label-radio{
 	font-size: 16px;
 	line-height: 40px;
 	color: var(--CardTitleText);
-	border-bottom: 2px solid rgb(139, 136, 136);
 }
 
 .Cards .tabs a.active {
-	background-color: var(--Form-Secondary-Low);
 	color: var(--CardTitleText);
 }
 
@@ -1048,31 +1048,31 @@ i{
 .C__Table{
 	display: inline-block;
 	width: calc(100% - 80px);
-	padding: 10px 40px;
-	margin-top: 40px;
+	padding: 20px 40px;
+	margin-top: 24px;
 }
 
 .table {
 	border-collapse: collapse;
 	width: 100%;
-	border-radius: 6px;
+	border-radius: 2px;
 	box-shadow: 0px 0px 8px 1px gray;
 }
 
 table tr:first-child th:first-child {
-	border-top-left-radius: 6px;
+	border-top-left-radius: 4px;
 }
 
 table tr:first-child th:last-child {
-	border-top-right-radius: 6px;
+	border-top-right-radius: 4px;
 }
 
 table tr:last-child td:first-child {
-	border-bottom-left-radius: 6px;
+	border-bottom-left-radius: 4px;
 }
 
 table tr:last-child td:last-child {
-	border-bottom-right-radius: 6px;
+	border-bottom-right-radius: 4px;
 }
 
 .table tr{
@@ -1136,6 +1136,7 @@ table tr:last-child td:last-child {
 
 .progress {
 	background-color: yellow !important;
+	color: black !important;
 }
 
 .finish {
@@ -1349,7 +1350,7 @@ input[type="checkbox"]:checked::before{
 .Pnt a.active, 
 .Pnt a:first-child, 
 .Pnt a:last-child {
-	color: var(--Form-Basic);
+	color: var(--Form-Primary-Active);
 	background-color: var(--Form-Primary-Low);
 }
 /* Paginación */

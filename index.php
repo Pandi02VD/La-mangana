@@ -15,5 +15,8 @@
 	require_once 'controlador/Pic.php';
 	require_once 'controlador/MainInfo.php';
 	require_once 'controlador/Paginacion.php';
+	if (isset($_GET["pagina"])) {
+		$_GET["pagina"] == 'MedicinaInfo' ? require_once 'vista/modulo/MedicinaInfo.php' : null;
+	}
 	$main = new Controlador();
 	$main -> plantilla();

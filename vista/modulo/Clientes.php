@@ -54,7 +54,7 @@
 			<span class="tooltip">Borrar cliente</span>
 		</div>
 		<div class="C__Btn__Last">
-			<input class="inputs" type="search" id="search-client" name="search-client" placeholder="Buscar Cliente">
+			<input class="inputs box" type="text" id="search-client" name="search-client" placeholder="Buscar Cliente">
 			<span class="iconSearch"><image src="img/search_20px.png"></image></span>
 		</div>
 		<!-- <div class="C__Btn__Last">

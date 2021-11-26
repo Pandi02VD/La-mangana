@@ -12,6 +12,7 @@
 		<link rel="shortcut icon" href="img/L.svg" type="image/x-icon">
 
 		<!-- Librerías -->
+		<script src="vista/lib/html2pdf.bundle.min.js"></script>
 		<script src="vista/lib/jquery-3.4.1.min.js"></script>
 		<script src="vista/lib/morris.min.js"></script>
 		<script src="vista/lib/raphael-min.js"></script>
@@ -25,7 +26,7 @@
 		<link rel="stylesheet" href="css/Estilo.css">
 
 		<!-- API Google Places -->
-		<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places"></script>
+		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCFiGfcxMZchQlUNIGD6dz2RZc7Y_9iAi8&libraries=places"></script>
 
 		<!-- Notificaiones JS -->
 		<script src="js/Notificaciones.js"></script>

@@ -1,6 +1,8 @@
 let arrayURL = {
 	'Inicio' : "Inicio", 
 	'IniciarSesion' : "IniciarSesion", 
+	'Cita' : "Cita", 
+	'Agenda' : "Agenda", 
 	'Usuarios' : "Clientes", 
 	'Usuario' : "Clientes", 
 	'Clientes' : "Clientes", 
@@ -22,6 +24,14 @@ let arrayURL = {
 	'Error' : "Error"
 };
 let url = window.location.search;
-let pagina = new URLSearchParams(url).get('pagina');
+let pagina;
+if (url.length == 0) {
+	url = window.location.pathname;
+	let titulo = '/econodentalplus/';
+	pagina = url.slice(titulo.length);
+	pagina == null ? pagina = 'Cita' : pagina = pagina;
+} else {
+	pagina = new URLSearchParams(url).get('pagina');
+}
 let navItem = document.getElementById(arrayURL[pagina]);
 navItem.classList.add('activo');

@@ -1,14 +1,15 @@
 <?php 
 	$nameGET = 'um';
-	$mascota = ControladorMascota::seleccionarMascotaCtl($_GET[$nameGET]);
+	$mascotaId = $_GET[$nameGET];
+	$mascota = ControladorMascota::seleccionarMascotaCtl($mascotaId);
 ?>
 <div class="title">
 	<h2>Mascota</h2>
-	<h3><?=$mascota["nombre"]?></h3>
+	<h3><?=$mascota["mascota"]?></h3>
 </div>
 <!-- <div style="display: inline-block; width: auto"> -->
 	<div>
-		<input type="hidden" name="mascotaid" id="mascotaid" value="<?=$mascota["idmascota"]?>">
+		<input type="hidden" name="mascotaId" id="mascotaId" value="<?=$mascotaId?>">
 		<div id="graficaPeso"></div>
 	</div>
 <!-- </div> -->

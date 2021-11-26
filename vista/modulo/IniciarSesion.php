@@ -1,28 +1,25 @@
 <?php
 	if(isset($_SESSION["tipo-usuario"]) && isset($_SESSION["ingresado"])) {
-		echo '<script>window.location = "index.php?pagina=Inicio"</script>';
+		echo '<script>window.location = "Inicio"</script>';
 	}
 ?>
-<div class="title">
-	<h3>Inicia sesión para continuar</h3>
-</div>
-<div class="C__F">
-	<form method="post" class="F">
-		<h2 class="f__title">Iniciar Sesión</h2>
-		<div class="line-top"></div>
-		<div class="C__F__C">
+<div class="bgTop"></div>
+<div class="bgBottom">
+	<div>
+		<h1>Inicia Sesión</h1>
+		<form method="post" class="">
 			<div class="i__group">
-				<input class="inputs" type="text" id="usuario" name="usuario" autofocus>
-				<label class="labels" for="usuario">Usuario</label>
+				<input class="textfield" type="text" id="usuario" name="usuario" autofocus>
+				<label class="labels" for="usuario">Nombre de usuario</label>
 			</div>
-			
 			<div class="i__group">
-				<input class="inputs" type="password" id="contrasena" name="contrasena">
+				<input class="textfield pwd" type="password" id="contrasena" name="contrasena">
 				<label class="labels" for="contrasena">Contraseña</label>
 			</div>
-			
-			<input class="submit" type="submit" value="Iniciar">
-		</div>
-			<?php ControladorUsuario::iniciarSesionCtl(); ?>
-	</form>
+			<div>
+				<input class="submit" type="submit" value="Iniciar">
+				<?php ControladorUsuario::iniciarSesionCtl(); ?>
+			</div>
+		</form>
+	</div>
 </div>

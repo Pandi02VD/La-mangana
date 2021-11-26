@@ -65,7 +65,7 @@
 		#Actualizar datos de cliente en la base de datos.
 		public function actualizarClienteBD($datosCliente){
 			$sql = Conexion::conectar() -> prepare(
-				"UPDATE user set nombre = :nombre 
+				"UPDATE user SET nombre = :nombre 
 				WHERE tipo = 0 AND iduser = :iduser;"
 			);
 			$sql -> bindParam(":nombre", $datosCliente["nombre"], PDO::PARAM_STR);

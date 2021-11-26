@@ -115,7 +115,7 @@
 			$sql = Conexion::conectar() -> prepare(
 				"SELECT 
 					m.nombre as mascota, m.sexo, m.ano_nacimiento, m.iduser, 
-					mr.raza, me.especie
+					mr.raza, mr.idmascota_raza, me.especie, me.idmascota_especie
 				FROM mascota m 
 				INNER JOIN mascota_raza mr ON mr.idmascota_raza = m.idmascota_raza 
 				INNER JOIN mascota_especie me ON me.idmascota_especie = mr.idmascota_especie 
@@ -211,6 +211,32 @@
 			$sql -> bindParam(":ano_nacimiento", $datosMascota["edad"], PDO::PARAM_INT);
 			if($sql -> execute()) {
 				return CRUDMascota::lastIdFrom("mascota", "idmascota");
+			} else {
+				return false;
+			}
+			$sql -> close();
+			$sql = null;
+		}
+		
+		#Actualizar la información de una mascota de cliente.
+		public function actualizarMascotaBD($datosMascota){
+			$sql = Conexion::conectar() -> prepare(
+				"UPDATE mascota SET 
+					idmascota_raza = :idmascota_raza, 
+					iduser = :iduser, 
+					nombre = :nombre, 
+					sexo = :sexo, 
+					ano_nacimiento = :ano_nacimiento
+				WHERE idmascota = :idmascota;"
+			);
+			$sql -> bindParam(":idmascota_raza", $datosMascota["raza"], PDO::PARAM_INT);
+			$sql -> bindParam(":iduser", $datosMascota["propietarioId"], PDO::PARAM_INT);
+			$sql -> bindParam(":nombre", $datosMascota["nombre"], PDO::PARAM_STR);
+			$sql -> bindParam(":sexo", $datosMascota["sexo"], PDO::PARAM_INT);
+			$sql -> bindParam(":ano_nacimiento", $datosMascota["edad"], PDO::PARAM_INT);
+			$sql -> bindParam(":idmascota", $datosMascota["mascotaId"], PDO::PARAM_INT);
+			if($sql -> execute()) {
+				return true;
 			} else {
 				return false;
 			}
@@ -410,7 +436,7 @@
 				INNER JOIN user u ON m.iduser = u.iduser 
 				INNER JOIN mascota_raza m_r ON m.idmascota_raza = m_r.idmascota_raza 
 				INNER JOIN mascota_especie m_e ON m_r.idmascota_especie = m_e.idmascota_especie 
-				WHERE m.iduser = :iduser;"
+				WHERE m.iduser = :iduser AND m.status = 1;"
 			);
 			$sql -> bindParam(":iduser", $clienteId, PDO::PARAM_INT);
 			$sql -> execute();
@@ -520,6 +546,21 @@
 			$sql -> bindParam(":idjaula", $jaulaId, PDO::PARAM_INT);
 			if ($sql -> execute()) {
 				return $jaulaId;
+			}else{
+				return false;
+			}
+			$sql -> close();
+			$sql = null;
+		}
+		
+		#Deshabilitar una o más mascotas del sistema.
+		public function eliminarMascotasBD($mascotaId){
+			$sql = Conexion::conectar() -> prepare(
+				"UPDATE mascota SET status = 0 WHERE idmascota = :idmascota AND status = 1;"
+			);
+			$sql -> bindParam(":idmascota", $mascotaId, PDO::PARAM_INT);
+			if ($sql -> execute()) {
+				return $mascotaId;
 			}else{
 				return false;
 			}

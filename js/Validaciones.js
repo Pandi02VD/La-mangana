@@ -104,8 +104,8 @@ function validarCampo(input, regExp, max, text) {
 	});
 
 	input.addEventListener('focusin', () => {
-		input.parentElement.appendChild(counter);
 		input.parentElement.appendChild(message);
+		input.parentElement.appendChild(counter);
 	});
 	
 	input.addEventListener('blur', () => {
@@ -114,42 +114,42 @@ function validarCampo(input, regExp, max, text) {
 	});
 }
 
-nombresPropios(document.getElementById('cliente-new'), 2, 50);
-nombresPropios(document.getElementById('cliente-edit'), 2, 50);
+nombresPropios(document.getElementById('citaNombre-n'), 2, 30);
+nombresPropios(document.getElementById('citaApellidos-n'), 2, 50);
+enterosSinIntervalo(document.getElementById('citaTelefono-n'), 10);
 
-correosElectronicos(document.getElementById('correo-new'), 30);
-correosElectronicos(document.getElementById('correo-edit'), 30);
+// correosElectronicos(document.getElementById('correo-new'), 30);
+// correosElectronicos(document.getElementById('correo-edit'), 30);
 
-enterosSinIntervalo(document.getElementById('telefono-new'), 10);
-enterosSinIntervalo(document.getElementById('telefono-edit'), 10);
+// enterosSinIntervalo(document.getElementById('telefono-edit'), 10);
 
-nombresPropiosNumerados(document.getElementById('domicilio-estado-new'), 2, 50);
-nombresPropiosNumerados(document.getElementById('domicilio-municipio-new'), 2, 50);
-nombresPropiosNumerados(document.getElementById('domicilio-colonia-new'), 2, 50);
-nombresPropiosNumerados(document.getElementById('domicilio-calle-new'), 2, 50);
-nombresPropiosNumerados(document.getElementById('domicilio-calle1-new'), 0, 25);
-nombresPropiosNumerados(document.getElementById('domicilio-calle2-new'), 0, 25);
-enterosEnIntervalo(document.getElementById('domicilio-numero-e-new'), 0, 5);
-enterosEnIntervalo(document.getElementById('domicilio-numero-i-new'), 0, 5);
-descripciones(document.getElementById('domicilio-referencia-new'), 2, 50);
+// nombresPropiosNumerados(document.getElementById('domicilio-estado-new'), 2, 50);
+// nombresPropiosNumerados(document.getElementById('domicilio-municipio-new'), 2, 50);
+// nombresPropiosNumerados(document.getElementById('domicilio-colonia-new'), 2, 50);
+// nombresPropiosNumerados(document.getElementById('domicilio-calle-new'), 2, 50);
+// nombresPropiosNumerados(document.getElementById('domicilio-calle1-new'), 0, 25);
+// nombresPropiosNumerados(document.getElementById('domicilio-calle2-new'), 0, 25);
+// enterosEnIntervalo(document.getElementById('domicilio-numero-e-new'), 0, 5);
+// enterosEnIntervalo(document.getElementById('domicilio-numero-i-new'), 0, 5);
+// descripciones(document.getElementById('domicilio-referencia-new'), 2, 50);
 
-nombresPropiosNumerados(document.getElementById('domicilio-estado-edit'), 2, 50);
-nombresPropiosNumerados(document.getElementById('domicilio-municipio-edit'), 2, 50);
-nombresPropiosNumerados(document.getElementById('domicilio-colonia-edit'), 2, 50);
-nombresPropiosNumerados(document.getElementById('domicilio-calle-edit'), 2, 50);
-nombresPropiosNumerados(document.getElementById('domicilio-calle1-edit'),0, 25);
-nombresPropiosNumerados(document.getElementById('domicilio-calle2-edit'),0, 25);
-enterosEnIntervalo(document.getElementById('domicilio-numero-e-edit'), 0, 5);
-enterosEnIntervalo(document.getElementById('domicilio-numero-i-edit'), 0, 5);
-descripciones(document.getElementById('domicilio-referencia-edit'), 2, 50);
+// nombresPropiosNumerados(document.getElementById('domicilio-estado-edit'), 2, 50);
+// nombresPropiosNumerados(document.getElementById('domicilio-municipio-edit'), 2, 50);
+// nombresPropiosNumerados(document.getElementById('domicilio-colonia-edit'), 2, 50);
+// nombresPropiosNumerados(document.getElementById('domicilio-calle-edit'), 2, 50);
+// nombresPropiosNumerados(document.getElementById('domicilio-calle1-edit'),0, 25);
+// nombresPropiosNumerados(document.getElementById('domicilio-calle2-edit'),0, 25);
+// enterosEnIntervalo(document.getElementById('domicilio-numero-e-edit'), 0, 5);
+// enterosEnIntervalo(document.getElementById('domicilio-numero-i-edit'), 0, 5);
+// descripciones(document.getElementById('domicilio-referencia-edit'), 2, 50);
 
-nombresPropios(document.getElementById('nombre-new'), 2, 50);
-nombresUsuarios(document.getElementById('usuario-new'), 2, 50);
-contrasenas(document.getElementById('contrasena-new'), 30);
-contrasenas(document.getElementById('contrasena-edit'), 30);
+// nombresPropios(document.getElementById('nombre-new'), 2, 50);
+// nombresUsuarios(document.getElementById('usuario-new'), 2, 50);
+// contrasenas(document.getElementById('contrasena-new'), 30);
+// contrasenas(document.getElementById('contrasena-edit'), 30);
 
-nombresPropios(document.getElementById('nombre-edit'), 2, 50);
+// nombresPropios(document.getElementById('nombre-edit'), 2, 50);
 
-nombresPropios(document.getElementById('pet-nombre-new'), 2, 50);
-enterosEnIntervalo(document.getElementById('pet-anos-new'), 1, 2);
-decimales(document.getElementById('pet-peso-new'), 6);
+// nombresPropios(document.getElementById('pet-nombre-new'), 2, 50);
+// enterosEnIntervalo(document.getElementById('pet-anos-new'), 1, 2);
+// decimales(document.getElementById('pet-peso-new'), 6);

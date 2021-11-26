@@ -1,8 +1,10 @@
 <?php
 	class Pagina {
 		public $paginas = array(
-			'index' => "Inicio", 
+			'index' => "Cita", 
 			'Inicio' => "Inicio", 
+			'Cita' => "Cita", 
+			'Agenda' => "Agenda", 
 			'IniciarSesion' => "IniciarSesion", 
 			'Usuarios' => "Usuarios", 
 			'Usuario' => "Usuario", 
@@ -25,12 +27,12 @@
 			'Error' => "Error"
 		);
 
-		public function traerPagina($pagina){
+		public function getPagina($pagina){
 			$objPagina = new Pagina();
 			$modulos = $objPagina -> paginas;
 			if(isset($modulos[$pagina])){
 				$ruta = "vista/modulo/".$modulos[$pagina].".php";
-				Acceso::validarAcceso($pagina);
+				$modulos[$pagina] != 'Cita' ? Acceso::validarAcceso($pagina) : null;
 			}else{
 				$ruta = "vista/modulo/Error.php";
 			}

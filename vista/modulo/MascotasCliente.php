@@ -24,6 +24,7 @@
 <div class="title">
 	<h2>Mascotas</h2>
 	<h3>Mascotas de <?= $cliente["cliente"] == null ? '<script>window.location = "index.php?pagina=Error";</script>' : $cliente["cliente"] ;?></h3>
+	<input type="hidden" name="clienteId" id="clienteId" value="<?=$clienteId?>">
 </div>
 
 <div class="C__Table">
@@ -69,7 +70,7 @@
 				<span class="tooltip">Ver historial clínico</span>
 			</div>
 			<div class="C__Btn__Last">
-				<input class="inputs" type="search" id="search-pet" name="search-pet" placeholder="Buscar Mascota">
+				<input class="inputs box" type="text" id="search-pet" name="search-pet" placeholder="Buscar Mascota">
 				<span class="iconSearch"><image src="img/search_20px.png"></image></span>
 			</div>
 		</div>
@@ -233,80 +234,58 @@
 		<div class="C__f oculto" id="form-edit-pet">
 			<form method="post" class="f">
 				<input class="f__close" type="button" id="btn-close-form-edit-pet" value="x">
-				<h2 class="f__title">Editar Mascota de <?=$cliente["cliente"]?></h2>
+				<h2 class="f__title">Editar Mascota de <?=substr($cliente["cliente"], 0, 10)?></h2>
 				<div class="line-top"></div>
 				<div class="i__group">
 					<label class="labels" for="pet-nombre-edit">Nombre</label>
-					<input class="inputs" type="text" id="pet-nombre-edit" name="pet-nombre-edit">
+					<input class="inputs" type="text" id="pet-nombre-edit" name="pet-nombre-edit" required autofocus>
+					<input type="hidden" name="pet-property-edit" value="<?=$clienteId?>">
 				</div>
 
 				<div class="i__group">
 					<label class="i-b w100 label-checkbox">Especie</label>
-					<label class="label-checkbox" for="pet-canino-edit">Canino</label>
-					<input type="radio" name="pet-especie-edit" id="pet-canino-edit">
-					<label class="label-checkbox" for="pet-felino-edit">Felino</label>
-					<input type="radio" name="pet-especie-edit" id="pet-felino-edit">
+					<?php foreach ($mascotaEspecies as $key => $value) : ?>
+						<input 
+							type="radio" 
+							name="pet-especie-edit" 
+							id="pet-<?=$value['especie']?>-edit" 
+							value="<?=$value['idmascota_especie']?>" 
+							required>
+						<label 
+							class="label-radio" 
+							for="pet-<?=$value['especie']?>-edit">
+							<?=$value['especie']?>
+							</label>
+					<?php endforeach ?>
 				</div>
 
 				<div class="i__group">
 					<label class="label-checkbox" for="pet-raza-edit">Raza</label>
-					<select name="pet-raza-edit" id="pet-raza-edit">
-						<option value="">Seleccione la raza</option>
-						<option value="1">Chachanete</option>
-						<option value="2">Pastor Alemán</option>
+					<select name="pet-raza-edit" id="pet-raza-edit" required>
+						<option value="">Primero seleccione especie</option>
 					</select>
 				</div>
 				
 				<div class="i__group">
 					<label class="i-b w100 label-checkbox">Sexo</label>
-					<label class="label-checkbox" for="pet-hembra-edit">Hembra</label>
-					<input type="radio" name="pet-sexo-edit" id="pet-hembra-edit">
-					<label class="label-checkbox" for="pet-macho">Macho</label>
-					<input type="radio" name="pet-sexo-edit" id="pet-macho-edit">
+					<input type="radio" name="pet-sexo-edit" id="pet-hembra-edit" value="1" required>
+					<label class="label-radio" for="pet-hembra-edit">Hembra</label>
+					<input type="radio" name="pet-sexo-edit" id="pet-macho-edit" value="2" required>
+					<label class="label-radio" for="pet-macho-edit">Macho</label>
 				</div>
 
-				<div class="i__group">
-					<label class="labels" for="pet-edad-edit">Edad (años)</label>
-					<input class="inputs" type="number" id="pet-edad-edit" name="pet-edad-edit">
-				</div>
-				
-				<div class="i__group">
-					<label class="label-checkbox" for="pet-cuerpo-edit">Condición corporal</label>
-					<select name="pet-cuerpo-edit" id="pet-cuerpo-edit">
-						<option value="">Seleccione la condición corporal</option>
-						<option value="1">Delgado</option>
-						<option value="2">Normal</option>
-						<option value="2">Robusto</option>
-					</select>
+				<div class="i__group flex">
+					<label class="labels" for="pet-anos-edit">Edad (años)</label>
+					<label class="labels left" for="pet-anos-edit">Año de nacimiento</label>
+					<input class="inputs" type="text" id="pet-anos-edit" name="pet-anos-edit" required>
+					<span class="inputs disabled" id="span-edad-edit"></span>
+					<input type="hidden" id="pet-edad-edit" name="pet-edad-edit" required>
 				</div>
 
-				<div class="i__group">
-					<label class="i-b w100 label-checkbox">Tamaño</label>
-					<label class="label-checkbox" for="pet-chico-edit">Chico</label>
-					<input type="radio" name="pet-tamano-edit" id="pet-chico-edit">
-					<label class="label-checkbox" for="pet-mediano-edit">Mediano</label>
-					<input type="radio" name="pet-tamano-edit" id="pet-mediano-edit">
-					<label class="label-checkbox" for="pet-grande-edit">Grande</label>
-					<input type="radio" name="pet-tamano-edit" id="pet-grande-edit">
-				</div>
-
-				<div class="i__group">
-					<label class="labels" for="pet-color-edit">Color</label>
-					<input class="inputs" type="color" id="pet-color-edit" name="pet-color-edit">
-				</div>
-
-				<div class="i__group">
-					<label class="labels" for="pet-peso-edit">Peso (Kg)</label>
-					<input class="inputs" type="number" id="pet-peso-edit" name="pet-peso-edit">
-				</div>
-				
-				<input class="submit" type="submit" value="Crear">
-				<input type="hidden" name="mascotaId-edit" id="mascotaId-edit">
-				<?php 
-					// $crearUsuario = ControladorUsuario::crearCuentaCtl();
-				?>
+				<input class="submit" type="submit" value="Actualizar">
+				<input type="hidden" name="petId-edit" id="petId-edit">
+				<?php ControladorMascota::actualizarMascotaCtl(); ?>
 			</form>
-
 		</div>
 
 		<div class="C__f oculto" id="form-delete-pet">
@@ -318,10 +297,7 @@
 				<div class="D-info">
 					<p class="info"><i>i</i> También se eliminarán los datos pertenecientes a este registro.</p>
 				</div>
-				<input class="submit" type="submit" value="Confirmar">
-				<?php 
-					// $actualizaUsuario = ControladorUsuario::actualizarUsuarioCtl();
-				?>
+				<input class="submit" type="button" id="btn-C-delete-pet" value="Confirmar">
 			</form>
 		</div>
 	<?php } ?>

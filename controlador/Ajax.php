@@ -3,21 +3,23 @@
 	require_once '../modelo/CRUDCliente.php';
 	require_once '../modelo/CRUDUsuario.php';
 	require_once '../modelo/CRUDMascota.php';
+	require_once '../modelo/CRUDServicios.php';
 	require_once 'Controlador.php';
 	require_once 'ControladorCliente.php';
 	require_once 'ControladorUsuario.php';
 	require_once 'ControladorMascota.php';
+	require_once 'ControladorServicios.php';
 
 	class Ajax{
 		public $usuarioElegido;
 		public $clienteElegido;
 		public $clientesElegidosEliminar;
 		public $usuariosElegidosEliminar;
+		public $mascotasElegidosEliminar;
 		public $correosClienteEliminar;
 		public $telefonosClienteEliminar;
 		public $domiciliosClienteEliminar;
 		public $petInfoEliminar;
-		
 		
 		public $requestClientEdit;
 		public $requestUserEdit;
@@ -86,6 +88,13 @@
 			echo json_encode($respuesta);
 		}
 		
+		#Deshabilitar una o más mascotas.
+		public function eliminarMascotasAjax(){
+			$datos = $this -> mascotasElegidosEliminar;
+			$respuesta = ControladorMascota::eliminarMascotasCtl($datos);
+			echo json_encode($respuesta);
+		}
+		
 		#Deshabilitar una o más jaulas.
 		public function eliminarJaulasAjax(){
 			$datos = $this -> petInfoEliminar;
@@ -121,6 +130,13 @@
 			echo json_encode($respuesta);
 		}
 
+		#Seleccionar mascota para editar.
+		public function seleccionarMascotaAjax(){
+			$mascotaId = $this -> requestPetDataEdit;
+			$respuesta = ControladorMascota::infoMascotaCtl($mascotaId);
+			echo json_encode($respuesta);
+		}
+		
 		#Seleccionar jaula para editar.
 		public function seleccionarJaulaAjax(){
 			$requestCD = $this -> requestPetDataEdit;
@@ -137,8 +153,8 @@
 		
 		#Seleccionar los atributos de la mascota.
 		public function seleccionarAtributosAjax(){
-			$requestCD = $this -> grafica;
-			$respuesta = ControladorMascota::seleccionarAtributosCtl($requestCD);
+			$mascotaId = $this -> grafica;
+			$respuesta = ControladorMascota::seleccionarAtributosCtl($mascotaId);
 			echo json_encode($respuesta);
 		}
 		
@@ -212,6 +228,12 @@
 		$objIdEliminar -> eliminarUsuariosAjax();
 	}
 	
+	if (isset($_POST["petsToDelete"])) {
+		$objIdEliminar = new Ajax();
+		$objIdEliminar -> mascotasElegidosEliminar = json_decode($_POST["petsToDelete"]);
+		$objIdEliminar -> eliminarMascotasAjax();
+	}
+	
 	if (isset($_POST["emailsClientToDelete"])) {
 		$objIdEliminar = new Ajax();
 		$objIdEliminar -> correosClienteEliminar = json_decode($_POST["emailsClientToDelete"]);
@@ -277,6 +299,12 @@
 		$objRequestUserEdit -> datosUsuarioAjax();
 	}
 
+	if (isset($_POST["petId-edit"])) {
+		$petEdit = new Ajax();
+		$petEdit -> requestPetDataEdit = $_POST["petId-edit"];
+		$petEdit -> seleccionarMascotaAjax();
+	}
+	
 	if (isset($_POST["jaulaId-edit"])) {
 		$objJaulaEdit = new Ajax();
 		$objJaulaEdit -> requestPetDataEdit = $_POST["jaulaId-edit"];

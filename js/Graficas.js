@@ -1,6 +1,6 @@
 if (document.getElementById('graficaPeso')) {
 	let datosGrafica = new Array();
-	let data = document.getElementById('mascotaid').value;
+	let data = document.getElementById('mascotaId').value;
 	let formData = new FormData();
 	formData.append('graficaMascota', data);
 	console.log(data);

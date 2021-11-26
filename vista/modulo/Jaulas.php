@@ -34,7 +34,7 @@
 			<span class="tooltip">Borrar Jaula</span>
 		</div>
 		<div class="C__Btn__Last">
-			<input class="inputs" type="search" id="search-jaula" name="search-jaula" placeholder="Buscar Jaula">
+			<input class="inputs box" type="text" id="search-jaula" name="search-jaula" placeholder="Buscar Jaula">
 			<span class="iconSearch"><image src="img/search_20px.png"></image></span>
 		</div>
 	</div>

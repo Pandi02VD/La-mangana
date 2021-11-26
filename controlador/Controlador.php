@@ -1,18 +1,18 @@
 <?php
 	class Controlador{
 		#Traer plantilla al index.
-		public function plantilla(){
+		public function getPlantilla(){
 			include 'vista/Plantilla.php';
 		}
 		
 		#Traer las vistas.
-		public function traerPaginaCtl(){
+		public function getPaginaCtl(){
 			if (isset($_GET["pagina"])) {
 				$pagina = $_GET["pagina"];
 			}else{
 				$pagina = "index";
 			}
-			$respuesta = Pagina::traerPagina($pagina);
+			$respuesta = Pagina::getPagina($pagina);
 			include $respuesta;
 		}
 

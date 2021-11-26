@@ -1,30 +1,29 @@
 <?php isset($_SESSION["ingresado"]) ? $login = true : $login = false; ?>
-<div class="nav">
-	<nav>
-		<div class="D-Logo">
-			<img class="Logo" src="img/LogoNombre_G.png" alt="Logotipo">
-		</div>
-		<div class="mainTitle">La Mangana</div>
-		<?php if($login) : ?>
-			<div class="saludo">
-				<a class="link-button" id="Salir" href="index.php?pagina=Salir">Salir</a>
-			</div>
-			<div class="saludo">
-				<span id="saludo">¡Hola</span><?="! ".$_SESSION["ingresado"]?>
-			</div>
-		<?php endif ?>
-	</nav>
+<nav>
+	<div class="logo">
+		<img src="img/ECONODENTALPLUS LOGO.png" alt="Logotipo">
+	</div>
+	<h1 class="none">Econodental Plus</h1>
 	
-	<div class="buttonsBar">
-		<div class="D-link-buttons">
-			<?php if(!$login) { ?>
-				<a class="link-button" id="IniciarSesion" href="index.php?pagina=IniciarSesion">Iniciar Sesión</a>
+	<?php $login ? $usuario = substr($_SESSION["ingresado"], 0, 20) : $usuario = 'Usuario1' ?>
+	<div id="menuBar" class="menuBar">
+		<div id="userBar" class="userBar">
+			<div>
+				<span class="bars"></span>
+			</div>
+			<div>
+				<span id="nombreUsuario"><?=$usuario?></span>
+			</div>
+		</div>
+		<div class="bar">
+			<?php if($login) { ?>
+				<a class="link-btn" id="Inicio" href="Inicio">Inicio</a>
+				<a class="link-btn" id="Agenda" href="Agenda">Agenda</a>
+				<a class="link-btn" id="Salir" href="Salir">Salir</a>
 			<?php } else { ?>
-				<a class="link-button" id="Inicio" href="index.php?pagina=Inicio">Inicio</a>
-				<a class="link-button" id="Mascotas" href="index.php?pagina=Mascotas">Mascotas</a>
-				<a class="link-button" id="Clientes" href="index.php?pagina=Clientes">Clientes & Usuarios</a>
-				<a class="link-button" id="Servicios" href="index.php?pagina=Servicios">Servicios</a>
+				<a class="link-btn" id="IniciarSesion" href="IniciarSesion">Iniciar Sesion</a>
+				<a class="link-btn" id="Cita" href="Cita">Cita</a>
 			<?php } ?>
 		</div>
 	</div>
-</div>
+</nav>

@@ -146,7 +146,7 @@
 				<span class="tooltip">Ver historial clínico</span>
 			</div>
 			<div class="C__Btn__Last">
-				<input class="inputs" type="search" id="search-pet" name="search-pet" placeholder="Buscar mascota">
+				<input class="inputs box" type="text" id="search-pet" name="search-pet" placeholder="Buscar mascota">
 				<span class="iconSearch"><image src="img/search_20px.png"></image></span>
 			</div>
 		</div>
@@ -427,9 +427,6 @@
 					<p class="info"><i>i</i> También se eliminarán los datos pertenecientes a este registro.</p>
 				</div>
 				<input class="submit" type="submit" value="Confirmar">
-				<?php 
-					// $actualizaUsuario = ControladorUsuario::actualizarUsuarioCtl();
-				?>
 			</form>
 		</div>
 

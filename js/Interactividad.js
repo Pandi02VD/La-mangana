@@ -376,6 +376,47 @@ function prescription(nombre, dosis, unidad, frecuencia, add) {
 	}
 }
 
+function stepSlide(slider) {
+	let firstSlide = document.querySelectorAll('.slide')[0];
+	slider.style.marginLeft = '-200%';
+	slider.style.transition = 'all .5s';
+	setTimeout(() => {
+		slider.style.transition = 'none';
+		slider.insertAdjacentElement('beforeend', firstSlide);
+		slider.style.marginLeft = '-100%';
+	}, 500);
+}
+
+function sliderControls(prev, next, items, slider) {
+	if (prev && next && items && slider) {
+		let lastSlide = items[items.length - 1];
+		slider.insertAdjacentElement('afterbegin', lastSlide);
+		next.addEventListener('click', () => {stepSlide(slider)});
+		prev.addEventListener('click', () => {
+			let items = document.querySelectorAll('.slide');
+			let lastSlide = items[items.length - 1];
+			slider.style.marginLeft = '0%';
+			slider.style.transition = 'all .5s';
+			setTimeout(() => {
+				slider.style.transition = 'none';
+				slider.insertAdjacentElement('afterbegin', lastSlide);
+				slider.style.marginLeft = '-100%';
+			}, 500);
+		});
+	}
+}
+
+if (document.getElementById('sliderContent')) {
+	setInterval(() => {stepSlide(document.getElementById('sliderContent'))}, 5000);
+}
+
+sliderControls(
+	document.getElementById('prevSlide'), 
+	document.getElementById('nextSlide'), 
+	document.querySelectorAll('.slide'), 
+	document.getElementById('sliderContent')
+);
+
 prescription(
 	document.getElementById('nombre-M-new'), 
 	document.getElementById('dosis-M-new'), 

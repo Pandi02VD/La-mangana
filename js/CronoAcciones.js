@@ -40,5 +40,5 @@ function usuarioEstado(){
 	});
 }
 
-setInterval('reloj()', 5000); //--------------------- ****************** -> =>  
+setInterval('reloj()', 5000);
 setInterval('usuarioEstado()', 1000);

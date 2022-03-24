@@ -2,141 +2,140 @@
 	// if (isset($_POST["printpdf"])) {
 ?>
 	<style>
+		*{
+			text-transform: uppercase;
+			position: relative;
+		}
+
 		.pdf{
 			height: 99%;
+			width: 760px;
 		}
 
-		.pdf__head{
-			margin-bottom: 20px;
+		.pdfHead{
+			display: inline-flex;
+			flex-direction: column;
+			align-self: center;
+			background: url(img/receta/pdfHead.png) center no-repeat fill;
+			margin: 15px 10px 0 10px;
+			width: 100%;
+			padding: 0;
+			height: 160px;
 		}
 
-		.pdf__decorate{
-			display: inline-block; position: relative; width: 84%; height: 40px; background-color: rgb(100, 100, 240); margin-left: 17px; text-transform: uppercase;
+		.B{
+			font-weight: bold;
 		}
 
-		.pdf__decorate__2{
-			position: absolute; width: 80%; height: 40px; background-color: rgb(240, 90, 100);
+		.datosPXTop{
+			margin: 15px 10px 0 10px;
+			padding: 0;
+			/* border: 1px blue; */
+			width: 435px;
 		}
 
-		.pdf__info{
-			display: inline-block; width: 100%; text-align: center; font-size: 20px; margin-bottom: 20px;
-		}
-
-		.uppcase{
-			text-transform: uppercase;
-		}
-
-		.pdf__content-table{
-			width: 100%; font-size: 16px;
-		}
-
-		.pdf__content-table-cell{
-			display: inline-block; text-transform: uppercase;
-		}
-
-		.pdf__foot{
-			position: absolute; bottom: 0; font-size: 20px;
-		}
-
-		.pdf__foot-content{
-			display: inline-block; text-align: center;
-		}
-
-		.pdf-W10{
-			width: 10%;
-		}
-		
-		.pdf-W20{
-			width: 20%;
-		}
-		
-		.pdf-W30{
-			width: 30%;
-		}
-		
-		.pdf-W50{
-			width: 50%;
-		}
-
-		.pdf-TA-r{
+		.fecha{
+			display: inline-flex;
 			text-align: right;
 		}
-
-		.pdf-MB-20{
-			margin-bottom: 20px;
+		
+		.grupo{
+			display: inline-flex;
+			/* border: 1px green; */
+			text-align: right;
+			width: 300px;
+			height: 35px;
 		}
 
-		.pdf__lineDa{
-			display: inline-block; width: 100%; border-top: 1px dashed black; margin: 10px 0;
+		.inputs, .labels {
+			font-size: 15px;
 		}
 
-		.border{
-			border: 1px solid black;
+		.inputs{
+			border-bottom: 1px solid;
+			/* background: pink; */
 		}
 
-		.Bold{
-			font-weight: bold;
+		.labels{
+			/* background: gray; */
+		}
+
+		.datosPX{
+			display: inline-flex;
+			margin: 15px 10px 0 10px;
+			padding: 0;
+			/* border: 1px blue; */
+		}
+
+		.perrito{
+			width: 100px;
+		}
+
+		.datosPXBottom .grupo {
+			width: 100%;
+			text-align: left;
+		}
+
+		.datosPXImg {
+			display: inline-flex;
+			width: 100px;
+			border: 1px solid;
+		}
+
+		.pdfFooter{
+			display: inline-flex;
+			flex-direction: column;
+			align-self: center;
+			background: url(img/receta/pdfFooter.png) center no-repeat fill;
+			padding: 0;
+			height: 260px;
 		}
 	</style>
 
 	<div class="pdf">
-		<div class="pdf__head">
-			<!-- <img src="ima/LogoEF2pdf.png" alt="Logo EF" width="100"> -->
-			<div class="pdf__decorate">
-				<div class="pdf__decorate__2"></div>
+		<div class="pdfHead"></div>
+		<div class="datosPXTop">
+			<div class="fecha">
+				<div class="grupo">
+					<span class="labels">Fecha:</span>
+					<span class="inputs" name="fechaReceta" id="fechaReceta">_______________________</span>
+				</div>
+				<div class="grupo">
+					<span class="labels">RX:</span>
+					<span class="inputs" name="RXReceta" id="RXReceta">_______________________</span>
+				</div>
 			</div>
 		</div>
-		<div class="pdf__info">
-			<span class="uppcase">Electrónica Fonseca</span><br>
-			<span class="uppcase">Guillermo Prieto #23, colonia</span><br>
-			<span class="uppcase">Independencia, Martínez de la</span><br>
-			<span class="uppcase">Torre, Veracruz. CP: 93610, México.</span>
+		<div class="datosPX">
+			<div class="datosPXBottom">
+				<div class="grupo">
+					<span class="labels">Paciente:</span>
+					<span class="inputs" name="PXReceta" id="PXReceta">______________________________________________________________________________</span>
+				</div>
+				<div class="grupo">
+					<span class="labels">Especie:</span>
+					<span class="inputs" name="expecieReceta" id="expecieReceta"></span>
+				</div>
+				<div class="grupo">
+					<span class="labels">Propietario:</span>
+					<span class="inputs" name="propReceta" id="propReceta">___________________________________________________________________________</span>
+				</div>
+				<div class="grupo">
+					<span class="labels">Sexo:</span>
+					<span class="inputs" name="sexoReceta" id="sexoReceta"></span>
+				</div>
+			</div>
+			<img src="img/receta/Huellas.png" alt="Huellas">
+			<img class="perrito" src="img/receta/Imagenperrito.png" alt="Imagen perrito">
 		</div>
-		<div class="pdf__info" style="margin-bottom: 40px">
-				<span class="uppcase">Folio: </span><br>
-				<span class="uppcase">Cliente: </span><br>
-				<span class="uppcase">Fecha: </span><br>
-		</div>
-			<table class="pdf__content-table">
-				<tr>
-					<th class="pdf__content-table-cell pdf-W10"><span>#</span></th>
-					<th class="pdf__content-table-cell pdf-W10"><span>Cant.</span></th>
-					<th class="pdf__content-table-cell pdf-W30"><span>Producto</span></th>
-					<th class="pdf__content-table-cell pdf-W20 pdf-TA-r"><span>Precio unitario</span></th>
-					<th class="pdf__content-table-cell pdf-W30 pdf-TA-r"><span>Total</span></th>
-				</tr>
-				<tr>
-					<td class="pdf__content-table-cell pdf-W10">Contenido</td>
-					<td class="pdf__content-table-cell pdf-W10">Contenido</td>
-					<td class="pdf__content-table-cell pdf-W30">Contenido</td>
-					<td class="pdf__content-table-cell pdf-W20 pdf-TA-r">Contenido</td>
-					<td class="pdf__content-table-cell pdf-W30 pdf-TA-r">Contenido</td>
-				</tr>
-			</table>
 
-			<div class="pdf__lineDa"></div>
-			<table class="pdf__content-table">
-				<tr>
-					<th class="pdf__content-table-cell pdf-W10"></th>
-					<th class="pdf__content-table-cell pdf-W30">Artículos</th>
-					<th class="pdf__content-table-cell pdf-W10"></th>
-					<th class="pdf__content-table-cell pdf-W20"></th>
-					<th class="pdf__content-table-cell pdf-W30 pdf-TA-r">Importe</th>
-				</tr>
-				<tr>
-					<td class="pdf__content-table-cell pdf-W10 Bold">Total:</td>
-					<td class="pdf__content-table-cell pdf-W30">Contenido</td>
-					<td class="pdf__content-table-cell pdf-W10"></td>
-					<td class="pdf__content-table-cell pdf-W20"></td>
-					<td class="pdf__content-table-cell pdf-W30 pdf-TA-r">Contenido</td>
-				</tr>
-			</table>
+		<ul class="recetaLista">
+			<li>
+
+			</li>
+		</ul>
 		
-		<div class="pdf__foot">
-			<div class="pdf__foot-content pdf-MB-20">Contáctenos: 232 153 16 52 y 232 322 93 54</div>
-			<div class="pdf__foot-content">¡Siempre en los mejores eventos!</div>
-			<div class="pdf__foot-content">¡Gracias por comprar en Electrónica Fonseca!</div>
-		</div>
+		<div class="pdfFooter"></div>
 	</div>
 <?php
 	// }

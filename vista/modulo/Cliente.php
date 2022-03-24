@@ -1,10 +1,11 @@
 <?php 
-	$nameGET = 'uc';
+	$nameGET = $_GET['uc'];
 
-	$cliente = ControladorCliente::datosClienteCtl($_GET[$nameGET]);
-	$clienteCorreos = Controlador::seleccionarCorreosCtl($_GET[$nameGET]);
-	$clienteTelefonos = Controlador::seleccionarTelefonosCtl($_GET[$nameGET]);
-	$clienteDomicilios = Controlador::seleccionarDomiciliosCtl($_GET[$nameGET]);
+	$cliente = ControladorCliente::datosClienteCtl($nameGET);
+	$clienteCorreos = Controlador::seleccionarCorreosCtl($nameGET);
+	$clienteTelefonos = Controlador::seleccionarTelefonosCtl($nameGET);
+	$clienteDomicilios = Controlador::seleccionarDomiciliosCtl($nameGET);
+	$clienteMascotas = ControladorCliente::misMascotasCtl($nameGET);
 
 	$correoPrincipal = MainInfo::obtenerCorreoPrincipal($clienteCorreos);
 	$telefonoPrincipal = MainInfo::obtenerTelefonoPrincipal($clienteTelefonos);
@@ -38,6 +39,15 @@
 			<div>
 				<span>Domicilio:</span>
 				<span><?= $domicilioPrincipal ?></span>
+			</div>
+		</div>
+		
+		<div class="Cards__main">
+			<h4>Mis Mascotas</h4>
+			<div>
+				<?php foreach ($clienteMascotas as $k => $v) : ?>
+				<a class="info" href="index.php?pagina=Mascota&um=<?=$v["idmascota"]?>"><?= $v["mascota"] ?></a>
+				<?php endforeach; ?>
 			</div>
 		</div>
 

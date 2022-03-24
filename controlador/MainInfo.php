@@ -13,6 +13,7 @@
 				return $correoPrincipal;
 			}
 		}
+		
 		public function obtenerTelefonoPrincipal($telefonos) {
 			$telefonoPrincipal = 'No se ha asignado';
 			if($telefonos == null) {

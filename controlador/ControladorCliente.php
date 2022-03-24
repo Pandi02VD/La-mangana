@@ -23,6 +23,12 @@
 			$respuesta = CRUDCliente::datosClienteBD($clienteId);
 			return $respuesta;
 		}
+		
+		#Listas las mascotas del cliente.
+		public function misMascotasCtl($clienteId){
+			$respuesta = CRUDCliente::misMascotasBD($clienteId);
+			return $respuesta;
+		}
 
 		#Actualizar datos de cliente.
 		public function actualizarClienteCtl(){

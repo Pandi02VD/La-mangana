@@ -61,6 +61,19 @@
 			$sql -> close();
 			$sql = null;
 		}
+		
+		#Listar las mascotas del cliente de la base de datos.
+		public function misMascotasBD($clienteId){
+			$sql = Conexion::conectar() -> prepare(
+				"SELECT idmascota, nombre as mascota FROM mascota 
+				WHERE status = 1 AND iduser = :iduser;"
+			);
+			$sql -> bindParam(":iduser", $clienteId, PDO::PARAM_INT);
+			$sql -> execute();
+			return $sql -> fetchAll();
+			$sql -> close();
+			$sql = null;
+		}
 
 		#Actualizar datos de cliente en la base de datos.
 		public function actualizarClienteBD($datosCliente){

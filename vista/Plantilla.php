@@ -37,8 +37,9 @@
 			<?php $ctrl = new Controlador(); ?>
 			<?php $ctrl -> traerPaginaCtl(); ?>
 		</main>
-		
-		<!-- Scripts -->
+		<footer>
+			<?php include "vista/modulo/Footer.php"; ?>
+		</footer>
 		<script src="js/Pagina.js"></script>
 		<script src="js/Datos.js"></script>
 		<script src="js/Graficas.js"></script>

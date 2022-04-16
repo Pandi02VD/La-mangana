@@ -133,6 +133,30 @@
 			$respuesta = CRUDMascota::datosMascotaBD($mascotaId);
 			return $respuesta;
 		}
+
+		#Mascotas activas (asistieron a consulta en los últimos 3 meses).
+		public function mascotasActivasCtl() {
+			$respuesta = CRUDMascota::mascotasActivasBD();
+			return $respuesta;
+		}
+		
+		#Mascotas atendidas Hoy.
+		public function mascotasHoyCtl() {
+			$respuesta = CRUDMascota::mascotasHoyBD();
+			return $respuesta;
+		}
+		
+		#Mascotas atendidas este Mes.
+		public function mascotasMesCtl() {
+			$respuesta = CRUDMascota::mascotasMesBD();
+			return $respuesta;
+		}
+		
+		#Mascotas atendidas en Promedio este Mes.
+		public function mascotasPromedioMesCtl() {
+			$respuesta = CRUDMascota::mascotasPromedioMesBD();
+			return $respuesta;
+		}
 		
 		#Recuperar la información de una mascota para editar.
 		public function infoMascotaCtl($mascotaId){

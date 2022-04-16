@@ -317,6 +317,71 @@
 			$sql -> close();
 			$sql = null;
 		}
+
+		#Mascotas activas (asistieron a consulta en los últimos 3 meses).
+		public function mascotasActivasBD() {
+			$sql = Conexion::conectar() -> prepare(
+				"SELECT m.nombre AS mascota, u.nombre AS prop, c.momento FROM consulta c 
+				INNER JOIN mascota m ON m.idmascota = c.idmascota 
+				INNER JOIN user u ON u.iduser = m.iduser 
+				WHERE c.momento >= DATE_SUB(NOW(), INTERVAL 3 MONTH)
+				ORDER BY c.momento DESC;"
+			);
+
+			$sql -> execute();
+			return $sql -> fetchAll();
+			$sql -> close();
+			$sql = null;
+		}
+		
+		#Mascotas atendidas Hoy.
+		public function mascotasHoyBD() {
+			$sql = Conexion::conectar() -> prepare(
+				"SELECT COUNT(*) AS hoy FROM consulta 
+				WHERE DATE(momento) = DATE(NOW());"
+			);
+
+			$sql -> execute();
+			return $sql -> fetch();
+			$sql -> close();
+			$sql = null;
+		}
+		
+		#Mascotas atendidas este Mes.
+		public function mascotasMesBD() {
+			$sql = Conexion::conectar() -> prepare(
+				"SELECT COUNT(*) AS mes FROM consulta 
+				WHERE DATE(momento) = DATE(NOW())
+				AND DATE(momento) = DATE(NOW());"
+			);
+
+			$sql -> execute();
+			return $sql -> fetch();
+			$sql -> close();
+			$sql = null;
+		}
+		
+		#Mascotas atendidas en Promedio este Mes.
+		public function mascotasPromedioMesBD() {
+			$sql = Conexion::conectar() -> prepare(
+				"SELECT COUNT(*) AS promedio, 
+				ABS(
+					DATEDIFF(
+						DATE(CONCAT(YEAR(NOW()), '-', MONTH(NOW()), '-', '01')), DATE(NOW())
+					)
+				) + 1 AS dias  
+				FROM consulta 
+				WHERE DATE(momento) >= DATE(CONCAT(YEAR(NOW()), '-', MONTH(NOW()), '-', '01'))
+				AND DATE(momento) <= DATE(NOW());"
+			);
+
+			$sql -> execute();
+			return $sql -> fetch();
+			$sql -> close();
+			$sql = null;
+		}
+
+		
 		
 		#seleccionar especie por raza de la base de datos.
 		public function seleccionarEspecieByRazaBD($especieId){

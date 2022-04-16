@@ -12,14 +12,16 @@
 		<link rel="shortcut icon" href="img/L.svg" type="image/x-icon">
 
 		<!-- Librerías -->
-		<script src="vista/lib/html2pdf.bundle.min.js"></script>
+		<!-- <script src="vista/lib/html2pdf.bundle.min.js"></script> -->
 		<script src="vista/lib/jquery-3.4.1.min.js"></script>
 		<script src="vista/lib/morris.min.js"></script>
 		<script src="vista/lib/raphael-min.js"></script>
+		<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.js" integrity="sha512-Lii3WMtgA0C0qmmkdCpsG0Gjr6M0ajRyQRQSbTF6BsrVh/nhZdHpVZ76iMIPvQwz1eoXC3DmAg9K51qT5/dEVg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
 
 		<!-- Fuentes -->
-		<link rel="preconnect" href="https://fonts.gstatic.com">
-		<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans&display=swap" rel="stylesheet">
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;500&family=Nunito+Sans:wght@300;400;700&family=Roboto:wght@100;400&family=Sarabun:ital,wght@0,100;0,400;1,100&display=swap" rel="stylesheet">
 		
 		<!-- Estilos -->
 		<link rel="stylesheet" href="css/morris.css">

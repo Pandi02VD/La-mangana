@@ -94,11 +94,23 @@
 			$sql = Conexion::conectar() -> prepare(
 				"SELECT 
 					h.idhospitalizacion AS hospitalId, 
-					h.status AS status 
-				FROM consulta c 
-				INNER JOIN hospitalizacion h ON h.idconsulta = c.idconsulta
+					h.status AS status, 
+					j.jaula AS jaula
+				FROM hospitalizacion h 
+				INNER JOIN jaula j ON h.idjaula = j.idjaula
 				WHERE h.status = 1 AND h.idconsulta = :idconsulta;"
 			);
+			# No se porque lo hice así...
+			// $sql = Conexion::conectar() -> prepare(
+			// 	"SELECT 
+			// 		h.idhospitalizacion AS hospitalId, 
+			// 		h.status AS status 
+			// 	FROM consulta c 
+			// 	INNER JOIN hospitalizacion h ON h.idconsulta = c.idconsulta
+			// 	WHERE h.status = 1 AND h.idconsulta = :idconsulta;"
+			// );
+			# No se porque lo hice así...
+
 			$sql -> bindParam(":idconsulta", $consultaId, PDO::PARAM_INT);
 			$sql -> execute();
 			return $sql -> fetch();
@@ -221,6 +233,18 @@
 			$sql -> bindParam(":idconsulta", $consultaId, PDO::PARAM_INT);
 			$sql -> execute();
 			return $sql -> fetch();
+			$sql -> close();
+			$sql = null;
+		}
+
+		#Seleccionar la información de Medicación desde la base de datos.
+		public function medicinaInfoBD($servicioId) {
+			$sql = Conexion::conectar() -> prepare(
+				"SELECT medicacion FROM medicina WHERE idmedicina = :idmedicina;"
+			);
+			$sql -> bindParam(":idmedicina", $servicioId, PDO::PARAM_INT);
+			$sql -> execute();
+			return $sql -> fetchAll();
 			$sql -> close();
 			$sql = null;
 		}

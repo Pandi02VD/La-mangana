@@ -91,13 +91,15 @@
 			<td id="<?=$value["consulta"]?>" name="services-table">
 				<a 
 					class="clip <?=$hospital["status"]?> <?=$hospital["on"]?>" 
-					href="<?=$hospital["href"]?>">Hospital</a>
+					href="<?=$hospital["href"]?>">Hospital <?= $hospital["jaula"] !== '' ? " en jaula ".$hospital["jaula"] : '' ?>
+				</a>
 				<a 
 					class="clip <?=$cirugia["status"]?> <?=$cirugia["on"]?>" 
 					href="<?=$cirugia["href"]?>">Cirugía</a>
 				<a 
 					class="clip <?=$medicina["status"]?> <?=$medicina["on"]?>" 
-					href="<?=$medicina["href"]?>">Medicamento</a>
+					href="<?=$medicina["href"]?>">Medicamento
+				</a>
 			</td>
 		</tr>
 			<?php endforeach ?>

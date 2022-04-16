@@ -89,18 +89,19 @@
 		public function hospitalAElementCtl($JSONServicios, $consultaId) {
 			if (isset($JSONServicios->hospital)) {
 				$status = ['init', 'progress', 'finish'];
-				$atributos = array('status' => '', 'on' => '', 'href' => '#');
+				$atributos = array('status' => '', 'on' => '', 'href' => '#', 'jaula' => '');
 				$hospitalId = CRUDServicios::hospitalIdByConsultBD($consultaId);
 				if($hospitalId["hospitalId"] != null) {
 					$atributos["href"] = "index.php?pagina=HospitalizacionInfo&us=".$hospitalId["hospitalId"];
 					$atributos["status"] = $status[$hospitalId["status"] - 1];
+					$atributos["jaula"] = $hospitalId["jaula"];
 				} else {
 					$atributos["href"] = "index.php?pagina=Hospitalizacion&us=".$consultaId;
 					$atributos["status"] = 'warn';
 				}
 				return $atributos;
 			} else {
-				return array('status' => '', 'on' => 'disabled', 'href' => '#');
+				return array('status' => '', 'on' => 'disabled', 'href' => '#', 'jaula' => '');
 			}
 		}
 		
@@ -238,6 +239,12 @@
 		#Validar si un servicio está pendiente por llenar.
 		public function servicioPendienteCtl($tabla, $consultaId) {
 			$respuesta = CRUDServicios::servicioPendienteBD($tabla, $consultaId);
+			return $respuesta;
+		}
+
+		#Seleccionar la información de Medicación.
+		public function medicinaInfoCtl($servicioId) {
+			$respuesta = CRUDServicios::medicinaInfoBD($servicioId);
 			return $respuesta;
 		}
 	}

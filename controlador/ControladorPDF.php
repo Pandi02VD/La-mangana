@@ -1,26 +1,51 @@
 <?php
-	// if (isset($_POST["printpdf"])) {
+	if (
+		isset($_GET["us"])
+		) {
+		$medicina = ControladorServicios::medicinaInfoCtl($_GET["us"]);
+		sizeof($medicina);
 ?>
 	<style>
 		*{
 			text-transform: uppercase;
-			position: relative;
 		}
 
 		.pdf{
-			height: 99%;
-			width: 760px;
+			height: 100%;
+			width: 750px;
+			position: relative;
+			margin: 0;
+			border: 1px solid red;
 		}
 
 		.pdfHead{
-			display: inline-flex;
-			flex-direction: column;
+			width: 750px;
+			border: 1px solid;
+			position: relative;
+		}
+
+		.pdfHead img {
+			width: 100px;
+		}
+
+		#caduceus {
+			float: right;
+			top: 0;
+		}
+
+		.datosMedico {
+			display: inline-block;
+			position: absolute;
+			left: 0;
 			align-self: center;
-			background: url(img/receta/pdfHead.png) center no-repeat fill;
-			margin: 15px 10px 0 10px;
-			width: 100%;
-			padding: 0;
-			height: 160px;
+			width: auto;
+			height: auto;
+			font-size: 18px;
+			border: 1px solid;
+		}
+
+		.datosMedico div {
+			text-align: center;
 		}
 
 		.B{
@@ -93,7 +118,15 @@
 	</style>
 
 	<div class="pdf">
-		<div class="pdfHead"></div>
+		<div class="pdfHead">
+			<img src="img/receta/LogoCuadro.png" alt="Logo">
+			<div class="datosMedico">
+				<div>Médico Veterinario Zootecnista</div>
+				<div>Vladimir Arellano Leal</div>
+				<div>Ced. Prof. 09633906</div>
+			</div>
+			<img id="caduceus" src="img/Caduceus.png" alt="Caduceus">
+		</div>
 		<div class="datosPXTop">
 			<div class="fecha">
 				<div class="grupo">
@@ -130,13 +163,15 @@
 		</div>
 
 		<ul class="recetaLista">
-			<li>
-
-			</li>
+			<?php foreach (json_decode($medicina[0]["medicacion"]) AS $k => $v) :?>
+				<li>
+					<?=$v?>
+				</li>
+			<?php endforeach;?>
 		</ul>
 		
 		<div class="pdfFooter"></div>
 	</div>
 <?php
-	// }
+	}
 ?>

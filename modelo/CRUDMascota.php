@@ -321,13 +321,28 @@
 		#Mascotas activas (asistieron a consulta en los últimos 3 meses).
 		public function mascotasActivasBD() {
 			$sql = Conexion::conectar() -> prepare(
-				"SELECT m.nombre AS mascota, u.nombre AS prop, c.momento FROM consulta c 
+				"SELECT c.idmascota, m.nombre AS mascota, u.nombre AS prop, c.momento FROM consulta c 
 				INNER JOIN mascota m ON m.idmascota = c.idmascota 
 				INNER JOIN user u ON u.iduser = m.iduser 
-				WHERE c.momento >= DATE_SUB(NOW(), INTERVAL 3 MONTH)
+				WHERE c.momento <= DATE_SUB(NOW(), INTERVAL 3 MONTH)
 				ORDER BY c.momento DESC;"
 			);
 
+			$sql -> execute();
+			return $sql -> fetchAll();
+			$sql -> close();
+			$sql = null;
+		}
+		
+		#Consultas dentro de los últimos 3 meses de mascotas activas.
+		public function ultimasConsultasBD($mascotaId) {
+			$sql = Conexion::conectar() -> prepare(
+				"SELECT DATE_FORMAT(momento, '%d-%b') AS momento FROM consulta 
+				WHERE momento <= DATE_SUB(NOW(), INTERVAL 3 MONTH) 
+				AND idmascota = :idmascota 
+				ORDER BY momento DESC;"
+			);
+			$sql -> bindParam(":idmascota", $mascotaId, PDO::PARAM_INT);
 			$sql -> execute();
 			return $sql -> fetchAll();
 			$sql -> close();

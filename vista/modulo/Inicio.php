@@ -20,25 +20,16 @@
 <div class="Section" id="Activos">
 	<h3 class="subTitle">Pacientes activos</h3>
 	<ul>
-		<!-- <li>
-			<div><span>Pelusa</span></div>
-			<div><span>02-ene, 02-feb</span></div>
-			<div><span>Prop: Laura Smith</span></div>
-		</li>
-		<li>
-			<div><span>Pelusa</span></div>
-			<div><span>02-ene, 02-feb</span></div>
-			<div><span>Prop: Laura Smith</span></div>
-		</li>
-		<li>
-			<div><span>Pelusa</span></div>
-			<div><span>02-ene, 02-feb</span></div>
-			<div><span>Prop: Laura Smith</span></div>
-		</li> -->
-	<?php foreach ($mascotasActivas AS $k => $v) : ?>
+	<?php foreach ($mascotasActivas AS $k => $v) : 
+			$ultimasConsultas = ControladorMascota::ultimasConsultasCtl($v["idmascota"]); 
+	?>
 		<li>
 			<div><span><?=$v["mascota"]?></span></div>
-			<div><span>02-ene, 02-feb</span></div>
+			<div>
+				<?php foreach ($ultimasConsultas AS $key => $val) : ?>
+					<span><?=$val["momento"]?></span>
+				<?php endforeach; ?>
+			</div>
 			<div><span>Prop: <?=$v["prop"]?></span></div>
 		</li>
 	<?php endforeach; ?>

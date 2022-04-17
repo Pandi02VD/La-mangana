@@ -140,6 +140,12 @@
 			return $respuesta;
 		}
 		
+		#Consultas dentro de los últimos 3 meses de mascotas activas.
+		public function ultimasConsultasCtl($mascotaId) {
+			$respuesta = CRUDMascota::ultimasConsultasBD($mascotaId);
+			return $respuesta;
+		}
+		
 		#Mascotas atendidas Hoy.
 		public function mascotasHoyCtl() {
 			$respuesta = CRUDMascota::mascotasHoyBD();

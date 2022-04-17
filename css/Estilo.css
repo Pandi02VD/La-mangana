@@ -525,6 +525,13 @@ nav::before{
 	text-align-last: right;
 }
 
+#Activos > ul li div:nth-child(2n) span {
+	background-color: var(--Background-Active);
+	color: white;
+    padding: 0 4px;
+    border-radius: 4px;
+}
+
 .C__F{
 	display: flex;
 	width: 100%;

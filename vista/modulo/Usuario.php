@@ -1,6 +1,7 @@
 <?php 
 	$nameGET = 'uu';
 	$cargo = ['Administrador', 'Asistente', 'Médico'];
+	$cargoImg = ['crown', 'medical_doctor', 'veterinarian_male'];
 	
 	$usuario = ControladorUsuario::datosUsuarioCtl($_GET[$nameGET]);
 	$usuarioCorreos = Controlador::seleccionarCorreosCtl($_GET[$nameGET]);
@@ -18,9 +19,11 @@
 </div>
 
 <div class="C__F" id="form-card-user">
-	<div class="Cards">
+	<div class="Cards w70">
 		<div class="Cards__Contentinfo">
-			<div class="Cards__logo"></div>
+			<div class="Cards__logo">
+				<img src="img/<?=$cargoImg[$usuario["tipo"] - 1]?>_50px.png" alt="User">
+			</div>
 			<div class="Cards__info">
 				<h3 id="Cards-user-name"><?=substr($usuario["nombre"], 0, 25)?></h3>
 			</div>
@@ -57,7 +60,6 @@
 				</span>
 			</div>
 		</div>
-
 
 		<div class="Cards__tabs" name="Información de contacto">
 			<div class="tabs">

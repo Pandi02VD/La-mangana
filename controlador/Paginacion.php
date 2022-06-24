@@ -7,7 +7,13 @@
 				$paginas = ceil($noItems / $size);
 				$inicio = ($pag - 1) * $size;
 				if ($pag < 1 || $pag > $paginas) {
-					echo '<script>window.location = "index.php?pagina='.$modulo.'&pag=1"</script>';
+					echo '
+						<script>
+							let uriJ = window.location;
+
+							window.location = uriJ + "&pag=1";
+						</script>
+						';
 				}
 			}
 

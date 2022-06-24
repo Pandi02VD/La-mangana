@@ -169,3 +169,17 @@ var FORM_DELETE_RAZA = document.getElementById('form-delete-raza');
 const BTN_CLOSE_FORM_ADD_RAZA = document.getElementById('btn-close-form-add-raza');
 const BTN_CLOSE_FORM_EDIT_RAZA = document.getElementById('btn-close-form-edit-raza');
 const BTN_CLOSE_FORM_DELETE_RAZA = document.getElementById('btn-close-form-delete-raza');
+
+var SERVICES_TABLE = document.getElementsByName('services-table');
+const CHECK_ALL_SERVICES = document.getElementById('check-all-services');
+const CHECK_SERVICE = document.getElementsByName('check-service');
+const BTN_ADD_SERVICE = document.getElementById('btn-add-service');
+const BTN_EDIT_SERVICE = document.getElementById('btn-edit-service');
+const BTN_DELETE_SERVICE = document.getElementById('btn-delete-service');
+var BTN_C_DELETE_SERVICE = document.getElementById('btn-C-delete-service');
+const FORM_ADD_SERVICE = document.getElementById('form-add-service');
+const FORM_EDIT_SERVICE = document.getElementById('form-edit-service');
+var FORM_DELETE_SERVICE = document.getElementById('form-delete-service');
+const BTN_CLOSE_FORM_ADD_SERVICE = document.getElementById('btn-close-form-add-service');
+const BTN_CLOSE_FORM_EDIT_SERVICE = document.getElementById('btn-close-form-edit-service');
+const BTN_CLOSE_FORM_DELETE_SERVICE = document.getElementById('btn-close-form-delete-service');

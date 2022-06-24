@@ -133,7 +133,8 @@
 			$lastDate = CRUDMascota::ultimosAtributosMascota($mascotaId);
 			$sql = Conexion::conectar() -> prepare(
 				"SELECT peso, condicion_corporal, tamano 
-				FROM mascota_atributos WHERE idmascota = :idmascota AND fecha = :fecha;"
+				FROM mascota_atributos 
+				WHERE idmascota = :idmascota AND fecha = :fecha;"
 			);
 			$sql -> bindParam(":idmascota", $mascotaId, PDO::PARAM_INT);
 			$sql -> bindParam(":fecha", $lastDate["lastdate"]);
@@ -276,6 +277,23 @@
 			$sql = null;
 		}
 
+		#Seleccionar pacientes atendidos por día durante el mes.
+		public function resumenBD(){
+			$sql = Conexion::conectar() -> prepare(
+				"SELECT DATE_FORMAT(momento, '%Y-%m-%d') AS fecha, 
+				DATE(DATE_SUB(NOW(), INTERVAL 7 DAY)) AS inicio, 
+				COUNT(momento) AS atendidos 
+				FROM consulta 
+				WHERE DATE(momento) >= DATE(DATE_SUB(NOW(), INTERVAL 7 DAY))
+				AND DATE(momento) <= DATE(NOW())
+				GROUP BY fecha;"
+			);
+			$sql -> execute();
+			return $sql -> fetchAll();
+			$sql -> close();
+			$sql = null;
+		}
+		
 		#Seleccionar todos los atributos de una mascota desde la base de datos.
 		public function seleccionarAtributosBD($mascotaId){
 			$sql = Conexion::conectar() -> prepare(
@@ -300,6 +318,21 @@
 			$sql = null;
 		}
 
+		#Listar todas las mascotas desde la base de datos.
+		public function listarMascotasBD(){
+			$sql = Conexion::conectar() -> prepare(
+				"SELECT 
+				u.nombre as cliente, m.idmascota, m.nombre as mascota 
+				FROM mascota m 
+				INNER JOIN user u ON m.iduser = u.iduser 
+				WHERE m.status = 1;"
+			);
+			$sql -> execute();
+			return $sql -> fetchAll();
+			$sql -> close();
+			$sql = null;
+		}
+		
 		#seleccionar todas las mascotas desde la base de datos.
 		public function seleccionarMascotasBD(){
 			$sql = Conexion::conectar() -> prepare(
@@ -324,8 +357,8 @@
 				"SELECT c.idmascota, m.nombre AS mascota, u.nombre AS prop, c.momento FROM consulta c 
 				INNER JOIN mascota m ON m.idmascota = c.idmascota 
 				INNER JOIN user u ON u.iduser = m.iduser 
-				WHERE c.momento <= DATE_SUB(NOW(), INTERVAL 3 MONTH)
-				ORDER BY c.momento DESC;"
+				WHERE c.momento >= DATE_SUB(NOW(), INTERVAL 3 MONTH)
+				ORDER BY c.momento DESC LIMIT 3;"
 			);
 
 			$sql -> execute();
@@ -338,7 +371,7 @@
 		public function ultimasConsultasBD($mascotaId) {
 			$sql = Conexion::conectar() -> prepare(
 				"SELECT DATE_FORMAT(momento, '%d-%b') AS momento FROM consulta 
-				WHERE momento <= DATE_SUB(NOW(), INTERVAL 3 MONTH) 
+				WHERE momento >= DATE_SUB(NOW(), INTERVAL 3 MONTH) 
 				AND idmascota = :idmascota 
 				ORDER BY momento DESC;"
 			);
@@ -366,8 +399,8 @@
 		public function mascotasMesBD() {
 			$sql = Conexion::conectar() -> prepare(
 				"SELECT COUNT(*) AS mes FROM consulta 
-				WHERE DATE(momento) = DATE(NOW())
-				AND DATE(momento) = DATE(NOW());"
+				WHERE DATE(momento) >= DATE(CONCAT(YEAR(NOW()), '-', MONTH(NOW()), '-', '01'))
+				AND DATE(momento) <= DATE(NOW());"
 			);
 
 			$sql -> execute();
@@ -394,9 +427,7 @@
 			return $sql -> fetch();
 			$sql -> close();
 			$sql = null;
-		}
-
-		
+		}		
 		
 		#seleccionar especie por raza de la base de datos.
 		public function seleccionarEspecieByRazaBD($especieId){

@@ -52,7 +52,7 @@
 		#Obtener consulta.
 		public function personasConsultaBD($servicioId) {
 			$sql = Conexion::conectar() -> prepare(
-				"SELECT u.nombre AS medico, m.nombre AS mascota, c.servicios 
+				"SELECT c.idmascota, u.nombre AS medico, m.nombre AS mascota, c.servicios 
 				FROM consulta c 
 				INNER JOIN user u ON u.iduser = c.idmedico 
 				INNER JOIN mascota m ON m.idmascota = c.idmascota 
@@ -81,8 +81,60 @@
 				-- INNER JOIN user u ON u.iduser = c.iduser
 				INNER JOIN user med ON med.iduser = c.idmedico
 				INNER JOIN mascota m ON m.idmascota = c.idmascota
-				WHERE c.status = 1;"
+				WHERE c.status = 1 ORDER BY c.momento DESC;"
 			);
+			$sql -> execute();
+			return $sql -> fetchAll();
+			$sql -> close();
+			$sql = null;
+		}
+		
+		#Seleccionar los servicios de una mascota.
+		public function seleccionarServiciosMascotaBD($mascotaId) {
+			$sql = Conexion::conectar() -> prepare(
+				"SELECT 
+					c.idconsulta AS consulta, 
+					-- u.nombre AS cliente, 
+					m.nombre AS mascota, 
+					med.nombre AS medico, 
+					c.observaciones AS motivo, 
+					c.servicios, 
+					c.costo, 
+					date_format(c.momento, '%d-%b-%Y') AS fecha
+				FROM consulta c 
+				-- INNER JOIN user u ON u.iduser = c.iduser
+				INNER JOIN user med ON med.iduser = c.idmedico
+				INNER JOIN mascota m ON m.idmascota = c.idmascota
+				WHERE c.status = 1 AND c.idmascota = :idmascota
+				ORDER BY c.momento DESC LIMIT 3;"
+			);
+			$sql -> bindParam(":idmascota", $mascotaId, PDO::PARAM_INT);
+			$sql -> execute();
+			return $sql -> fetchAll();
+			$sql -> close();
+			$sql = null;
+		}
+		
+		#Seleccionar la Historia Clínica de una mascota.
+		public function seleccionarHistoriaClinicaBD($mascotaId) {
+			$sql = Conexion::conectar() -> prepare(
+				"SELECT 
+					c.idconsulta AS consulta, 
+					-- u.nombre AS cliente, 
+					m.nombre AS mascota, 
+					med.nombre AS medico, 
+					c.observaciones AS motivo, 
+					c.servicios, 
+					c.costo, 
+					date_format(c.momento, '%d-%b-%Y') AS fecha
+				FROM consulta c 
+				-- INNER JOIN user u ON u.iduser = c.iduser
+				INNER JOIN user med ON med.iduser = c.idmedico
+				INNER JOIN mascota m ON m.idmascota = c.idmascota
+				WHERE c.status = 1 AND c.idmascota = :idmascota
+				ORDER BY c.momento DESC LIMIT 3;"
+			);
+			$sql -> bindParam(":idmascota", $mascotaId, PDO::PARAM_INT);
 			$sql -> execute();
 			return $sql -> fetchAll();
 			$sql -> close();
@@ -208,10 +260,10 @@
 			$sql = Conexion::conectar() -> prepare(
 				"INSERT INTO 
 					medicina (
-						idconsulta, diagnostico, medicacion, status
+						idconsulta, diagnostico, medicacion, fecha, status
 					) 
 					VALUE (
-						:idconsulta, null, :medicacion, 1
+						:idconsulta, null, :medicacion, now(), 1
 					);"
 			);
 			$sql -> bindParam(":idconsulta", $consultaId, PDO::PARAM_INT);
@@ -240,9 +292,127 @@
 		#Seleccionar la información de Medicación desde la base de datos.
 		public function medicinaInfoBD($servicioId) {
 			$sql = Conexion::conectar() -> prepare(
-				"SELECT medicacion FROM medicina WHERE idmedicina = :idmedicina;"
+				"SELECT medicacion 
+				FROM medicina WHERE idmedicina = :idmedicina;"
 			);
 			$sql -> bindParam(":idmedicina", $servicioId, PDO::PARAM_INT);
+			$sql -> execute();
+			return $sql -> fetchAll();
+			$sql -> close();
+			$sql = null;
+		}
+		
+		#Seleccionar la información de la receta desde la base de datos.
+		public function recetaInfoBD($servicioId) {
+			$sql = Conexion::conectar() -> prepare(
+				"SELECT 
+				date_format(m.fecha, '%d/%b/%Y') AS fecha, 
+				me.nombre AS medico, c.idmascota 
+				FROM medicina m 
+				INNER JOIN consulta c ON c.idconsulta = m.idconsulta
+				INNER JOIN user me ON me.iduser = c.idmedico
+				WHERE idmedicina = :idmedicina;"
+			);
+			$sql -> bindParam(":idmedicina", $servicioId, PDO::PARAM_INT);
+			$sql -> execute();
+			return $sql -> fetch();
+			$sql -> close();
+			$sql = null;
+		}
+		
+		#Seleccionar la información de la mascota en la receta desde la base de datos.
+		public function mascotaInfoBD($mascotaId) {
+			$sql = Conexion::conectar() -> prepare(
+				"SELECT 
+				m.nombre AS mascota, 
+				m.sexo, m.ano_nacimiento, ma.raza, me.especie 
+				FROM mascota m 
+				INNER JOIN mascota_raza ma ON ma.idmascota_raza = m.idmascota_raza 
+				INNER JOIN mascota_especie me ON me.idmascota_especie = ma.idmascota_especie 
+				WHERE idmascota = :idmascota;"
+			);
+			$sql -> bindParam(":idmascota", $mascotaId, PDO::PARAM_INT);
+			$sql -> execute();
+			return $sql -> fetch();
+			$sql -> close();
+			$sql = null;
+		}
+		
+		#Seleccionar la información del propietario en la receta desde la base de datos.
+		public function propInfoBD($mascotaId) {
+			$sql = Conexion::conectar() -> prepare(
+				"SELECT 
+				p.nombre AS prop
+				FROM mascota m 
+				INNER JOIN user p ON p.iduser = m.iduser
+				WHERE idmascota = :idmascota;"
+			);
+			$sql -> bindParam(":idmascota", $mascotaId, PDO::PARAM_INT);
+			$sql -> execute();
+			return $sql -> fetch();
+			$sql -> close();
+			$sql = null;
+		}
+
+		#Seleccionar la información de la consulta desde la base de datos.
+		public function obtenerConsultaBD($consultaId){
+			$sql = Conexion::conectar() -> prepare(
+				"SELECT observaciones, costo, date_format(momento, '%d/%b/%Y a las %h:%m %p hrs.') AS fecha 
+				FROM consulta 
+				WHERE idconsulta = :idconsulta AND status = 1;"
+			);
+			$sql -> bindParam(":idconsulta", $consultaId, PDO::PARAM_INT);
+			$sql -> execute();
+			return $sql -> fetch();
+			$sql -> close();
+			$sql = null;
+		}
+		
+		#Seleccionar la información de Hospitalización desde la base de datos.
+		public function obtenerHospitalizacionBD($hospitalId){
+			$sql = Conexion::conectar() -> prepare(
+				"SELECT *, date_format(entrada, '%d/%b/%Y a las %h:%m %p') AS entrada 
+				FROM hospitalizacion 
+				WHERE idhospitalizacion = :idhospital;"
+			);
+			$sql -> bindParam(":idhospital", $hospitalId, PDO::PARAM_INT);
+			$sql -> execute();
+			return $sql -> fetch();
+			$sql -> close();
+			$sql = null;
+		}
+		
+		#Seleccionar la información de la Cirugía desde la base de datos.
+		public function obtenerCirugiaBD($cirugiaId){
+			$sql = Conexion::conectar() -> prepare(
+				"SELECT *, date_format(entrada, '%d/%b/%Y a las %h:%m %p') AS entrada 
+				FROM cirujia 
+				WHERE idcirujia = :idcirujia;"
+			);
+			$sql -> bindParam(":idcirujia", $cirugiaId, PDO::PARAM_INT);
+			$sql -> execute();
+			return $sql -> fetch();
+			$sql -> close();
+			$sql = null;
+		}
+
+		#Buscar servicio en la base de datos.
+		public function buscarServicioBD($search) {
+			$sql = Conexion::conectar() -> prepare(
+				"SELECT 
+					c.idconsulta AS consulta, 
+					m.nombre AS mascota, 
+					med.nombre AS medico, 
+					c.observaciones AS motivo, 
+					c.servicios, 
+					c.costo, 
+					date_format(c.momento, '%d-%b-%Y') AS fecha
+				FROM consulta c 
+				INNER JOIN user med ON med.iduser = c.idmedico
+				INNER JOIN mascota m ON m.idmascota = c.idmascota
+				WHERE CONCAT_WS('', m.nombre LIKE '%$search%' OR med.nombre LIKE '%$search%' OR 
+				c.observaciones LIKE '%$search%') AND c.status = 1 ORDER BY c.momento DESC;"
+			);
 			$sql -> execute();
 			return $sql -> fetchAll();
 			$sql -> close();

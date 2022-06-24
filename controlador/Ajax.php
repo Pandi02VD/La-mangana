@@ -151,6 +151,11 @@
 			echo json_encode($respuesta);
 		}
 		
+		#Obtener resumen de los pacientes atendidos durante el mes.
+		public function resumenAjax(){
+			$respuesta = ControladorMascota::resumenCtl();
+			echo json_encode($respuesta);
+		}
 		#Seleccionar los atributos de la mascota.
 		public function seleccionarAtributosAjax(){
 			$mascotaId = $this -> grafica;
@@ -212,6 +217,13 @@
 		public function buscarJaulaAjax(){
 			$search = $this -> search;
 			$respuesta = ControladorMascota::buscarJaulaCtl($search);
+			echo json_encode($respuesta);
+		}
+
+		#Buscar un servicio.
+		public function buscarServicioAjax(){
+			$search = $this -> search;
+			$respuesta = ControladorServicios::buscarServicioCtl($search);
 			echo json_encode($respuesta);
 		}
 	}
@@ -317,6 +329,11 @@
 		$objRazaEdit -> seleccionarDatosRazaAjax();
 	}
 	
+	if (isset($_POST["graficaResumen"])) {
+		$objGrafica = new Ajax();
+		$objGrafica -> resumenAjax();
+	}
+	
 	if (isset($_POST["graficaMascota"])) {
 		$objGrafica = new Ajax();
 		$objGrafica -> grafica = $_POST["graficaMascota"];
@@ -381,4 +398,10 @@
 		$objSearch = new Ajax();
 		$objSearch -> search = $_POST["search-jaula"];
 		$objSearch -> buscarJaulaAjax();
+	}
+	
+	if (isset($_POST["search-service"])) {
+		$objSearch = new Ajax();
+		$objSearch -> search = $_POST["search-service"];
+		$objSearch -> buscarServicioAjax();
 	}

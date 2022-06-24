@@ -496,13 +496,19 @@ editForm(BTN_EDIT_PET, CHECK_PET, $('#petId-edit'), function (resultado) {
 	$('#pet-nombre-edit').val(resultado['mascota']);
 	especie[resultado["idmascota_especie"] - 1].checked = true;
 
-	let select = document.getElementById('pet-raza-edit');
+	let razaSelect = document.getElementById('pet-raza-edit');
+	let propSelect = document.getElementById('pet-property-edit');
 	let option = document.createElement('option');
 	option.setAttribute('value', resultado['idmascota_raza']);
 	option.innerHTML = resultado['raza'];
-	select.appendChild(option);
-	select[1].selected = true;
+	razaSelect.appendChild(option);
+	if (propSelect) {
+		for (let i = 0; i < propSelect.length; i++) {
+			resultado['iduser'] == propSelect[i].value ? propSelect[i].selected = true : null;
+		}
+	}
 
+	razaSelect[1].selected = true;
 	sexo[resultado["sexo"] - 1].checked = true;
 	$('#pet-anos-edit').val(new Date().getFullYear() - resultado['ano_nacimiento']);
 	$('#pet-edad-edit').val(resultado['ano_nacimiento']);
@@ -733,6 +739,41 @@ search($('#search-jaula'), $('#tbl-jaulas'), 'search-jaula', (respuesta) => {
 			);
 			tbl.append(row);
 			checkBox(CHECK_ALL_JAULAS, CHECK_JAULA, BTN_EDIT_JAULA, BTN_DELETE_JAULA);
+		}
+	}
+});
+
+search($('#search-service'), $('#tbl-servicios'), 'search-service', (respuesta) => {
+	console.table(respuesta);
+	let tabla = $('#tbl-servicios tr:gt(0)');
+	let tbl = $('#tbl-servicios > tbody');
+	if (respuesta.length > 0) {
+		tabla.empty();
+		for (const k in respuesta) {
+			let consulta = respuesta[k]["consulta"];
+			let medico = respuesta[k]["medico"];
+			let motivo = respuesta[k]["motivo"];
+			let costo = respuesta[k]["costo"];
+			let fecha = respuesta[k]["fecha"];
+			// let jaulaStatus = {
+			// 	'1': 'Libre', 
+			// 	'2': 'Ocupado'
+			// };
+			let row = $(
+				'<tr>' + 
+					'<td>' + 
+						'<input type="checkbox" name="check-service" id="check-service' + consulta + '" value="' + consulta + '">' + 
+						'<span class="tooltip">Seleccionar</span>' + 
+					'</td>' + 
+					'<td id="' + consulta + '" name="jaulas-table">' + medico + '</td>' + 
+					'<td id="' + consulta + '" name="jaulas-table">' + motivo + '</td>' + 
+					'<td id="' + consulta + '" name="jaulas-table">$' + costo + '</td>' + 
+					'<td id="' + consulta + '" name="jaulas-table">' + fecha + '</td>' + 
+					'<td id="' + consulta + '" name="jaulas-table">' + fecha + '</td>' + 
+				'</tr>'
+			);
+			tbl.append(row);
+			// checkBox(CHECK_ALL_JAULAS, CHECK_JAULA, BTN_EDIT_JAULA, BTN_DELETE_JAULA);
 		}
 	}
 });

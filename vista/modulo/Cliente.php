@@ -18,9 +18,11 @@
 </div>
 
 <div class="C__F" id="form-card-client">
-	<div class="Cards">
+	<div class="Cards w70">
 		<div class="Cards__Contentinfo">
-			<div class="Cards__logo"></div>
+			<div class="Cards__logo">
+				<img src="img/pet_50px.png" alt="Pet">
+			</div>
 			<div class="Cards__info">
 				<h3 id="Cards-user-name"><?=substr($cliente["cliente"], 0, 25)?></h3>
 			</div>

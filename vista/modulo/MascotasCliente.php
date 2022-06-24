@@ -373,7 +373,7 @@
 					<option value="">Seleccione la condición corporal</option>
 					<option value="1">Delgado</option>
 					<option value="2">Normal</option>
-					<option value="2">Robusto</option>
+					<option value="3">Robusto</option>
 				</select>
 			</div>
 

@@ -116,9 +116,21 @@
 			return $respuesta;
 		}
 
+		#Seleccionar pacientes atendidos por día durante el mes.
+		public function resumenCtl(){
+			$respuesta = CRUDMascota::resumenBD();
+			return $respuesta;
+		}
+		
 		#Seleccionar atributos de mascota para la gráfica.
 		public function seleccionarAtributosCtl($mascotaId){
 			$respuesta = CRUDMascota::seleccionarAtributosBD($mascotaId);
+			return $respuesta;
+		}
+		
+		#Listar todas las mascotas.
+		public function listarMascotasCtl(){
+			$respuesta = CRUDMascota::listarMascotasBD();
 			return $respuesta;
 		}
 		

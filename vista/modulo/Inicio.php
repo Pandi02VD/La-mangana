@@ -3,7 +3,7 @@
 	$mascotasHoy = ControladorMascota::mascotasHoyCtl();
 	$mascotasMes = ControladorMascota::mascotasMesCtl();
 	$mascotasPromedio = ControladorMascota::mascotasPromedioMesCtl();
-	print_r($mascotasPromedio);
+	// var_dump(intval($mascotasPromedio["dias"]));
 ?>
 
 <div class="title">
@@ -37,7 +37,7 @@
 </div>
 
 <div class="Section" id="Resumen">
-	<h3 class="subTitle">Resumen Pacientes Atendidos</h3>
+	<h3 class="subTitle">Resumen Mensual</h3>
 	<div class="C__Resumen">
 		<div>
 			<p><?=$mascotasHoy["hoy"]?></p>
@@ -48,11 +48,14 @@
 			<h3>Este mes</h3>
 		</div>
 		<div>
-			<p><?=$mascotasPromedio["promedio"] / $mascotasPromedio["dias"]?></p>
+			<p><?=round($mascotasPromedio["promedio"] / $mascotasPromedio["dias"], 2)?></p>
 			<h3>Promedio diario</h3>
 		</div>
 	</div>
-	<div id="graficaMes"></div>
+	<h3 class="subTitle">Últimos 7 días</h3>
+	<div id="graficaMes">
+		
+	</div>
 </div>
 
 <div class="Section" id="Blocks">

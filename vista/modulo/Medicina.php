@@ -27,7 +27,6 @@
 
 <div class="C__F" id="form-add-M-pet">
 	<form method="post" class="f">
-		<!-- <input class="f__close" type="button" id="btn-close-form-add-Consult-pet" value="x"> -->
 		<h2 class="f__title">Medicamento</h2>
 		<div class="line-top"></div>
 		

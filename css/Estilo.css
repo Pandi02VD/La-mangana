@@ -31,8 +31,8 @@
 /* KeyFrames */
 @keyframes cardFlipLT {
 	from {
-		border-left: 300px solid var(--Form-Default-Active);
-		border-bottom: 300px solid transparent;
+		border-left: 150px solid var(--Form-Default-Active);
+		border-bottom: 150px solid transparent;
 	}
 	
 	to {
@@ -43,8 +43,8 @@
 
 @keyframes cardFlipRB {
 	from {
-		border-right: 300px solid var(--Form-Default-Active);
-		border-top: 300px solid transparent;
+		border-right: 150px solid var(--Form-Default-Active);
+		border-top: 150px solid transparent;
 	}
 	
 	to {
@@ -179,6 +179,7 @@ nav::before{
 	background: white;
 	height: calc(40px - 8px);
 	box-sizing: border-box;
+	border: none;
 }
 
 .link-button.activo{
@@ -352,6 +353,8 @@ nav::before{
 }
 
 .Section {
+	display: flex;
+	flex-direction: column;
 	margin: 0px;
 	box-shadow: 1px 1px 3px 0 rgba(0, 0, 0, 0.25);
 }
@@ -370,6 +373,14 @@ nav::before{
 
 #Resumen {
 	padding: 20px 10%;
+}
+
+#Resumen {
+	align-items: center;
+}
+
+#graficaMes {
+	width: max-content;
 }
 
 #Activos {
@@ -852,8 +863,12 @@ textarea:focus{
 	box-sizing: border-box;
 }
 
+.w70{
+	width: 70% !important;
+}
+
 .w100{
-	width: 100%;
+	width: 100% !important;
 }
 
 .i-b{
@@ -1043,7 +1058,7 @@ input[type="radio"]:checked + .label-radio{
 	border-left: 100px solid var(--Form-Default-Active);
 	border-bottom: 100px solid transparent;
 	filter: drop-shadow(6px 6px 4px gray);
-	animation: cardFlipLT 1s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+	animation: cardFlipLT .5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
 	z-index: 1;
 }
 
@@ -1057,7 +1072,7 @@ input[type="radio"]:checked + .label-radio{
 	border-right: 130px solid var(--Form-Default-Active);
 	border-top: 130px solid transparent;
 	filter: drop-shadow(-6px -6px 4px gray);
-	animation: cardFlipRB 1s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+	animation: cardFlipRB .5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
 	z-index: 1;
 }
 
@@ -1067,7 +1082,15 @@ input[type="radio"]:checked + .label-radio{
 	margin-bottom: 20px;
 }
 
+.services {
+	background-color: var(--Form-Secondary-Low) !important;
+}
+
 .Cards__logo {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
 	position: relative;
 	float: left;
 	width: 20%;
@@ -1075,7 +1098,7 @@ input[type="radio"]:checked + .label-radio{
 	background-color: var(--CardPrimary);
 }
 
-.Cards__logo::before {
+/* .Cards__logo::before {
 	content: url(../img/heart_50px.png);
 	position: absolute;
 	width: 100%;
@@ -1084,7 +1107,7 @@ input[type="radio"]:checked + .label-radio{
     align-content: center;
     justify-content: center;
     align-items: center;
-}
+} */
 
 .Cards__info {
 	float: left;
@@ -1137,11 +1160,13 @@ input[type="radio"]:checked + .label-radio{
 .Cards__main div span:first-child {
 	padding: 10px;
 	width: calc(32% - 20px);
+	font-size: 1.1em;
 }
 
 .Cards__main div span:last-child {
 	padding: 10px;
 	width: calc(68% - 20px);
+	font-weight: bold;
 }
 
 .Cards__tabs {

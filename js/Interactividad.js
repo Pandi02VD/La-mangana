@@ -259,6 +259,7 @@ let btnsOneCheckPet = document.getElementsByName('btns-one-check-pet');
 checkBox(CHECK_ALL_PETS, CHECK_PET, btnsOneCheckPet, BTN_DELETE_PET);
 checkBox(CHECK_ALL_JAULAS, CHECK_JAULA, BTN_EDIT_JAULA, BTN_DELETE_JAULA);
 checkBox(CHECK_ALL_RAZAS, CHECK_RAZA, BTN_EDIT_RAZA, BTN_DELETE_RAZA);
+checkBox(CHECK_ALL_SERVICES, CHECK_SERVICE, BTN_EDIT_SERVICE, BTN_DELETE_SERVICE);
 
 interactFormModal(BTN_ADD_USER, BTN_CLOSE_FORM_ADD_USER, FORM_ADD_USER);
 interactFormModal(BTN_ADD_CLIENT, BTN_CLOSE_FORM_ADD_CLIENT, FORM_ADD_CLIENT);
@@ -272,6 +273,7 @@ interactFormModal(BTN_ADD_PET, BTN_CLOSE_FORM_ADD_PET, FORM_ADD_PET);
 interactFormModal(BTN_ADD_CONSULT_PET, BTN_CLOSE_FORM_ADD_CONSULT_PET, FORM_ADD_CONSULT_PET);
 interactFormModal(BTN_ADD_JAULA, BTN_CLOSE_FORM_ADD_JAULA, FORM_ADD_JAULA);
 interactFormModal(BTN_ADD_RAZA, BTN_CLOSE_FORM_ADD_RAZA, FORM_ADD_RAZA);
+interactFormModal(BTN_ADD_SERVICE, BTN_CLOSE_FORM_ADD_SERVICE, FORM_ADD_SERVICE);
 
 interactFormModal(BTN_EDIT_USER, BTN_CLOSE_FORM_EDIT_USER, FORM_EDIT_USER);
 interactFormModal(BTN_EDIT_CLIENT, BTN_CLOSE_FORM_EDIT_CLIENT, FORM_EDIT_CLIENT);
@@ -284,6 +286,7 @@ interactFormModal(BTN_EDIT_USER_ADDRESS, BTN_CLOSE_FORM_EDIT_USER_ADDRESS, FORM_
 interactFormModal(BTN_EDIT_PET, BTN_CLOSE_FORM_EDIT_PET, FORM_EDIT_PET);
 interactFormModal(BTN_EDIT_JAULA, BTN_CLOSE_FORM_EDIT_JAULA, FORM_EDIT_JAULA);
 interactFormModal(BTN_EDIT_RAZA, BTN_CLOSE_FORM_EDIT_RAZA, FORM_EDIT_RAZA);
+interactFormModal(BTN_EDIT_SERVICE, BTN_CLOSE_FORM_EDIT_SERVICE, FORM_EDIT_SERVICE);
 
 interactFormModal(BTN_DELETE_CLIENT, BTN_CLOSE_FORM_DELETE_CLIENT, FORM_DELETE_CLIENT);
 interactFormModal(BTN_DELETE_USER, BTN_CLOSE_FORM_DELETE_USER, FORM_DELETE_USER);
@@ -296,14 +299,31 @@ interactFormModal(BTN_DELETE_USER_PHONE, BTN_CLOSE_FORM_DELETE_USER_PHONE, FORM_
 interactFormModal(BTN_DELETE_USER_ADDRESS, BTN_CLOSE_FORM_DELETE_USER_ADDRESS, FORM_DELETE_USER_ADDRESS);
 interactFormModal(BTN_DELETE_JAULA, BTN_CLOSE_FORM_DELETE_JAULA, FORM_DELETE_JAULA);
 interactFormModal(BTN_DELETE_RAZA, BTN_CLOSE_FORM_DELETE_RAZA, FORM_DELETE_RAZA);
+interactFormModal(BTN_DELETE_SERVICE, BTN_CLOSE_FORM_DELETE_SERVICE, FORM_DELETE_SERVICE);
 
 interactFormModal(BTN_CHANGE_PASSWORD, BTN_CLOSE_FORM_CHANGE_PASSWORD, FORM_CHANGE_PASSWORD);
 
 interactFormModal(BTN_ASMAIN_EMAIL, BTN_CLOSE_FORM_ASMAIN_ELEMENT, FORM_ASMAIN_ELEMENT);
 interactFormModal(BTN_ASMAIN_PHONE, BTN_CLOSE_FORM_ASMAIN_ELEMENT, FORM_ASMAIN_ELEMENT);
 interactFormModal(BTN_ASMAIN_ADDRESS, BTN_CLOSE_FORM_ASMAIN_ELEMENT, FORM_ASMAIN_ELEMENT);
-tags(document.getElementById('acs-consult-new'));
+interactFormModal(
+	document.getElementById('HistoriaClinica'), 
+	document.getElementById('close-form-HistoriaClinica'), 
+	document.getElementById('form-HistoriaClinica')
+);
 
+function historiaClinica () {
+	let celdas = document.getElementsByName('check-pet');
+	let celdaActiva = null;
+	for (const k in celdas) {
+		if (celdas[k].checked) {
+			celdaActiva = celdas[k].value;
+		}
+	}
+	window.location = 'index.php?pagina=HistoriaClinica&um=' + celdaActiva;
+}
+
+tags(document.getElementById('acs-consult-new'));
 
 if(BTN_CLOSE_FORM_ADD_H_PET){
 	BTN_CLOSE_FORM_ADD_H_PET.addEventListener('click', () => {
@@ -424,3 +444,19 @@ prescription(
 	document.getElementById('frecuencia-M-new'), 
 	document.getElementById('add-M-new')
 );
+
+function openForm(formToOpen) {
+	if (formToOpen != null && formToOpen != undefined) {
+		let url = window.location.search;
+		let openForm;
+		if (url.length != 0) {
+			openForm = new URLSearchParams(url).get('openForm');
+		}
+		let form = document.querySelector('#' + formToOpen);
+		if (form && openForm == form.getAttribute('id')) {
+			form.classList.remove('oculto');
+		}
+	}
+}
+
+openForm("form-add-client");

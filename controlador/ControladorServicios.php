@@ -84,6 +84,18 @@
 			$servicios = CRUDServicios::seleccionarServiciosBD();
 			return $servicios;
 		}
+		
+		#Seleccionar los servicios de una mascota.
+		public function seleccionarServiciosMascotaCtl($mascotaId) {
+			$servicios = CRUDServicios::seleccionarServiciosMascotaBD($mascotaId);
+			return $servicios;
+		}
+		
+		#Seleccionar la Historia Clínica de una mascota.
+		public function seleccionarHistoriaClinicaCtl($mascotaId) {
+			$servicios = CRUDServicios::seleccionarHistoriaClinicaBD($mascotaId);
+			return $servicios;
+		}
 
 		#Obtener etiqueta <a></a> del servicio Hospitalización.
 		public function hospitalAElementCtl($JSONServicios, $consultaId) {
@@ -245,6 +257,48 @@
 		#Seleccionar la información de Medicación.
 		public function medicinaInfoCtl($servicioId) {
 			$respuesta = CRUDServicios::medicinaInfoBD($servicioId);
+			return $respuesta;
+		}
+		
+		#Seleccionar la información de la receta.
+		public function recetaInfoCtl($servicioId) {
+			$respuesta = CRUDServicios::recetaInfoBD($servicioId);
+			return $respuesta;
+		}
+		
+		#Seleccionar la información de la mascota en la receta.
+		public function mascotaInfoCtl($mascotaId) {
+			$respuesta = CRUDServicios::mascotaInfoBD($mascotaId);
+			return $respuesta;
+		}
+
+		#Seleccionar la información del propietario en la receta.
+		public function propInfoCtl($mascotaId) {
+			$respuesta = CRUDServicios::propInfoBD($mascotaId);
+			return $respuesta;
+		}
+
+		#Seleccionar la información de la consulta.
+		public function obtenerConsultaCtl($consultaId){
+			$respuesta = CRUDServicios::obtenerConsultaBD($consultaId);
+			return $respuesta;
+		}
+		
+		#Seleccionar la información de Hospitalización.
+		public function obtenerHospitalizacionCtl($hospitalId){
+			$respuesta = CRUDServicios::obtenerHospitalizacionBD($hospitalId);
+			return $respuesta;
+		}
+		
+		#Seleccionar la información de la Cirugía.
+		public function obtenerCirugiaCtl($cirugiaId){
+			$respuesta = CRUDServicios::obtenerCirugiaBD($cirugiaId);
+			return $respuesta;
+		}
+
+		#Buscar servicio.
+		public function buscarServicioCtl($search) {
+			$respuesta = CRUDServicios::buscarServicioBD($search);
 			return $respuesta;
 		}
 	}

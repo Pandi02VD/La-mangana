@@ -1,8 +1,66 @@
 if (document.getElementById('graficaPeso')) {
-	let datosGrafica = new Array();
+	let datosPeso = new Array();
+	let datosCuerpo = new Array();
 	let data = document.getElementById('mascotaId').value;
 	let formData = new FormData();
 	formData.append('graficaMascota', data);
+
+	$.ajax({
+		url: 'controlador/Ajax.php', 
+		method: 'post', 
+		data: formData, 
+		cache: false, 
+		contentType: false, 
+		processData: false, 
+		dataType: 'json', 
+		success: function (response) {
+			if (response) {
+				for (let i = 0; i < response.length; i++) {
+					datosPeso.push({
+						'Fecha' : response[i]["fecha"], 
+						'Peso' : response[i]["peso"]
+					});
+					
+					datosCuerpo.push({
+						'Fecha' : response[i]["fecha"], 
+						'Tamaño' : response[i]["tamano"], 
+						'Cuerpo' : response[i]["condicion_corporal"]
+					});
+				}
+
+				new Morris.Line({
+					element: 'graficaPeso', 
+					data: datosPeso, 
+					xkey: 'Fecha', 
+					ykeys: ['Peso'], 
+					labels: ['Peso'], 
+					resize: true, 
+					lineColors: ['#28bb96'], 
+					lineWidth: 2
+				});
+				
+				new Morris.Bar({
+					element: 'graficaCuerpo', 
+					data: datosCuerpo, 
+					xkey: 'Fecha', 
+					ykeys: ['Tamaño', 'Cuerpo'], 
+					labels: ['Tamaño', 'Cuerpo'], 
+					resize: true, 
+					barColors: ['#757574', '#0a23ff'], 
+					barWidth: 1
+				});
+			} else {
+				console.log('error');
+			}
+		}
+	});
+}
+
+if (document.getElementById('graficaMes')) {
+	let datosGrafica = new Array();
+	let data = 'resumen';
+	let formData = new FormData();
+	formData.append('graficaResumen', data);
 	console.log(data);
 
 	$.ajax({
@@ -15,80 +73,30 @@ if (document.getElementById('graficaPeso')) {
 		dataType: 'json', 
 		success: function (response) {
 			if (response) {
-				console.log(response);
+				console.table(response);
+				console.log(response.length);
 				for (let i = 0; i < response.length; i++) {
 					datosGrafica.push({
 						'Fecha' : response[i]["fecha"], 
-						'Peso' : response[i]["peso"], 
-						'Tamaño' : response[i]["tamano"], 
-						'Cuerpo' : response[i]["condicion_corporal"]
+						'Atendidos' : response[i]["atendidos"]
 					});
 				}
 
-				new Morris.Line({
-					element: 'graficaPeso', 
-					data: datosGrafica, 
+				new Morris.Bar({
+					element: 'graficaMes', 
+					data: datosGrafica,
 					xkey: 'Fecha', 
-					ykeys: ['Peso', 'Tamaño', 'Cuerpo'], 
-					labels: ['Peso', 'Tamaño', 'Cuerpo'], 
+					ykeys: ['Atendidos'], 
+					labels: ['Pacientes Atendidos'], 
 					resize: true, 
-					lineColors: ['#28bb96', '#757574', '#0a23ff'], 
-					lineWidth: 2
+					barColors: ['#19ad88'], 
+					gridTextSize: 18
 				});
 			} else {
 				console.log('error');
 			}
 		}
 	});
-}
-
-if (document.getElementById('graficaMes')) {
-	let datosGrafica = new Array();
-	// let data = document.getElementById('mascotaId').value;
-	// let formData = new FormData();
-	// formData.append('graficaMascota', data);
-	// console.log(data);
-
-	// $.ajax({
-	// 	url: 'controlador/Ajax.php', 
-	// 	method: 'post', 
-	// 	data: formData, 
-	// 	cache: false, 
-	// 	contentType: false, 
-	// 	processData: false, 
-	// 	dataType: 'json', 
-	// 	success: function (response) {
-	// 		if (response) {
-	// 			for (let i = 0; i < response.length; i++) {
-	// 			console.log(response);
-					// datosGrafica.push({
-					// 	'Fecha' : response[i]["fecha"], 
-					// 	'Peso' : response[i]["peso"], 
-					// 	'Tamaño' : response[i]["tamano"], 
-					// 	'Cuerpo' : response[i]["condicion_corporal"]
-					// });
-				// }
-
-				new Morris.Bar({
-					element: 'graficaMes', 
-					data: [
-						{Fecha : '2022-03-01', Atendidos : '7'}, 
-						{Fecha : '2022-03-02', Atendidos : '5'}, 
-						{Fecha : '2022-03-03', Atendidos : '9'}, 
-						{Fecha : '2022-03-04', Atendidos : '10'}
-					], 
-					xkey: 'Fecha', 
-					ykeys: ['Atendidos'], 
-					labels: ['Pacientes Atendidos'], 
-					resize: true, 
-					barColors: ['#19ad88'], 
-					gridTextSize: 20
-				});
-	// 		} else {
-	// 			console.log('error');
-	// 		}
-	// 	}
-	// });
 }
 
 // const ctx = document.getElementById('myChart').getContext('2d');

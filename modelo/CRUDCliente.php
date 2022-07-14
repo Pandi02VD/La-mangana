@@ -1,7 +1,7 @@
 <?php
 	class CRUDCliente{
 		#Buscar cliente en la base de datos.
-		public function buscarClienteBD($search){
+		static public function buscarClienteBD($search){
 			$respuestas = array();
 			$sql = Conexion::conectar() -> prepare(
 				"SELECT *, date_format(fecha, '%d/%M/%Y') fecha FROM user 
@@ -18,12 +18,11 @@
 			} else {
 				return null;
 			}
-			$sql -> close();
 			$sql = null;
 		}
 		
 		#Seleccionar clientes de la base de datos.
-		public function seleccionarClientesBD(){
+		static public function seleccionarClientesBD(){
 			$sql = Conexion::conectar() -> prepare(
 				"SELECT u.iduser, u.nombre, u.tipo, u.fecha, 
 				date_format(u.fecha, '%d/%M/%Y') fecha 
@@ -32,12 +31,11 @@
 			);
 			$sql -> execute();
 			return $sql -> fetchAll();
-			$sql -> close();
 			$sql = null;
 		}
 		
 		#Seleccionar cliente de la base de datos.
-		public function seleccionarClienteBD($clienteId){
+		static public function seleccionarClienteBD($clienteId){
 			$sql = Conexion::conectar() -> prepare(
 				"SELECT nombre as cliente FROM user 
 				WHERE status = 1 AND tipo = 0 AND iduser = :iduser;"
@@ -45,12 +43,11 @@
 			$sql -> bindParam(":iduser", $clienteId, PDO::PARAM_INT);
 			$sql -> execute();
 			return $sql -> fetch();
-			$sql -> close();
 			$sql = null;
 		}
 
 		#Recuperar datos de cliente de la base de datos.
-		public function datosClienteBD($clienteId){
+		static public function datosClienteBD($clienteId){
 			$sql = Conexion::conectar() -> prepare(
 				"SELECT iduser, nombre as cliente FROM user 
 				WHERE tipo = 0 AND status = 1 AND iduser = :iduser;"
@@ -58,12 +55,11 @@
 			$sql -> bindParam(":iduser", $clienteId, PDO::PARAM_INT);
 			$sql -> execute();
 			return $sql -> fetch();
-			$sql -> close();
 			$sql = null;
 		}
 		
 		#Listar las mascotas del cliente de la base de datos.
-		public function misMascotasBD($clienteId){
+		static public function misMascotasBD($clienteId){
 			$sql = Conexion::conectar() -> prepare(
 				"SELECT idmascota, nombre as mascota FROM mascota 
 				WHERE status = 1 AND iduser = :iduser;"
@@ -71,12 +67,11 @@
 			$sql -> bindParam(":iduser", $clienteId, PDO::PARAM_INT);
 			$sql -> execute();
 			return $sql -> fetchAll();
-			$sql -> close();
 			$sql = null;
 		}
 
 		#Actualizar datos de cliente en la base de datos.
-		public function actualizarClienteBD($datosCliente){
+		static public function actualizarClienteBD($datosCliente){
 			$sql = Conexion::conectar() -> prepare(
 				"UPDATE user SET nombre = :nombre 
 				WHERE tipo = 0 AND iduser = :iduser;"
@@ -88,12 +83,11 @@
 			}else{
 				return false;
 			}
-			$sql -> close();
 			$sql = null;
 		}
 
 		#Crear cliente en la base de datos.
-		public function crearClienteBD($nombreCliente){
+		static public function crearClienteBD($nombreCliente){
 			$sql = Conexion::conectar() -> prepare(
 				"INSERT INTO user(nombre, fecha, tipo, status) 
 				VALUE(:nombre, now(), 0, 1);"
@@ -104,12 +98,11 @@
 			}else{
 				return false;
 			}
-			$sql -> close();
 			$sql = null;
 		}
 
 		#Deshabilitar uno o más clientes del sistema.
-		public function eliminarClientesBD($clienteId){
+		static public function eliminarClientesBD($clienteId){
 			$sql = Conexion::conectar() -> prepare(
 				"UPDATE user set status = 0 WHERE tipo = 0 AND iduser = :iduser;"
 			);
@@ -119,19 +112,17 @@
 			}else{
 				return false;
 			}
-			$sql -> close();
 			$sql = null;
 		}
 		
 		#Contar mascotas del cliente desde la base de datos.
-		public function contarMascotasClienteBD($clienteId){
+		static public function contarMascotasClienteBD($clienteId){
 			$sql = Conexion::conectar() -> prepare(
 				"SELECT count(*) as num_mascotas FROM mascota WHERE status = 1 AND iduser = :iduser;"
 			);
 			$sql -> bindParam(":iduser", $clienteId, PDO::PARAM_INT);
 			$sql -> execute();
 			return $sql -> fetch();
-			$sql -> close();
 			$sql = null;
 		}
 	}

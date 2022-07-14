@@ -5,14 +5,15 @@
 	$personas = ControladorServicios::personasConsultaCtl($cirugia["idconsulta"]);
 	$mascota = ControladorMascota::infoMascotaCtl($personas["idmascota"]);
 	$salida = null;
-	$salida == null ? $salida = "Pendiente" : $salida = $salida;
+	$cirugia["salida"] == null ? $salida = "Pendiente" : $salida = $cirugia["salida"];
 	// print_r($cirugia);
 ?>
 
 <div class="title">
 	<h2>Servicios</h2>
 	<h3>Cirugía</h3>
-</div>	
+</div>
+
 <div class="C__F">
 	<div class="Cards w70">
 		<div class="Cards__Contentinfo">
@@ -24,11 +25,12 @@
 			</div>
 		</div>
 
+		<div class="C__Btn">
+			<input type="image" src="img/heart_health_32px.png" alt="imágen de acción"  id="btn-high-medical">
+			<span class="tooltip">Alta de cirujía</span>
+		</div>
+
 		<div class="Cards__main">
-			<!-- <div class="C__Btn">
-				<input type="image" src="img/heart_health_32px.png" alt="imágen de acción" id="btn-delete-service">
-				<span class="tooltip">Alta de servicio</span>
-			</div> -->
 			<h4 class="services">Datos de Cirugía</h4>
 			<div>
 				<span>Médico:</span>
@@ -80,4 +82,19 @@
 			</div>
 		</div>
 	</div>
+</div>
+
+<div class="C__f oculto" id="form-high-medical">
+	<form method="post" class="f">
+		<input class="f__close" type="button" id="btn-close-form-high-medical" value="x">
+		<h2 class="f__title">Alta de cirujía</h2>
+		<div class="line-top"></div>
+		<div class="i__group">
+			<label class="labels" for="tiempoAlta-cir">Fecha y Hora</label>
+			<input class="inputs" type="datetime-local" id="tiempoAlta-cir" name="tiempoAlta-cir" required>
+		</div>
+		<input type="hidden" name="cirugiaId" id="cirugiaId" value="<?=$cirugiaId?>" required>
+		<input class="submit" type="submit" id="btn-C-high-medical" value="Confirmar">
+		<?php ControladorServicios::altaCirujiaCtl(); ?>
+	</form>
 </div>

@@ -1,7 +1,7 @@
 <?php
 	class ControladorServicios {
 		#Registro de nueva consulta
-		public function nuevaConsultaCtl() {
+		static public function nuevaConsultaCtl() {
 			if (
 				isset($_POST["pet-id-add-consult"]) && 
 				isset($_POST["medico-consult-new"]) && 
@@ -27,7 +27,7 @@
 					'observaciones' => $_POST["observaciones-consult-new"], 
 					'costo' => $_POST["costo-consult-new"]
 				);
-				$primerServicioURL;
+				$primerServicioURL = null;
 				$servicios = array();
 
 				if (isset($_POST["service-M-consult-new"])) {
@@ -64,7 +64,7 @@
 		}
 
 		#Validar servicio.
-		public function validarServicioCtl($servicioId, $servicioNombre) {
+		static public function validarServicioCtl($servicioId, $servicioNombre) {
 			$respuesta = CRUDServicios::validarServicioBD($servicioId);
 			if (isset($respuesta->$servicioNombre)) {
 				return $respuesta->$servicioNombre;
@@ -74,31 +74,31 @@
 		}
 
 		#Obtener consulta.
-		public function personasConsultaCtl($servicioId) {
+		static public function personasConsultaCtl($servicioId) {
 			$respuesta = CRUDServicios::personasConsultaBD($servicioId);
 			return $respuesta;
 		}
 
 		#Seleccionar todos los servicios.
-		public function seleccionarServiciosCtl() {
+		static public function seleccionarServiciosCtl() {
 			$servicios = CRUDServicios::seleccionarServiciosBD();
 			return $servicios;
 		}
 		
 		#Seleccionar los servicios de una mascota.
-		public function seleccionarServiciosMascotaCtl($mascotaId) {
+		static public function seleccionarServiciosMascotaCtl($mascotaId) {
 			$servicios = CRUDServicios::seleccionarServiciosMascotaBD($mascotaId);
 			return $servicios;
 		}
 		
 		#Seleccionar la Historia Clínica de una mascota.
-		public function seleccionarHistoriaClinicaCtl($mascotaId) {
+		static public function seleccionarHistoriaClinicaCtl($mascotaId) {
 			$servicios = CRUDServicios::seleccionarHistoriaClinicaBD($mascotaId);
 			return $servicios;
 		}
 
 		#Obtener etiqueta <a></a> del servicio Hospitalización.
-		public function hospitalAElementCtl($JSONServicios, $consultaId) {
+		static public function hospitalAElementCtl($JSONServicios, $consultaId) {
 			if (isset($JSONServicios->hospital)) {
 				$status = ['init', 'progress', 'finish'];
 				$atributos = array('status' => '', 'on' => '', 'href' => '#', 'jaula' => '');
@@ -118,7 +118,7 @@
 		}
 		
 		#Obtener etiqueta <a></a> del servicio Cirugía.
-		public function cirugiaAElementCtl($JSONServicios, $consultaId) {
+		static public function cirugiaAElementCtl($JSONServicios, $consultaId) {
 			if (isset($JSONServicios->cirugia)) {
 				$status = ['init', 'progress', 'finish'];
 				$atributos = array('status' => '', 'on' => '', 'href' => '#');
@@ -137,7 +137,7 @@
 		}
 		
 		#Obtener etiqueta <a></a> del servicio Medicina.
-		public function medicinaAElementCtl($JSONServicios, $consultaId) {
+		static public function medicinaAElementCtl($JSONServicios, $consultaId) {
 			if (isset($JSONServicios->medicina)) {
 				$status = ['init', 'progress', 'finish'];
 				$atributos = array('status' => '', 'on' => '', 'href' => '#');
@@ -156,7 +156,7 @@
 		}
 
 		#Nueva Hospitalización.
-		public function nuevaHospitalizacionCtl() {
+		static public function nuevaHospitalizacionCtl() {
 			if (
 				isset($_POST["next-service-new"]) && 
 				isset($_POST["consultaId-new"]) && 
@@ -196,7 +196,7 @@
 		}
 
 		#Nueva Cirugía.
-		public function nuevaCirugiaCtl() {
+		static public function nuevaCirugiaCtl() {
 			if (
 				isset($_POST["next-service-new"]) && 
 				isset($_POST["consultaId-new"]) && 
@@ -228,7 +228,7 @@
 		}
 		
 		#Nueva Medicación.
-		public function nuevaMedicacionCtl() {
+		static public function nuevaMedicacionCtl() {
 			if (
 				isset($_POST["consultaId-new"]) && 
 				isset($_POST["medical-M-new"])
@@ -249,56 +249,101 @@
 		}
 
 		#Validar si un servicio está pendiente por llenar.
-		public function servicioPendienteCtl($tabla, $consultaId) {
+		static public function servicioPendienteCtl($tabla, $consultaId) {
 			$respuesta = CRUDServicios::servicioPendienteBD($tabla, $consultaId);
 			return $respuesta;
 		}
 
 		#Seleccionar la información de Medicación.
-		public function medicinaInfoCtl($servicioId) {
+		static public function medicinaInfoCtl($servicioId) {
 			$respuesta = CRUDServicios::medicinaInfoBD($servicioId);
 			return $respuesta;
 		}
 		
 		#Seleccionar la información de la receta.
-		public function recetaInfoCtl($servicioId) {
+		static public function recetaInfoCtl($servicioId) {
 			$respuesta = CRUDServicios::recetaInfoBD($servicioId);
 			return $respuesta;
 		}
 		
 		#Seleccionar la información de la mascota en la receta.
-		public function mascotaInfoCtl($mascotaId) {
+		static public function mascotaInfoCtl($mascotaId) {
 			$respuesta = CRUDServicios::mascotaInfoBD($mascotaId);
 			return $respuesta;
 		}
 
 		#Seleccionar la información del propietario en la receta.
-		public function propInfoCtl($mascotaId) {
+		static public function propInfoCtl($mascotaId) {
 			$respuesta = CRUDServicios::propInfoBD($mascotaId);
 			return $respuesta;
 		}
 
 		#Seleccionar la información de la consulta.
-		public function obtenerConsultaCtl($consultaId){
+		static public function obtenerConsultaCtl($consultaId){
 			$respuesta = CRUDServicios::obtenerConsultaBD($consultaId);
 			return $respuesta;
 		}
 		
 		#Seleccionar la información de Hospitalización.
-		public function obtenerHospitalizacionCtl($hospitalId){
+		static public function obtenerHospitalizacionCtl($hospitalId){
 			$respuesta = CRUDServicios::obtenerHospitalizacionBD($hospitalId);
 			return $respuesta;
 		}
 		
 		#Seleccionar la información de la Cirugía.
-		public function obtenerCirugiaCtl($cirugiaId){
+		static public function obtenerCirugiaCtl($cirugiaId){
 			$respuesta = CRUDServicios::obtenerCirugiaBD($cirugiaId);
 			return $respuesta;
 		}
 
 		#Buscar servicio.
-		public function buscarServicioCtl($search) {
+		static public function buscarServicioCtl($search) {
 			$respuesta = CRUDServicios::buscarServicioBD($search);
 			return $respuesta;
+		}
+		
+		#Dar alta de servicio cirujía.
+		static public function altaCirujiaCtl() {
+			if (
+				isset($_POST["tiempoAlta-cir"]) &&  
+				isset($_POST["cirugiaId"])
+			) {
+				$datosCirugia = array(
+					'tiempo' => $_POST["tiempoAlta-cir"], 
+					'idCirujia' => $_POST["cirugiaId"]
+				);
+				$alta = CRUDServicios::altaCirujiaBD($datosCirugia);
+				if ($alta) {
+					echo '
+						<script>toast("Se dió alta de cirujía!!");</script>
+					';
+				} else {
+					echo '<script>toast("No se registro correctamente!");</script>';
+				}
+			}
+		}
+		
+		#Dar alta de servicio Hospitalización.
+		static public function altaHospitalCtl() {
+			if (
+				isset($_POST["tiempoAlta-hos"]) && 
+				isset($_POST["hospitalId"]) && 
+				isset($_POST["jaulaId"])
+			) {
+				$datosHospital = array(
+					'tiempo' => $_POST["tiempoAlta-hos"], 
+					'idHospital' => $_POST["hospitalId"], 
+					'idJaula' => $_POST["jaulaId"]
+				);
+				$alta = CRUDServicios::altaHospitalBD($datosHospital);
+				$liberarJaula = CRUDMascota::liberarJaulaBD($datosHospital["idJaula"]);
+				if ($alta && $liberarJaula) {
+					echo '
+						<script>toast("Se dió alta de Hospitalización!!");</script>
+					';
+				} else {
+					echo '<script>toast("No se registro correctamente!");</script>';
+				}
+			}
 		}
 	}

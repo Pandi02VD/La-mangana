@@ -1,7 +1,7 @@
 <?php
 	class ControladorMascota{
 		#Buscar mascota.
-		public function buscarMascotaCtl($search) {
+		static public function buscarMascotaCtl($search) {
 			if(is_array($search)) {
 				$txtSearch = $search[0];
 				$clienteId = $search[1];
@@ -13,19 +13,19 @@
 		}
 		
 		#Buscar raza.
-		public function buscarRazaCtl($search) {
+		static public function buscarRazaCtl($search) {
 			$respuesta = CRUDMascota::buscarRazaBD($search);
 			return $respuesta;
 		}
 		
 		#Buscar jaula.
-		public function buscarJaulaCtl($search) {
+		static public function buscarJaulaCtl($search) {
 			$respuesta = CRUDMascota::buscarJaulaBD($search);
 			return $respuesta;
 		}
 
 		#Agregar nueva mascota de cliente.
-		public function nuevaMascotaCtl(){
+		static public function nuevaMascotaCtl(){
 			if (
 				isset($_POST["pet-nombre-new"]) && 
 				isset($_POST["pet-property-new"]) && 
@@ -51,7 +51,7 @@
 					);
 	
 					$mascotaRegistrada = CRUDMascota::nuevaMascotaBD($datosMascota);
-					$idmascota;
+					$idmascota = null;
 					if($mascotaRegistrada != null) { 
 						$idmascota = $mascotaRegistrada["id"];
 						$atributos = array(
@@ -76,7 +76,7 @@
 		}
 		
 		#Actualizar la información de una mascota de cliente.
-		public function actualizarMascotaCtl(){
+		static public function actualizarMascotaCtl(){
 			if (
 				isset($_POST["petId-edit"]) && 
 				isset($_POST["pet-nombre-edit"]) && 
@@ -111,91 +111,91 @@
 		}
 
 		#Recuperar datos de una mascota de la base de datos.
-		public function datosMascotaCtl($mascotaId) {
+		static public function datosMascotaCtl($mascotaId) {
 			$respuesta = CRUDMascota::datosMascotaBD($mascotaId);
 			return $respuesta;
 		}
 
 		#Seleccionar pacientes atendidos por día durante el mes.
-		public function resumenCtl(){
+		static public function resumenCtl(){
 			$respuesta = CRUDMascota::resumenBD();
 			return $respuesta;
 		}
 		
 		#Seleccionar atributos de mascota para la gráfica.
-		public function seleccionarAtributosCtl($mascotaId){
+		static public function seleccionarAtributosCtl($mascotaId){
 			$respuesta = CRUDMascota::seleccionarAtributosBD($mascotaId);
 			return $respuesta;
 		}
 		
 		#Listar todas las mascotas.
-		public function listarMascotasCtl(){
+		static public function listarMascotasCtl(){
 			$respuesta = CRUDMascota::listarMascotasBD();
 			return $respuesta;
 		}
 		
 		#Seleccionar todas las mascotas.
-		public function seleccionarMascotasCtl(){
+		static public function seleccionarMascotasCtl(){
 			$respuesta = CRUDMascota::seleccionarMascotasBD();
 			return $respuesta;
 		}
 		
 		#Seleccionar una mascota.
-		public function seleccionarMascotaCtl($mascotaId){
+		static public function seleccionarMascotaCtl($mascotaId){
 			$respuesta = CRUDMascota::datosMascotaBD($mascotaId);
 			return $respuesta;
 		}
 
 		#Mascotas activas (asistieron a consulta en los últimos 3 meses).
-		public function mascotasActivasCtl() {
+		static public function mascotasActivasCtl() {
 			$respuesta = CRUDMascota::mascotasActivasBD();
 			return $respuesta;
 		}
 		
 		#Consultas dentro de los últimos 3 meses de mascotas activas.
-		public function ultimasConsultasCtl($mascotaId) {
+		static public function ultimasConsultasCtl($mascotaId) {
 			$respuesta = CRUDMascota::ultimasConsultasBD($mascotaId);
 			return $respuesta;
 		}
 		
 		#Mascotas atendidas Hoy.
-		public function mascotasHoyCtl() {
+		static public function mascotasHoyCtl() {
 			$respuesta = CRUDMascota::mascotasHoyBD();
 			return $respuesta;
 		}
 		
 		#Mascotas atendidas este Mes.
-		public function mascotasMesCtl() {
+		static public function mascotasMesCtl() {
 			$respuesta = CRUDMascota::mascotasMesBD();
 			return $respuesta;
 		}
 		
 		#Mascotas atendidas en Promedio este Mes.
-		public function mascotasPromedioMesCtl() {
+		static public function mascotasPromedioMesCtl() {
 			$respuesta = CRUDMascota::mascotasPromedioMesBD();
 			return $respuesta;
 		}
 		
 		#Recuperar la información de una mascota para editar.
-		public function infoMascotaCtl($mascotaId){
+		static public function infoMascotaCtl($mascotaId){
 			$respuesta = CRUDMascota::infoMascota($mascotaId);
 			return $respuesta;
 		}
 
 		#Seleccionar las especies.
-		public function seleccionarEspeciesCtl(){
+		static public function seleccionarEspeciesCtl(){
 			$respuesta = CRUDMascota::seleccionarEspeciesBD();
 			return $respuesta;
 		}
 
 		#Seleccionar datos de raza para editar.
-		public function seleccionarDatosRazaCtl($razaId) {
+		static public function seleccionarDatosRazaCtl($razaId) {
 			$respuesta = CRUDMascota::seleccionarDatosRazaBD($razaId);
 			return $respuesta;
 		}
 
 		#Agregar raza.
-		public function nuevaRazaCtl(){
+		static public function nuevaRazaCtl(){
 			if (isset($_POST["raza-especie-new"]) && isset($_POST["raza-nombre-new"])) {
 				if (Validacion::nombresPropios($_POST["raza-nombre-new"], 2, 30)) {
 					$datosRaza = array(
@@ -215,7 +215,7 @@
 		}
 		
 		#Actualizar informacion de una raza.
-		public function actualizarRazaCtl() {
+		static public function actualizarRazaCtl() {
 			if (
 				isset($_POST["razaId-edit"]) && 
 				isset($_POST["raza-especie-edit"]) && 
@@ -240,7 +240,7 @@
 		}
 
 		#Deshabilitar una o más razas.
-		public function eliminarRazasCtl($razasEliminar){
+		static public function eliminarRazasCtl($razasEliminar){
 			$respuestas = array();
 			$conclusion = true;
 			for ($i = 0; $i < sizeof($razasEliminar); $i++) {
@@ -259,49 +259,49 @@
 		}
 
 		#Seleccionar especie por raza.
-		public function seleccionarEspecieByRazaCtl($especieId){
+		static public function seleccionarEspecieByRazaCtl($especieId){
 			$respuesta = CRUDMascota::seleccionarEspecieByRazaBD($especieId);
 			return $respuesta;
 		}
 		
 		#Seleccionar todas las razas.
-		public function seleccionarRazasCtl(){
+		static public function seleccionarRazasCtl(){
 			$respuesta = CRUDMascota::seleccionarRazasBD();
 			return $respuesta;
 		}
 		
 		#Seleccionar las razas por especie.
-		public function seleccionarRazasByEspecieCtl($especieId){
+		static public function seleccionarRazasByEspecieCtl($especieId){
 			$respuesta = CRUDMascota::seleccionarRazasByEspecieBD($especieId);
 			return $respuesta;
 		}
 
 		#Seleccionar las mascotas del cliente.
-		public function mascotasClienteCtl($clienteId){
+		static public function mascotasClienteCtl($clienteId){
 			$respuesta = CRUDMascota::mascotasClienteBD($clienteId);
 			return $respuesta;
 		}
 
 		#Seleccionar raza de mascota 
-		public function seleccionarRazaMascotaCtl($razaId){
+		static public function seleccionarRazaMascotaCtl($razaId){
 			$respuesta = CRUDMascota::seleccionarRazaMascotaBD($razaId);
 			return $respuesta;
 		}
 
 		#Seleccionar jaula de mascota.
-		public function seleccionarJaulaCtl($jaulaId) {
+		static public function seleccionarJaulaCtl($jaulaId) {
 			$respuesta = CRUDMascota::seleccionarJaulaBD($jaulaId);
 			return $respuesta;
 		}
 		
 		#Seleccionar jaulas de mascotas.
-		public function seleccionarJaulasCtl() {
+		static public function seleccionarJaulasCtl() {
 			$respuesta = CRUDMascota::seleccionarJaulasBD();
 			return $respuesta;
 		}
 
 		#Agregar jaula.
-		public function nuevaJaulaCtl(){
+		static public function nuevaJaulaCtl(){
 			if (isset($_POST["jaula-num-new"])) {
 				if (Validacion::enterosEnIntervalo($_POST["jaula-num-new"], 1, 2)) {
 					$jaula = $_POST["jaula-num-new"];
@@ -323,7 +323,7 @@
 		}
 
 		#Actualizar informacion de una jaula.
-		public function actualizarJaulaCtl() {
+		static public function actualizarJaulaCtl() {
 			if (isset($_POST["jaula-num-edit"]) && isset($_POST["jaulaId-edit"])) {
 				if (Validacion::enterosEnIntervalo($_POST["jaula-num-edit"], 1, 2)) {
 					$datosJaula = array(
@@ -348,13 +348,13 @@
 		}
 		
 		// #Ocupar informacion de una jaula.
-		// public function ocuparJaulaCtl($jaulaId) {
+		// static public function ocuparJaulaCtl($jaulaId) {
 		// 	$respuesta = CRUDMascota::ocuparJaulaBD($jaulaId);
 		// 	return $respuesta;
 		// }
 
 		#Deshabilitar una o más jaulas.
-		public function eliminarJaulasCtl($jaulasEliminar){
+		static public function eliminarJaulasCtl($jaulasEliminar){
 			$respuestas = array();
 			$conclusion = true;
 			for ($i = 0; $i < sizeof($jaulasEliminar); $i++) {
@@ -373,7 +373,7 @@
 		}
 		
 		#Deshabilitar una o más mascotas.
-		public function eliminarMascotasCtl($mascotasEliminar){
+		static public function eliminarMascotasCtl($mascotasEliminar){
 			$respuestas = array();
 			$conclusion = true;
 			for ($i = 0; $i < sizeof($mascotasEliminar); $i++) {

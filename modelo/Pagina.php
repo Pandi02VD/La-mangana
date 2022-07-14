@@ -25,7 +25,7 @@
 			'Error' => "Error"
 		);
 
-		public function traerPagina($pagina){
+		static public function traerPagina($pagina){
 			$objPagina = new Pagina();
 			$modulos = $objPagina -> paginas;
 			if(isset($modulos[$pagina])){

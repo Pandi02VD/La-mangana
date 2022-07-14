@@ -1,7 +1,7 @@
 <?php
 	class CRUDServicios {
 		#Nueva consulta de mascota en la base de datos.
-		public function nuevaConsultaBD($datosConsulta, $tags, $serviciosJSON) {
+		static public function nuevaConsultaBD($datosConsulta, $tags, $serviciosJSON) {
 			$sql = Conexion::conectar() -> prepare(
 				"INSERT INTO 
 				consulta (idmascota, idmedico, observaciones, acs_mascota, servicios, costo, momento, status) 
@@ -24,12 +24,11 @@
 				return false;
 			}
 
-			$sql -> close();
 			$sql = null;
 		}
 
 		#Generar el JSON de un array de mascota.
-		public function JSONItems($items) {
+		static public function JSONItems($items) {
 			$arrayAccesorios = array();
 			for ($i = 0; $i < sizeof($items); $i++) { 
 				$arrayAccesorios['item'.$i] = $items[$i];
@@ -38,19 +37,18 @@
 		}
 
 		#Validar servicio.
-		public function validarServicioBD($servicioId) {
+		static public function validarServicioBD($servicioId) {
 			$sql = Conexion::conectar() -> prepare(
 				"SELECT servicios FROM consulta WHERE idconsulta = :idconsulta;"
 			);
 			$sql -> bindParam(":idconsulta", $servicioId, PDO::PARAM_INT);
 			$sql -> execute();
 			return json_decode($sql -> fetch()["servicios"]);
-			$sql -> close();
 			$sql = null;
 		}
 		
 		#Obtener consulta.
-		public function personasConsultaBD($servicioId) {
+		static public function personasConsultaBD($servicioId) {
 			$sql = Conexion::conectar() -> prepare(
 				"SELECT c.idmascota, u.nombre AS medico, m.nombre AS mascota, c.servicios 
 				FROM consulta c 
@@ -61,12 +59,11 @@
 			$sql -> bindParam(":idconsulta", $servicioId, PDO::PARAM_INT);
 			$sql -> execute();
 			return $sql -> fetch();
-			$sql -> close();
 			$sql = null;
 		}
 
 		#Seleccionar todos los servicios.
-		public function seleccionarServiciosBD() {
+		static public function seleccionarServiciosBD() {
 			$sql = Conexion::conectar() -> prepare(
 				"SELECT 
 					c.idconsulta AS consulta, 
@@ -85,12 +82,11 @@
 			);
 			$sql -> execute();
 			return $sql -> fetchAll();
-			$sql -> close();
 			$sql = null;
 		}
 		
 		#Seleccionar los servicios de una mascota.
-		public function seleccionarServiciosMascotaBD($mascotaId) {
+		static public function seleccionarServiciosMascotaBD($mascotaId) {
 			$sql = Conexion::conectar() -> prepare(
 				"SELECT 
 					c.idconsulta AS consulta, 
@@ -111,12 +107,11 @@
 			$sql -> bindParam(":idmascota", $mascotaId, PDO::PARAM_INT);
 			$sql -> execute();
 			return $sql -> fetchAll();
-			$sql -> close();
 			$sql = null;
 		}
 		
 		#Seleccionar la Historia Clínica de una mascota.
-		public function seleccionarHistoriaClinicaBD($mascotaId) {
+		static public function seleccionarHistoriaClinicaBD($mascotaId) {
 			$sql = Conexion::conectar() -> prepare(
 				"SELECT 
 					c.idconsulta AS consulta, 
@@ -137,12 +132,11 @@
 			$sql -> bindParam(":idmascota", $mascotaId, PDO::PARAM_INT);
 			$sql -> execute();
 			return $sql -> fetchAll();
-			$sql -> close();
 			$sql = null;
 		}
 
 		#Seleccionar id de Hospitalización de consulta.
-		public function hospitalIdByConsultBD($consultaId) {
+		static public function hospitalIdByConsultBD($consultaId) {
 			$sql = Conexion::conectar() -> prepare(
 				"SELECT 
 					h.idhospitalizacion AS hospitalId, 
@@ -150,7 +144,7 @@
 					j.jaula AS jaula
 				FROM hospitalizacion h 
 				INNER JOIN jaula j ON h.idjaula = j.idjaula
-				WHERE h.status = 1 AND h.idconsulta = :idconsulta;"
+				WHERE h.status >= 1 AND h.idconsulta = :idconsulta;"
 			);
 			# No se porque lo hice así...
 			// $sql = Conexion::conectar() -> prepare(
@@ -166,46 +160,43 @@
 			$sql -> bindParam(":idconsulta", $consultaId, PDO::PARAM_INT);
 			$sql -> execute();
 			return $sql -> fetch();
-			$sql -> close();
 			$sql = null;
 		}
 		
 		#Seleccionar id de Cirugía de consulta.
-		public function cirugiaIdByConsultBD($consultaId) {
+		static public function cirugiaIdByConsultBD($consultaId) {
 			$sql = Conexion::conectar() -> prepare(
 				"SELECT 
 					ci.idcirujia AS cirugiaId, 
 					ci.status AS status 
 				FROM consulta c 
 				INNER JOIN cirujia ci ON ci.idconsulta = c.idconsulta
-				WHERE ci.status = 1 AND ci.idconsulta = :idconsulta;"
+				WHERE ci.status >= 1 AND ci.idconsulta = :idconsulta;"
 			);
 			$sql -> bindParam(":idconsulta", $consultaId, PDO::PARAM_INT);
 			$sql -> execute();
 			return $sql -> fetch();
-			$sql -> close();
 			$sql = null;
 		}
 		
 		#Seleccionar id de Medicina de consulta.
-		public function medicinaIdByConsultBD($consultaId) {
+		static public function medicinaIdByConsultBD($consultaId) {
 			$sql = Conexion::conectar() -> prepare(
 				"SELECT 
 					m.idmedicina AS medicinaId, 
 					m.status AS status 
 				FROM consulta c 
 				INNER JOIN medicina m ON m.idconsulta = c.idconsulta
-				WHERE m.status = 1 AND m.idconsulta = :idconsulta;"
+				WHERE m.status >= 1 AND m.idconsulta = :idconsulta;"
 			);
 			$sql -> bindParam(":idconsulta", $consultaId, PDO::PARAM_INT);
 			$sql -> execute();
 			return $sql -> fetch();
-			$sql -> close();
 			$sql = null;
 		}
 
 		#Nueva Hospitalización.
-		public function nuevaHospitalizacionBD($datosHospital) {
+		static public function nuevaHospitalizacionBD($datosHospital) {
 			$sql = Conexion::conectar() -> prepare(
 				"INSERT INTO 
 					hospitalizacion (
@@ -226,12 +217,11 @@
 			} else {
 				return false;
 			}
-			$sql -> close();
 			$sql = null;
 		}
 		
 		#Nueva Cirugía.
-		public function nuevaCirugiaBD($datosCirugia) {
+		static public function nuevaCirugiaBD($datosCirugia) {
 			$sql = Conexion::conectar() -> prepare(
 				"INSERT INTO 
 					cirujia (
@@ -251,12 +241,11 @@
 			} else {
 				return false;
 			}
-			$sql -> close();
 			$sql = null;
 		}
 		
 		#Nueva Receta Médica.
-		public function nuevaMedicacionBD($consultaId, $medical) {
+		static public function nuevaMedicacionBD($consultaId, $medical) {
 			$sql = Conexion::conectar() -> prepare(
 				"INSERT INTO 
 					medicina (
@@ -273,24 +262,22 @@
 			} else {
 				return false;
 			}
-			$sql -> close();
 			$sql = null;
 		}
 
 		#Validar si un servicio está pendiente por llenar.
-		public function servicioPendienteBD($tabla, $consultaId) {
+		static public function servicioPendienteBD($tabla, $consultaId) {
 			$sql = Conexion::conectar() -> prepare(
 				"SELECT status FROM $tabla WHERE idconsulta = :idconsulta;"
 			);
 			$sql -> bindParam(":idconsulta", $consultaId, PDO::PARAM_INT);
 			$sql -> execute();
 			return $sql -> fetch();
-			$sql -> close();
 			$sql = null;
 		}
 
 		#Seleccionar la información de Medicación desde la base de datos.
-		public function medicinaInfoBD($servicioId) {
+		static public function medicinaInfoBD($servicioId) {
 			$sql = Conexion::conectar() -> prepare(
 				"SELECT medicacion 
 				FROM medicina WHERE idmedicina = :idmedicina;"
@@ -298,12 +285,11 @@
 			$sql -> bindParam(":idmedicina", $servicioId, PDO::PARAM_INT);
 			$sql -> execute();
 			return $sql -> fetchAll();
-			$sql -> close();
 			$sql = null;
 		}
 		
 		#Seleccionar la información de la receta desde la base de datos.
-		public function recetaInfoBD($servicioId) {
+		static public function recetaInfoBD($servicioId) {
 			$sql = Conexion::conectar() -> prepare(
 				"SELECT 
 				date_format(m.fecha, '%d/%b/%Y') AS fecha, 
@@ -316,12 +302,11 @@
 			$sql -> bindParam(":idmedicina", $servicioId, PDO::PARAM_INT);
 			$sql -> execute();
 			return $sql -> fetch();
-			$sql -> close();
 			$sql = null;
 		}
 		
 		#Seleccionar la información de la mascota en la receta desde la base de datos.
-		public function mascotaInfoBD($mascotaId) {
+		static public function mascotaInfoBD($mascotaId) {
 			$sql = Conexion::conectar() -> prepare(
 				"SELECT 
 				m.nombre AS mascota, 
@@ -334,12 +319,11 @@
 			$sql -> bindParam(":idmascota", $mascotaId, PDO::PARAM_INT);
 			$sql -> execute();
 			return $sql -> fetch();
-			$sql -> close();
 			$sql = null;
 		}
 		
 		#Seleccionar la información del propietario en la receta desde la base de datos.
-		public function propInfoBD($mascotaId) {
+		static public function propInfoBD($mascotaId) {
 			$sql = Conexion::conectar() -> prepare(
 				"SELECT 
 				p.nombre AS prop
@@ -350,12 +334,11 @@
 			$sql -> bindParam(":idmascota", $mascotaId, PDO::PARAM_INT);
 			$sql -> execute();
 			return $sql -> fetch();
-			$sql -> close();
 			$sql = null;
 		}
 
 		#Seleccionar la información de la consulta desde la base de datos.
-		public function obtenerConsultaBD($consultaId){
+		static public function obtenerConsultaBD($consultaId){
 			$sql = Conexion::conectar() -> prepare(
 				"SELECT observaciones, costo, date_format(momento, '%d/%b/%Y a las %h:%m %p hrs.') AS fecha 
 				FROM consulta 
@@ -364,12 +347,11 @@
 			$sql -> bindParam(":idconsulta", $consultaId, PDO::PARAM_INT);
 			$sql -> execute();
 			return $sql -> fetch();
-			$sql -> close();
 			$sql = null;
 		}
 		
 		#Seleccionar la información de Hospitalización desde la base de datos.
-		public function obtenerHospitalizacionBD($hospitalId){
+		static public function obtenerHospitalizacionBD($hospitalId){
 			$sql = Conexion::conectar() -> prepare(
 				"SELECT *, date_format(entrada, '%d/%b/%Y a las %h:%m %p') AS entrada 
 				FROM hospitalizacion 
@@ -378,12 +360,11 @@
 			$sql -> bindParam(":idhospital", $hospitalId, PDO::PARAM_INT);
 			$sql -> execute();
 			return $sql -> fetch();
-			$sql -> close();
 			$sql = null;
 		}
 		
 		#Seleccionar la información de la Cirugía desde la base de datos.
-		public function obtenerCirugiaBD($cirugiaId){
+		static public function obtenerCirugiaBD($cirugiaId){
 			$sql = Conexion::conectar() -> prepare(
 				"SELECT *, date_format(entrada, '%d/%b/%Y a las %h:%m %p') AS entrada 
 				FROM cirujia 
@@ -392,12 +373,11 @@
 			$sql -> bindParam(":idcirujia", $cirugiaId, PDO::PARAM_INT);
 			$sql -> execute();
 			return $sql -> fetch();
-			$sql -> close();
 			$sql = null;
 		}
 
 		#Buscar servicio en la base de datos.
-		public function buscarServicioBD($search) {
+		static public function buscarServicioBD($search) {
 			$sql = Conexion::conectar() -> prepare(
 				"SELECT 
 					c.idconsulta AS consulta, 
@@ -415,7 +395,40 @@
 			);
 			$sql -> execute();
 			return $sql -> fetchAll();
-			$sql -> close();
+			$sql = null;
+		}
+		
+		#Dar alta de Cirujía en la base de datos.
+		static public function altaCirujiaBD($datosCirugia) {
+			$sql = Conexion::conectar() -> prepare(
+				"UPDATE cirujia 
+				SET salida = :salida, status = 3 
+				WHERE idcirujia = :idcirujia AND status >= 1;"
+			);
+			$sql -> bindParam(":salida", $datosCirugia["tiempo"]);
+			$sql -> bindParam(":idcirujia", $datosCirugia["idCirujia"], PDO::PARAM_INT);
+			if($sql -> execute()) {
+				return true;
+			} else {
+				return false;
+			}
+			$sql = null;
+		}
+		
+		#Dar alta de Hospitalización en la base de datos.
+		static public function altaHospitalBD($datosHospital) {
+			$sql = Conexion::conectar() -> prepare(
+				"UPDATE hospitalizacion 
+				SET salida = :salida, status = 3 
+				WHERE idhospitalizacion = :idhospital AND status >= 1;"
+			);
+			$sql -> bindParam(":salida", $datosHospital["tiempo"]);
+			$sql -> bindParam(":idhospital", $datosHospital["idHospital"], PDO::PARAM_INT);
+			if($sql -> execute()) {
+				return true;
+			} else {
+				return false;
+			}
 			$sql = null;
 		}
 	}

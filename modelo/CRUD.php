@@ -2,7 +2,7 @@
 	require_once 'Conexion.php'; 
 	class CRUD extends Conexion{
 		#Seleccionar correo electrónico del cliente o usuario de la base de datos.
-		public function seleccionarCorreoBD($correoId){
+		static public function seleccionarCorreoBD($correoId){
 			$sql = Conexion::conectar() -> prepare(
 				"SELECT * FROM user_correo 
 				WHERE status >= 1 AND status <=2 AND iduser_correo = :iduser_correo;"
@@ -10,12 +10,11 @@
 			$sql -> bindParam(":iduser_correo", $correoId, PDO::PARAM_INT);
 			$sql -> execute();
 			return $sql -> fetch();
-			$sql -> close();
 			$sql = null;
 		}
 		
 		#Seleccionar teléfono del cliente o usuario de la base de datos.
-		public function seleccionarTelefonoBD($telefonoId){
+		static public function seleccionarTelefonoBD($telefonoId){
 			$sql = Conexion::conectar() -> prepare(
 				"SELECT * FROM user_telefono 
 				WHERE status >= 1 AND status <=2 AND iduser_telefono = :iduser_telefono;"
@@ -23,12 +22,11 @@
 			$sql -> bindParam(":iduser_telefono", $telefonoId, PDO::PARAM_INT);
 			$sql -> execute();
 			return $sql -> fetch();
-			$sql -> close();
 			$sql = null;
 		}
 		
 		#Seleccionar domicilio del cliente o usuario de la base de datos.
-		public function seleccionarDomicilioBD($domicilioId){
+		static public function seleccionarDomicilioBD($domicilioId){
 			$sql = Conexion::conectar() -> prepare(
 				"SELECT * FROM user_domicilio 
 				WHERE status >= 1 AND status <=2 AND iduser_domicilio = :iduser_domicilio;"
@@ -36,12 +34,11 @@
 			$sql -> bindParam(":iduser_domicilio", $domicilioId, PDO::PARAM_INT);
 			$sql -> execute();
 			return $sql -> fetch();
-			$sql -> close();
 			$sql = null;
 		}
 
 		#Seleccionar correos electrónicos del cliente o usuario de la base de datos.
-		public function seleccionarCorreosBD($personaId){
+		static public function seleccionarCorreosBD($personaId){
 			$sql = Conexion::conectar() -> prepare(
 				"SELECT * FROM user_correo 
 				WHERE status >= 1 AND status <=2 AND iduser = :iduser;"
@@ -49,12 +46,11 @@
 			$sql -> bindParam(":iduser", $personaId, PDO::PARAM_INT);
 			$sql -> execute();
 			return $sql -> fetchAll();
-			$sql -> close();
 			$sql = null;
 		}
 
 		#Seleccionar teléfonos del cliente o usuario de la base de datos.
-		public function seleccionarTelefonosBD($personaId){
+		static public function seleccionarTelefonosBD($personaId){
 			$sql = Conexion::conectar() -> prepare(
 				"SELECT * FROM user_telefono 
 				WHERE status >= 1 AND status <=2 AND iduser = :iduser;"
@@ -62,12 +58,11 @@
 			$sql -> bindParam(":iduser", $personaId, PDO::PARAM_INT);
 			$sql -> execute();
 			return $sql -> fetchAll();
-			$sql -> close();
 			$sql = null;
 		}
 		
 		#Seleccionar domicilios del cliente o usuario de la base de datos.
-		public function seleccionarDomiciliosBD($personaId){
+		static public function seleccionarDomiciliosBD($personaId){
 			$sql = Conexion::conectar() -> prepare(
 				"SELECT iduser_domicilio, colonia, calle, num_casaex, status 
 				FROM user_domicilio 
@@ -76,12 +71,11 @@
 			$sql -> bindParam(":iduser", $personaId, PDO::PARAM_INT);
 			$sql -> execute();
 			return $sql -> fetchAll();
-			$sql -> close();
 			$sql = null;
 		}
 
 		#Verificacion del primer correo de la tabla.
-		public function hayCorreosBD($userId){
+		static public function hayCorreosBD($userId){
 			$sql = Conexion::conectar() -> prepare(
 				"SELECT count(*) as correos FROM user_correo 
 				WHERE iduser = :iduser AND status >= 1;"
@@ -89,12 +83,11 @@
 			$sql -> bindParam(":iduser", $userId, PDO::PARAM_INT);
 			$sql -> execute();
 			return $sql -> fetch();
-			$sql -> close();
 			$sql = null;
 		}
 
 		#Verificacion del primer telefono de la tabla.
-		public function hayTelefonosBD($userId){
+		static public function hayTelefonosBD($userId){
 			$sql = Conexion::conectar() -> prepare(
 				"SELECT count(*) as telefonos FROM user_telefono 
 				WHERE iduser = :iduser AND status >= 1;"
@@ -102,12 +95,11 @@
 			$sql -> bindParam(":iduser", $userId, PDO::PARAM_INT);
 			$sql -> execute();
 			return $sql -> fetch();
-			$sql -> close();
 			$sql = null;
 		}
 
 		#Verificacion del primer domicilio de la tabla.
-		public function hayDomiciliosBD($userId){
+		static public function hayDomiciliosBD($userId){
 			$sql = Conexion::conectar() -> prepare(
 				"SELECT count(*) as domicilios FROM user_domicilio 
 				WHERE iduser = :iduser AND status >= 1;"
@@ -115,12 +107,11 @@
 			$sql -> bindParam(":iduser", $userId, PDO::PARAM_INT);
 			$sql -> execute();
 			return $sql -> fetch();
-			$sql -> close();
 			$sql = null;
 		}
 		
 		#Agregar nuevo correo electrónico en la base de datos.
-		public function nuevoCorreoBD($datosCorreoPersona, $status){
+		static public function nuevoCorreoBD($datosCorreoPersona, $status){
 			$sql = Conexion::conectar() -> prepare(
 				"INSERT INTO user_correo(iduser, correo, status) 
 				VALUE(:iduser, :correo, :status);"
@@ -133,12 +124,11 @@
 			}else{
 				return false;
 			}
-			$sql -> close();
 			$sql = null;
 		}
 		
 		#Agregar nuevo teléfono en la base de datos.
-		public function nuevoTelefonoBD($datosTelefonoPersona, $status){
+		static public function nuevoTelefonoBD($datosTelefonoPersona, $status){
 			$sql = Conexion::conectar() -> prepare(
 				"INSERT INTO user_telefono(iduser, tipo, numero, status) 
 				VALUE(:iduser, :tipo, :numero, :status);"
@@ -152,12 +142,11 @@
 			}else{
 				return false;
 			}
-			$sql -> close();
 			$sql = null;
 		}
 		
 		#Agregar nuevo domicilio en la base de datos.
-		public function nuevoDomicilioBD($datosDomicilioPersona, $status){
+		static public function nuevoDomicilioBD($datosDomicilioPersona, $status){
 			$sql = Conexion::conectar() -> prepare(
 				"INSERT INTO user_domicilio(
 					iduser, estado, localidad, colonia, calle, num_casaex, 
@@ -185,12 +174,11 @@
 			}else{
 				return false;
 			}
-			$sql -> close();
 			$sql = null;
 		}
 
 		#Actualizar el correo electrónico en la base de datos.
-		public function actualizarCorreoBD($datosCorreoPersona){
+		static public function actualizarCorreoBD($datosCorreoPersona){
 			$sql = Conexion::conectar() -> prepare(
 				"UPDATE user_correo SET correo = :correo WHERE iduser_correo = :iduser_correo;"
 			);
@@ -201,12 +189,11 @@
 			}else{
 				return false;
 			}
-			$sql -> close();
 			$sql = null;
 		}
 		
 		#Actualizar el teléfono en la base de datos.
-		public function actualizarTelefonoBD($datosTelefonoPersona){
+		static public function actualizarTelefonoBD($datosTelefonoPersona){
 			$sql = Conexion::conectar() -> prepare(
 				"UPDATE user_telefono SET numero = :numero, tipo = :tipo WHERE iduser_telefono = :iduser_telefono;"
 			);
@@ -218,12 +205,11 @@
 			}else{
 				return false;
 			}
-			$sql -> close();
 			$sql = null;
 		}
 		
 		#Actualizar el domicilio en la base de datos.
-		public function actualizarDomicilioBD($datosDomicilioPersona){
+		static public function actualizarDomicilioBD($datosDomicilioPersona){
 			$sql = Conexion::conectar() -> prepare(
 				"UPDATE user_domicilio SET 
 					estado = :estado, 
@@ -252,12 +238,11 @@
 			}else{
 				return false;
 			}
-			$sql -> close();
 			$sql = null;
 		}
 		
 		#Deshabilitar uno o más correos electrónicos de clientes o usuarios en la base de datos.
-		public function eliminarCorreoBD($correoId){
+		static public function eliminarCorreoBD($correoId){
 			$sql = Conexion::conectar() -> prepare(
 				"UPDATE user_correo SET status = 0 WHERE iduser_correo = :iduser_correo;"
 			);
@@ -267,12 +252,11 @@
 			}else{
 				return false;
 			}
-			$sql -> close();
 			$sql = null;
 		}
 
 		#Deshabilitar uno o más teléfonos de clientes o usuarios del sistema.
-		public function eliminarTelefonoBD($telefonoId){
+		static public function eliminarTelefonoBD($telefonoId){
 			$sql = Conexion::conectar() -> prepare(
 				"UPDATE user_telefono set status = 0 WHERE iduser_telefono = :iduser_telefono;"
 			);
@@ -282,12 +266,11 @@
 			}else{
 				return false;
 			}
-			$sql -> close();
 			$sql = null;
 		}
 		
 		#Deshabilitar uno o más domicilios de clientes del sistema.
-		public function eliminarDomicilioBD($domicilioId){
+		static public function eliminarDomicilioBD($domicilioId){
 			$sql = Conexion::conectar() -> prepare(
 				"UPDATE user_domicilio set status = 0 WHERE iduser_domicilio = :iduser_domicilio;"
 			);
@@ -297,12 +280,11 @@
 			}else{
 				return false;
 			}
-			$sql -> close();
 			$sql = null;
 		}
 
 		#Establecer correo electrónico como principal
-		public function correoPrincipalBD($correoId) {
+		static public function correoPrincipalBD($correoId) {
 			$sql = Conexion::conectar() -> prepare(
 				"UPDATE user_correo SET status = 2 WHERE iduser_correo = :iduser_correo;"
 			);
@@ -312,12 +294,11 @@
 			} else {
 				return false;
 			}
-			$sql -> close();
 			$sql = null;
 		}
 
 		#Establecer teléfono como principal
-		public function telefonoPrincipalBD($telefonoId) {
+		static public function telefonoPrincipalBD($telefonoId) {
 			$sql = Conexion::conectar() -> prepare(
 				"UPDATE user_telefono SET status = 2 WHERE iduser_telefono = :iduser_telefono;"
 			);
@@ -327,12 +308,11 @@
 			} else {
 				return false;
 			}
-			$sql -> close();
 			$sql = null;
 		}
 
 		#Establecer domicilio como principal
-		public function domicilioPrincipalBD($domicilioId) {
+		static public function domicilioPrincipalBD($domicilioId) {
 			$sql = Conexion::conectar() -> prepare(
 				"UPDATE user_domicilio SET status = 2 WHERE iduser_domicilio = :iduser_domicilio;"
 			);
@@ -342,12 +322,11 @@
 			} else {
 				return false;
 			}
-			$sql -> close();
 			$sql = null;
 		}
 
 		#Establecer como no principales todos los elementos de información de un cliente o usuario.
-		public function disMainElementBD($Id, $tabla) {
+		static public function disMainElementBD($Id, $tabla) {
 			$sql = Conexion::conectar() -> prepare(
 				"UPDATE $tabla SET status = 1 
 				WHERE iduser = :iduser AND status >= 1 AND status <= 2;"
@@ -358,14 +337,13 @@
 			} else {
 				return false;
 			}
-			$sql -> close();
 			$sql = null;
 		}
 
 		#Establecer correo electrónico como principal.
-		public function asMainElementBD($elementId, $tabla) {
-			$strSQL;
-			$Id;
+		static public function asMainElementBD($elementId, $tabla) {
+			$strSQL = null;
+			$Id = null;
 			if ($tabla == "user_correo") {
 				$Id = CRUD::seleccionarCorreoBD($elementId);
 				$strSQL = "UPDATE $tabla SET status = 2 WHERE iduser_correo = :idelement;";
@@ -385,12 +363,11 @@
 			} else {
 				return false;
 			}
-			$sql -> close();
 			$sql = null;
 		}
 
 		#Seleccionar correo electrónico principal.
-		public function seleccionarCorreoPrincipalBD($personaId) {
+		static public function seleccionarCorreoPrincipalBD($personaId) {
 			$sql = Conexion::conectar() -> prepare(
 				"SELECT correo FROM user_correo 
 				WHERE iduser = :iduser AND status = 2;"
@@ -398,12 +375,11 @@
 			$sql -> bindParam(":iduser", $personaId, PDO::PARAM_INT);
 			$sql -> execute();
 			return $sql -> fetch();
-			$sql -> close();
 			$sql = null;
 		}
 
 		#Seleccionar teléfono principal.
-		public function seleccionarTelefonoPrincipalBD($personaId) {
+		static public function seleccionarTelefonoPrincipalBD($personaId) {
 			$sql = Conexion::conectar() -> prepare(
 				"SELECT numero, tipo FROM user_telefono 
 				WHERE iduser = :iduser AND status = 2;"
@@ -411,12 +387,11 @@
 			$sql -> bindParam(":iduser", $personaId, PDO::PARAM_INT);
 			$sql -> execute();
 			return $sql -> fetch();
-			$sql -> close();
 			$sql = null;
 		}
 
 		#Seleccionar domicilio principal.
-		public function seleccionarDomicilioPrincipalBD($personaId) {
+		static public function seleccionarDomicilioPrincipalBD($personaId) {
 			$sql = Conexion::conectar() -> prepare(
 				"SELECT calle, num_casaint, colonia FROM user_domicilio 
 				WHERE iduser = :iduser AND status = 2;"
@@ -424,7 +399,6 @@
 			$sql -> bindParam(":iduser", $personaId, PDO::PARAM_INT);
 			$sql -> execute();
 			return $sql -> fetch();
-			$sql -> close();
 			$sql = null;
 		}
 	}

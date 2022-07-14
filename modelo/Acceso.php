@@ -1,6 +1,6 @@
 <?php
 	class Acceso {
-		public function validarAcceso($pagina) {
+		static public function validarAcceso($pagina) {
 			if(isset($_SESSION["tipo-usuario"]) && isset($_SESSION["ingresado"])) {
 			} else {
 				if ($pagina != "IniciarSesion") {

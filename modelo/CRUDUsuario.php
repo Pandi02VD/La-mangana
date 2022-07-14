@@ -1,7 +1,7 @@
 <?php
 	class CRUDUsuario{
 		#Buscar usuario en la base de datos.
-		public function buscarUsuarioBD($search){
+		static public function buscarUsuarioBD($search){
 			$sql = Conexion::conectar() -> prepare(
 				"SELECT u.iduser, u.nombre, u.tipo, u.fecha, u_a.status, 
 				date_format(u.fecha, '%d/%M/%Y') fecha 
@@ -11,12 +11,11 @@
 			);
 			$sql -> execute();			
 			return $sql -> fetchAll();
-			$sql -> close();
 			$sql = null;
 		}
 		
 		#Seleccionar usuarios de la base de datos.
-		public function seleccionarUsuariosBD(){
+		static public function seleccionarUsuariosBD(){
 			$sql = Conexion::conectar() -> prepare(
 				"SELECT u.iduser, u.nombre, u.tipo, u.fecha, u_a.status, 
 				date_format(u.fecha, '%d/%M/%Y') fecha 
@@ -26,12 +25,11 @@
 			);
 			$sql -> execute();
 			return $sql -> fetchAll();
-			$sql -> close();
 			$sql = null;
 		}
 
 		#Seleccionar estado de conexión de los usuarios activos de la base de datos.
-		public function seleccionarConexionUsuariosBD(){
+		static public function seleccionarConexionUsuariosBD(){
 			$sql = Conexion::conectar() -> prepare(
 				"SELECT u.iduser, u_a.status FROM user u 
 				INNER JOIN user_acceso u_a ON u.iduser = u_a.iduser 
@@ -39,12 +37,11 @@
 			);
 			$sql -> execute();
 			return $sql -> fetchAll();
-			$sql -> close();
 			$sql = null;
 		}
 
 		#Confirmar los datos de un usuario al iniciar sesión
-		public function iniciarSesionBD($usuario, $contrasena){
+		static public function iniciarSesionBD($usuario, $contrasena){
 			$sql = Conexion::conectar() -> prepare(
 				"SELECT iduser, usuario, contrasena, status FROM 
 				user_acceso WHERE usuario = :usuario AND contrasena = :contrasena AND status = 0;"
@@ -53,12 +50,11 @@
 			$sql ->bindParam(":contrasena",$contrasena,PDO::PARAM_STR);
 			$sql -> execute();
 			return $sql -> fetch();
-			$sql -> close();
 			$sql = null;
 		}
 
 		#Seleccionar usuario que inició sesión en el sistema desde la base de datos.
-		public function seleccionarUsuarioSesionBD($usuarioSesion){
+		static public function seleccionarUsuarioSesionBD($usuarioSesion){
 			$sql = Conexion::conectar() -> prepare(
 				"SELECT u.nombre, u.tipo, u_a.iduser, u_a.usuario, u_a.status 
 				FROM user u INNER JOIN user_acceso u_a ON u_a.iduser = u.iduser WHERE u.iduser = :iduser;"
@@ -66,12 +62,11 @@
 			$sql -> bindParam(":iduser", $usuarioSesion, PDO::PARAM_STR);
 			$sql -> execute();
 			return $sql -> fetch();
-			$sql -> close();
 			$sql = null;
 		}
 
 		#Recuperar datos de usuario de la base de datos.
-		public function datosUsuarioBD($usuarioId){
+		static public function datosUsuarioBD($usuarioId){
 			$sql = Conexion::conectar() -> prepare(
 				"SELECT iduser, nombre, tipo, fecha, 
 				date_format(fecha, '%d de %M de %Y') fecha 
@@ -81,24 +76,22 @@
 			$sql -> bindParam(":iduser", $usuarioId, PDO::PARAM_INT);
 			$sql -> execute();
 			return $sql -> fetch();
-			$sql -> close();
 			$sql = null;
 		}
 
 		#Seleccionar todos los usuarios de tipo médico.
-		public function medicosBD() {
+		static public function medicosBD() {
 			$sql = Conexion::conectar() -> prepare(
 				"SELECT iduser, nombre FROM user 
 				WHERE tipo = 3 AND status = 1;"
 			);
 			$sql -> execute();
 			return $sql -> fetchAll();
-			$sql -> close();
 			$sql = null;
 		}
 
 		#Actualizar datos de usuario en la base de datos.
-		public function actualizarUsuarioBD($datosUsuario){
+		static public function actualizarUsuarioBD($datosUsuario){
 			$sql = Conexion::conectar() -> prepare(
 				"UPDATE user SET nombre = :nombre, tipo = :tipo WHERE iduser = :iduser;"
 			);
@@ -110,12 +103,11 @@
 			}else{
 				return false;
 			}
-			$sql -> close();
 			$sql = null;
 		}
 		
 		#Actualizar contraseña de usuario en la base de datos.
-		public function actualizarPicBD($datosPic){
+		static public function actualizarPicBD($datosPic){
 			$sql = Conexion::conectar() -> prepare(
 				"UPDATE user_acceso SET contrasena = :contrasena WHERE iduser = :iduser;"
 			);
@@ -126,12 +118,11 @@
 			}else{
 				return false;
 			}
-			$sql -> close();
 			$sql = null;
 		}
 		
 		#Verificar la contraseña de usuario en la base de datos.
-		public function verificarPicOldBD($datosPic){
+		static public function verificarPicOldBD($datosPic){
 			$sql = Conexion::conectar() -> prepare(
 				"SELECT contrasena FROM user_acceso WHERE iduser = :iduser AND contrasena = :contrasena;"
 			);
@@ -139,12 +130,11 @@
 			$sql -> bindParam(":contrasena", $datosPic["contrasenaOld"], PDO::PARAM_STR);
 			$sql -> execute();
 			return $sql -> fetch();
-			$sql -> close();
 			$sql = null;
 		}
 
 		#Cambiar a desconectado el status del usuario hacia la base de datos.
-		public function desconectarUsuarioBD($usuario){
+		static public function desconectarUsuarioBD($usuario){
 			$sql = Conexion::conectar() -> prepare(
 				"UPDATE user_acceso SET status = 0 WHERE iduser = :iduser;"
 			);
@@ -154,12 +144,11 @@
 			}else{
 				return false;
 			}
-			$sql -> close();
 			$sql = null;
 		}
 
 		#Cambiar a conectado el status del usuario hacia la base de datos.
-		public function conectarUsuarioBD($usuario){
+		static public function conectarUsuarioBD($usuario){
 			$sql = Conexion::conectar() -> prepare(
 				"UPDATE user_acceso SET status = 1 WHERE iduser = :iduser;"
 			);
@@ -169,12 +158,11 @@
 			}else{
 				return false;
 			}
-			$sql -> close();
 			$sql = null;
 		}
 
 		#Crear cuenta de usuario en la base de datos.
-		public function crearCuentaBD($datosUsuario){
+		static public function crearCuentaBD($datosUsuario){
 			$transaccion = true;
 			$sql = Conexion::conectar() -> prepare(
 				"INSERT INTO user(nombre, fecha, tipo, status) VALUE(:nombre, now(), :tipo, 2);"
@@ -185,7 +173,6 @@
 				$transaccion = true;
 			}else{
 				return false;
-				$sql -> close();
 				$sql = null;
 			}
 
@@ -210,16 +197,13 @@
 					}
 				}
 			}
-			$sql -> close();
-			$sql2 -> close();
-			$sql3 -> close();
 			$sql = null;
 			$sql2 = null;
 			$sql3 = null;
 		}
 
 		#Crear acceso de usuario en la base de datos.
-		public function crearAccesoUsuarioBD($usuario, $datosAcceso){
+		static public function crearAccesoUsuarioBD($usuario, $datosAcceso){
 			$sql = Conexion::conectar() -> prepare(
 				"INSERT INTO user_acceso(iduser, usuario, contrasena, fecha, status) 
 				VALUE(:iduser, :usuario, :contrasena, now(), 0);"
@@ -232,12 +216,11 @@
 			}else{
 				return false;
 			}
-			$sql -> close();
 			$sql = null;
 		}
 
 		#Deshabilitar uno o más usuarios del sistema.
-		public function eliminarUsuariosBD($usuarioId){
+		static public function eliminarUsuariosBD($usuarioId){
 			$sql = Conexion::conectar() -> prepare(
 				"UPDATE user SET status = 0 WHERE tipo != 1 AND iduser = :iduser;"
 			);
@@ -247,7 +230,6 @@
 			}else{
 				return false;
 			}
-			$sql -> close();
 			$sql = null;
 		}
 	}

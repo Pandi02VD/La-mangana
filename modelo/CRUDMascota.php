@@ -1,7 +1,7 @@
 <?php
 	class CRUDMascota{
 		#Buscar mascota desde la base de datos.
-		public function buscarMascotaBD($search) {
+		static public function buscarMascotaBD($search) {
 			$respuestas = array();
 			$sql = Conexion::conectar() -> prepare(
 				"SELECT 
@@ -24,12 +24,11 @@
 			} else {
 				return null;
 			}
-			$sql -> close();
 			$sql = null;
 		}
 		
 		#Buscar mascota por cliente desde la base de datos.
-		public function buscarMascotaClienteBD($search, $clienteId) {
+		static public function buscarMascotaClienteBD($search, $clienteId) {
 			$respuestas = array();
 			$sql = Conexion::conectar() -> prepare(
 				"SELECT 
@@ -53,12 +52,11 @@
 			} else {
 				return null;
 			}
-			$sql -> close();
 			$sql = null;
 		}
 		
 		#Buscar raza desde la base de datos.
-		public function buscarRazaBD($search) {
+		static public function buscarRazaBD($search) {
 			$respuestas = array();
 			$sql = Conexion::conectar() -> prepare(
 				"SELECT * FROM mascota_raza 
@@ -75,34 +73,31 @@
 			} else {
 				return null;
 			}
-			$sql -> close();
 			$sql = null;
 		}
 		
 		#Buscar jaula de mascota desde la base de datos.
-		public function buscarJaulaBD($search) {
+		static public function buscarJaulaBD($search) {
 			$sql = Conexion::conectar() -> prepare(
 				"SELECT * FROM jaula WHERE jaula LIKE '%$search%' AND status >= 1;"
 			);
 			$sql -> execute();
 			return $sql  -> fetchAll();
-			$sql -> close();
 			$sql = null;
 		}
 
 		#Obtener el último registro insertado en una tabla por id.
-		public function lastIdFrom($tabla, $campo){
+		static public function lastIdFrom($tabla, $campo){
 			$sql = Conexion::conectar() -> prepare(
 				"SELECT max($campo) as id from $tabla;"
 			);
 			$sql -> execute();
 			return $sql -> fetch();
-			$sql -> close();
 			$sql = null;
 		}
 
 		#Recuperar datos de una mascota de la base de datos.
-		public function datosMascotaBD($mascotaId) {
+		static public function datosMascotaBD($mascotaId) {
 			$infoMascota = CRUDMascota::infoMascota($mascotaId);
 			$atributos = CRUDMascota::atributosMascota($mascotaId);
 			$infoDueno = CRUDMascota::infoDueno($infoMascota["iduser"]);
@@ -111,7 +106,7 @@
 		}
 
 		#Recuperar información de una mascota.
-		public function infoMascota($mascotaId) {
+		static public function infoMascota($mascotaId) {
 			$sql = Conexion::conectar() -> prepare(
 				"SELECT 
 					m.nombre as mascota, m.sexo, m.ano_nacimiento, m.iduser, 
@@ -124,12 +119,11 @@
 			$sql -> bindParam(":idmascota", $mascotaId, PDO::PARAM_INT);
 			$sql -> execute();
 			return $sql -> fetch();
-			$sql -> close();
 			$sql = null;
 		}
 
 		#Recuperar atributos de una mascota.
-		public function atributosMascota($mascotaId) {
+		static public function atributosMascota($mascotaId) {
 			$lastDate = CRUDMascota::ultimosAtributosMascota($mascotaId);
 			$sql = Conexion::conectar() -> prepare(
 				"SELECT peso, condicion_corporal, tamano 
@@ -140,24 +134,22 @@
 			$sql -> bindParam(":fecha", $lastDate["lastdate"]);
 			$sql -> execute();
 			return $sql -> fetch();
-			$sql -> close();
 			$sql = null;
 		}
 
 		#Seleccionar el último registro de atributos de mascota.
-		public function ultimosAtributosMascota($mascotaId) {
+		static public function ultimosAtributosMascota($mascotaId) {
 			$sql = Conexion::conectar() -> prepare(
 				"SELECT max(fecha) as lastdate FROM mascota_atributos WHERE idmascota = :idmascota;"
 			);
 			$sql -> bindParam(":idmascota", $mascotaId, PDO::PARAM_INT);
 			$sql -> execute();
 			return $sql -> fetch();
-			$sql -> close();
 			$sql = null;
 		}
 
 		#Recuperar información del dueño de la mascota.
-		public function infoDueno($clienteId) {
+		static public function infoDueno($clienteId) {
 			$correoPrincipal = CRUD::seleccionarCorreoPrincipalBD($clienteId);
 			$telefonoPrincipal = CRUD::seleccionarTelefonoPrincipalBD($clienteId);
 			$domicilioPrincipal = CRUD::seleccionarDomicilioPrincipalBD($clienteId);
@@ -179,12 +171,11 @@
 				$array3 = $array2;
 			}
 			return $array3;
-			$sql -> close();
 			$sql = null;
 		}
 		
 		#Agregar nueva mascota de cliente.
-		public function nuevaMascotaBD($datosMascota){
+		static public function nuevaMascotaBD($datosMascota){
 			$sql = Conexion::conectar() -> prepare(
 				"INSERT INTO 
 				mascota(
@@ -215,12 +206,11 @@
 			} else {
 				return false;
 			}
-			$sql -> close();
 			$sql = null;
 		}
 		
 		#Actualizar la información de una mascota de cliente.
-		public function actualizarMascotaBD($datosMascota){
+		static public function actualizarMascotaBD($datosMascota){
 			$sql = Conexion::conectar() -> prepare(
 				"UPDATE mascota SET 
 					idmascota_raza = :idmascota_raza, 
@@ -241,12 +231,11 @@
 			} else {
 				return false;
 			}
-			$sql -> close();
 			$sql = null;
 		}
 		
 		#Agregar atributos a una mascota en la base de datos.
-		public function nuevosAtributosBD($atributos){
+		static public function nuevosAtributosBD($atributos){
 			$sql = Conexion::conectar() -> prepare(
 				"INSERT INTO mascota_atributos(
 					idmascota, 
@@ -273,12 +262,11 @@
 			} else {
 				return false;
 			}
-			$sql -> close();
 			$sql = null;
 		}
 
 		#Seleccionar pacientes atendidos por día durante el mes.
-		public function resumenBD(){
+		static public function resumenBD(){
 			$sql = Conexion::conectar() -> prepare(
 				"SELECT DATE_FORMAT(momento, '%Y-%m-%d') AS fecha, 
 				DATE(DATE_SUB(NOW(), INTERVAL 7 DAY)) AS inicio, 
@@ -290,36 +278,33 @@
 			);
 			$sql -> execute();
 			return $sql -> fetchAll();
-			$sql -> close();
 			$sql = null;
 		}
 		
 		#Seleccionar todos los atributos de una mascota desde la base de datos.
-		public function seleccionarAtributosBD($mascotaId){
+		static public function seleccionarAtributosBD($mascotaId){
 			$sql = Conexion::conectar() -> prepare(
 				"SELECT * FROM mascota_atributos WHERE idmascota = :idmascota AND status = 1;"
 			);
 			$sql -> bindParam(":idmascota", $mascotaId, PDO::PARAM_INT);
 			$sql -> execute();
 			return $sql -> fetchAll();
-			$sql -> close();
 			$sql = null;
 		}
 
 		#Seleccionar una mascota de la base de datos.
-		public function seleccionarMascotaBD($mascotaId){
+		static public function seleccionarMascotaBD($mascotaId){
 			$sql = Conexion::conectar() -> prepare(
 				"SELECT * FROM mascota WHERE status = 1 AND idmascota = :idmascota;"
 			);
 			$sql -> bindParam(":idmascota", $mascotaId, PDO::PARAM_INT);
 			$sql -> execute();
 			return $sql -> fetch();
-			$sql -> close();
 			$sql = null;
 		}
 
 		#Listar todas las mascotas desde la base de datos.
-		public function listarMascotasBD(){
+		static public function listarMascotasBD(){
 			$sql = Conexion::conectar() -> prepare(
 				"SELECT 
 				u.nombre as cliente, m.idmascota, m.nombre as mascota 
@@ -329,12 +314,11 @@
 			);
 			$sql -> execute();
 			return $sql -> fetchAll();
-			$sql -> close();
 			$sql = null;
 		}
 		
 		#seleccionar todas las mascotas desde la base de datos.
-		public function seleccionarMascotasBD(){
+		static public function seleccionarMascotasBD(){
 			$sql = Conexion::conectar() -> prepare(
 				"SELECT 
 				u.nombre as cliente, m.idmascota, m.nombre as mascota, 
@@ -347,12 +331,11 @@
 			);
 			$sql -> execute();
 			return $sql -> fetchAll();
-			$sql -> close();
 			$sql = null;
 		}
 
 		#Mascotas activas (asistieron a consulta en los últimos 3 meses).
-		public function mascotasActivasBD() {
+		static public function mascotasActivasBD() {
 			$sql = Conexion::conectar() -> prepare(
 				"SELECT c.idmascota, m.nombre AS mascota, u.nombre AS prop, c.momento FROM consulta c 
 				INNER JOIN mascota m ON m.idmascota = c.idmascota 
@@ -363,12 +346,11 @@
 
 			$sql -> execute();
 			return $sql -> fetchAll();
-			$sql -> close();
 			$sql = null;
 		}
 		
 		#Consultas dentro de los últimos 3 meses de mascotas activas.
-		public function ultimasConsultasBD($mascotaId) {
+		static public function ultimasConsultasBD($mascotaId) {
 			$sql = Conexion::conectar() -> prepare(
 				"SELECT DATE_FORMAT(momento, '%d-%b') AS momento FROM consulta 
 				WHERE momento >= DATE_SUB(NOW(), INTERVAL 3 MONTH) 
@@ -378,12 +360,11 @@
 			$sql -> bindParam(":idmascota", $mascotaId, PDO::PARAM_INT);
 			$sql -> execute();
 			return $sql -> fetchAll();
-			$sql -> close();
 			$sql = null;
 		}
 		
 		#Mascotas atendidas Hoy.
-		public function mascotasHoyBD() {
+		static public function mascotasHoyBD() {
 			$sql = Conexion::conectar() -> prepare(
 				"SELECT COUNT(*) AS hoy FROM consulta 
 				WHERE DATE(momento) = DATE(NOW());"
@@ -391,12 +372,11 @@
 
 			$sql -> execute();
 			return $sql -> fetch();
-			$sql -> close();
 			$sql = null;
 		}
 		
 		#Mascotas atendidas este Mes.
-		public function mascotasMesBD() {
+		static public function mascotasMesBD() {
 			$sql = Conexion::conectar() -> prepare(
 				"SELECT COUNT(*) AS mes FROM consulta 
 				WHERE DATE(momento) >= DATE(CONCAT(YEAR(NOW()), '-', MONTH(NOW()), '-', '01'))
@@ -405,12 +385,11 @@
 
 			$sql -> execute();
 			return $sql -> fetch();
-			$sql -> close();
 			$sql = null;
 		}
 		
 		#Mascotas atendidas en Promedio este Mes.
-		public function mascotasPromedioMesBD() {
+		static public function mascotasPromedioMesBD() {
 			$sql = Conexion::conectar() -> prepare(
 				"SELECT COUNT(*) AS promedio, 
 				ABS(
@@ -425,47 +404,43 @@
 
 			$sql -> execute();
 			return $sql -> fetch();
-			$sql -> close();
 			$sql = null;
 		}		
 		
 		#seleccionar especie por raza de la base de datos.
-		public function seleccionarEspecieByRazaBD($especieId){
+		static public function seleccionarEspecieByRazaBD($especieId){
 			$sql = Conexion::conectar() -> prepare(
 				"SELECT especie FROM mascota_especie WHERE idmascota_especie = :idmascota_especie AND status = 1;"
 			);
 			$sql -> bindParam(":idmascota_especie", $especieId, PDO::PARAM_INT);
 			$sql -> execute();
 			return $sql -> fetch();
-			$sql -> close();
 			$sql = null;
 		}
 		
 		#seleccionar las especies de la base de datos.
-		public function seleccionarEspeciesBD(){
+		static public function seleccionarEspeciesBD(){
 			$sql = Conexion::conectar() -> prepare(
 				"SELECT * FROM mascota_especie WHERE status = 1;"
 			);
 			$sql -> execute();
 			return $sql -> fetchAll();
-			$sql -> close();
 			$sql = null;
 		}
 
 		#Seleccionar datos de raza para editar desde la base de datos.
-		public function seleccionarDatosRazaBD($razaId) {
+		static public function seleccionarDatosRazaBD($razaId) {
 			$sql = Conexion::conectar() -> prepare(
 				"SELECT * FROM mascota_raza WHERE idmascota_raza = :idmascota_raza AND status = 1;"
 			);
 			$sql -> bindParam(":idmascota_raza", $razaId, PDO::PARAM_INT);
 			$sql -> execute();
 			return $sql  -> fetch();
-			$sql -> close();
 			$sql = null;
 		}
 		
 		#Agregar nueva jaula en la base de datos.
-		public function nuevaRazaBD($datosRaza) {
+		static public function nuevaRazaBD($datosRaza) {
 			$sql = Conexion::conectar() -> prepare(
 				"INSERT INTO mascota_raza(idmascota_especie, raza, status) 
 				VALUE(:especieId, :raza, 1);"
@@ -477,12 +452,11 @@
 			} else {
 				return false;
 			}
-			$sql -> close();
 			$sql = null;
 		}
 
 		#Actualizar raza en la base de datos.
-		public function actualizarRazaBD($datosRaza) {
+		static public function actualizarRazaBD($datosRaza) {
 			$sql = Conexion::conectar() -> prepare(
 				"UPDATE mascota_raza set idmascota_especie = :idespecie, raza = :raza 
 				WHERE idmascota_raza = :idmascota AND status = 1;"
@@ -495,12 +469,11 @@
 			} else {
 				return false;
 			}
-			$sql -> close();
 			$sql = null;
 		}
 
 		#Deshabilitar una o más razas del sistema.
-		public function eliminarRazasBD($razaId){
+		static public function eliminarRazasBD($razaId){
 			$sql = Conexion::conectar() -> prepare(
 				"UPDATE mascota_raza SET status = 0 WHERE idmascota_raza = :idraza AND status = 1;"
 			);
@@ -510,35 +483,32 @@
 			}else{
 				return false;
 			}
-			$sql -> close();
 			$sql = null;
 		}
 		
 		#seleccionar toas las razas.
-		public function seleccionarRazasBD(){
+		static public function seleccionarRazasBD(){
 			$sql = Conexion::conectar() -> prepare(
 				"SELECT * FROM mascota_raza WHERE status = 1 ORDER BY raza ASC;"
 			);
 			$sql -> execute();
 			return $sql -> fetchAll();
-			$sql -> close();
 			$sql = null;
 		}
 		
 		#seleccionar las razas por especie seleccionada.
-		public function seleccionarRazasByEspecieBD($especieId){
+		static public function seleccionarRazasByEspecieBD($especieId){
 			$sql = Conexion::conectar() -> prepare(
 				"SELECT * FROM mascota_raza WHERE idmascota_especie = :idmascota_especie AND status = 1;"
 			);
 			$sql -> bindParam(":idmascota_especie", $especieId, PDO::PARAM_INT);
 			$sql -> execute();
 			return $sql -> fetchAll();
-			$sql -> close();
 			$sql = null;
 		}
 		
 		#Selecionar información de las mascotas del cliente desde la base de datos.
-		public function mascotasClienteBD($clienteId){
+		static public function mascotasClienteBD($clienteId){
 			$sql = Conexion::conectar() -> prepare(
 				"SELECT 
 				u.nombre as cliente, m.idmascota, m.nombre as mascota, 
@@ -552,59 +522,54 @@
 			$sql -> bindParam(":iduser", $clienteId, PDO::PARAM_INT);
 			$sql -> execute();
 			return $sql -> fetchAll();
-			$sql -> close();
 			$sql = null;
 		}
 
 		#Seleccionar raza de mascota desde la base de datos.
-		public function seleccionarRazaMascotaBD($razaId){
+		static public function seleccionarRazaMascotaBD($razaId){
 			$sql = Conexion::conectar() -> prepare(
 				"SELECT raza FROM mascota_raza WHERE idmascota_raza = :idmascota_raza;"
 			);
 			$sql -> bindParam(":idmascota_raza", $razaId, PDO::PARAM_INT);
 			$sql -> execute();
 			return $sql -> fetch();
-			$sql -> close();
 			$sql = null;
 		}
 
 		#Seleccionar jaula de mascota desde la base de datos.
-		public function seleccionarJaulaBD($jaulaId) {
+		static public function seleccionarJaulaBD($jaulaId) {
 			$sql = Conexion::conectar() -> prepare(
 				"SELECT * FROM jaula WHERE idjaula = :idjaula AND status >= 1;"
 			);
 			$sql -> bindParam(":idjaula", $jaulaId, PDO::PARAM_INT);
 			$sql -> execute();
 			return $sql  -> fetch();
-			$sql -> close();
 			$sql = null;
 		}
 		
 		#Seleccionar jaulas de mascotas desde la base de datos.
-		public function seleccionarJaulasBD() {
+		static public function seleccionarJaulasBD() {
 			$sql = Conexion::conectar() -> prepare(
 				"SELECT * FROM jaula WHERE status >= 1 ORDER BY jaula ASC;"
 			);
 			$sql -> execute();
 			return $sql  -> fetchAll();
-			$sql -> close();
 			$sql = null;
 		}
 		
 		#Verificar si existe la jaula que se va a agregar en la base de datos.
-		public function existeJaulaBD($jaulaId) {
+		static public function existeJaulaBD($jaulaId) {
 			$sql = Conexion::conectar() -> prepare(
 				"SELECT * FROM jaula WHERE idjaula = :idjaula AND status >= 1;"
 			);
 			$sql -> bindParam(":idjaula", $jaulaId, PDO::PARAM_INT);
 			$sql -> execute();
 			return $sql  -> fetch();
-			$sql -> close();
 			$sql = null;
 		}
 		
 		#Agregar nueva jaula en la base de datos.
-		public function nuevaJaulaBD($jaula) {
+		static public function nuevaJaulaBD($jaula) {
 			$sql = Conexion::conectar() -> prepare(
 				"INSERT INTO jaula(jaula, status) VALUE(:jaula, 1);"
 			);
@@ -614,12 +579,11 @@
 			} else {
 				return false;
 			}
-			$sql -> close();
 			$sql = null;
 		}
 		
 		#Actualizar jaula en la base de datos.
-		public function actualizarJaulaBD($datosJaula) {
+		static public function actualizarJaulaBD($datosJaula) {
 			$sql = Conexion::conectar() -> prepare(
 				"UPDATE jaula set jaula = :jaula WHERE idjaula = :idjaula AND status >= 1;"
 			);
@@ -630,12 +594,11 @@
 			} else {
 				return false;
 			}
-			$sql -> close();
 			$sql = null;
 		}
 		
 		#Ocupar jaula en la base de datos.
-		public function ocuparJaulaBD($jaulaId) {
+		static public function ocuparJaulaBD($jaulaId) {
 			$sql = Conexion::conectar() -> prepare(
 				"UPDATE jaula set status = 2 WHERE idjaula = :idjaula;"
 			);
@@ -645,12 +608,25 @@
 			} else {
 				return false;
 			}
-			$sql -> close();
+			$sql = null;
+		}
+		
+		#Liberar jaula en la base de datos.
+		static public function liberarJaulaBD($jaulaId) {
+			$sql = Conexion::conectar() -> prepare(
+				"UPDATE jaula set status = 1 WHERE idjaula = :idjaula;"
+			);
+			$sql -> bindParam(":idjaula", $jaulaId, PDO::PARAM_INT);
+			if($sql -> execute()) {
+				return true;
+			} else {
+				return false;
+			}
 			$sql = null;
 		}
 
 		#Deshabilitar una o más jaulas del sistema.
-		public function eliminarJaulasBD($jaulaId){
+		static public function eliminarJaulasBD($jaulaId){
 			$sql = Conexion::conectar() -> prepare(
 				"UPDATE jaula SET status = 0 WHERE idjaula = :idjaula AND status = 1;"
 			);
@@ -660,12 +636,11 @@
 			}else{
 				return false;
 			}
-			$sql -> close();
 			$sql = null;
 		}
 		
 		#Deshabilitar una o más mascotas del sistema.
-		public function eliminarMascotasBD($mascotaId){
+		static public function eliminarMascotasBD($mascotaId){
 			$sql = Conexion::conectar() -> prepare(
 				"UPDATE mascota SET status = 0 WHERE idmascota = :idmascota AND status = 1;"
 			);
@@ -675,7 +650,6 @@
 			}else{
 				return false;
 			}
-			$sql -> close();
 			$sql = null;
 		}
 	}

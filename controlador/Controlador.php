@@ -1,12 +1,12 @@
 <?php
 	class Controlador{
 		#Traer plantilla al index.
-		public function plantilla(){
+		static public function plantilla(){
 			include 'vista/Plantilla.php';
 		}
 		
 		#Traer las vistas.
-		public function traerPaginaCtl(){
+		static public function traerPaginaCtl(){
 			if (isset($_GET["pagina"])) {
 				$pagina = $_GET["pagina"];
 			}else{
@@ -17,43 +17,43 @@
 		}
 
 		#Seleccionar correo electrónico del cliente o usuario para editar.
-		public function seleccionarCorreoCtl($correoId){
+		static public function seleccionarCorreoCtl($correoId){
 			$respuesta = CRUD::seleccionarCorreoBD($correoId);
 			return $respuesta;
 		}
 		
 		#Seleccionar teléfono del cliente o usuario para editar.
-		public function seleccionarTelefonoCtl($telefonoId){
+		static public function seleccionarTelefonoCtl($telefonoId){
 			$respuesta = CRUD::seleccionarTelefonoBD($telefonoId);
 			return $respuesta;
 		}
 
 		#Seleccionar domicili del cliente o usuario para editar.
-		public function seleccionarDomicilioCtl($domicilioId){
+		static public function seleccionarDomicilioCtl($domicilioId){
 			$respuesta = CRUD::seleccionarDomicilioBD($domicilioId);
 			return $respuesta;
 		}
 
 		#Seleccionar todos los correos electrónicos del cliente o usuario.
-		public function seleccionarCorreosCtl($clienteId){
+		static public function seleccionarCorreosCtl($clienteId){
 			$respuesta = CRUD::seleccionarCorreosBD($clienteId);
 			return $respuesta;
 		}
 		
 		#Seleccionar todos los teléfonos del cliente o usuario.
-		public function seleccionarTelefonosCtl($clienteId){
+		static public function seleccionarTelefonosCtl($clienteId){
 			$respuesta = CRUD::seleccionarTelefonosBD($clienteId);
 			return $respuesta;
 		}
 		
 		#Seleccionar todos los domicilios del cliente o usuario.
-		public function seleccionarDomiciliosCtl($clienteId){
+		static public function seleccionarDomiciliosCtl($clienteId){
 			$respuesta = CRUD::seleccionarDomiciliosBD($clienteId);
 			return $respuesta;
 		}
 		
 		#Agregar nuevo correo electrónico.
-		public function nuevoCorreoCtl(){
+		static public function nuevoCorreoCtl(){
 			if (
 				isset($_POST["correo-new"]) && 
 				isset($_POST["add-email-id"])
@@ -78,7 +78,7 @@
 		}
 		
 		#Agregar nuevo teléfono.
-		public function nuevoTelefonoCtl(){
+		static public function nuevoTelefonoCtl(){
 			if (
 				isset($_POST["telefono-new"]) && 
 				isset($_POST["add-phone-id"]) && 
@@ -105,7 +105,7 @@
 		}
 
 		#Agregar nuevo domicilio.
-		public function nuevoDomicilioCtl(){
+		static public function nuevoDomicilioCtl(){
 			if (
 				isset($_POST["domicilio-estado-new"]) && 
 				isset($_POST["domicilio-municipio-new"]) && 
@@ -156,7 +156,7 @@
 		}
 
 		#Actualizar el correo electrónico.
-		public function actualizarCorreoCtl($userId){
+		static public function actualizarCorreoCtl($userId){
 			if (isset($_POST["correo-edit"]) && isset($_POST["correo-id-edit"])) {
 				if (Validacion::correosElectronicos($_POST["correo-edit"], 30)) {
 					$datosCorreoCliente = array (
@@ -177,7 +177,7 @@
 		}
 
 		#Actualizar el teléfono.
-		public function actualizarTelefonoCtl($userId){
+		static public function actualizarTelefonoCtl($userId){
 			if (
 				isset($_POST["telefono-edit"]) && 
 				isset($_POST["tipotelefono-edit"]) && 
@@ -203,7 +203,7 @@
 		}
 		
 		#Actualizar el domicilio.
-		public function actualizarDomicilioCtl($userId){
+		static public function actualizarDomicilioCtl($userId){
 			if (
 				isset($_POST["domicilio-estado-edit"]) && 
 				isset($_POST["domicilio-municipio-edit"]) && 
@@ -253,7 +253,7 @@
 		}
 		
 		#Deshabilitar uno o más correos electrónicos de clientes o usuarios.
-		public function eliminarCorreosCtl($correosEliminar){
+		static public function eliminarCorreosCtl($correosEliminar){
 			$respuestas = array();
 			$conclusion = true;
 			for ($i = 0; $i < sizeof($correosEliminar); $i++) {
@@ -272,7 +272,7 @@
 		}
 		
 		#Deshabilitar uno o más teléfonos de clientes o usuarios.
-		public function eliminarTelefonosCtl($telefonosEliminar){
+		static public function eliminarTelefonosCtl($telefonosEliminar){
 			$respuestas = array();
 			$conclusion = true;
 			for ($i = 0; $i < sizeof($telefonosEliminar); $i++) {
@@ -291,7 +291,7 @@
 		}
 		
 		#Deshabilitar uno o más domicilios de clientes o usuarios.
-		public function eliminarDomiciliosCtl($domiciliosEliminar){
+		static public function eliminarDomiciliosCtl($domiciliosEliminar){
 			$respuestas = array();
 			$conclusion = true;
 			for ($i = 0; $i < sizeof($domiciliosEliminar); $i++) {
@@ -310,7 +310,7 @@
 		}
 
 		#Establecer información de contacto de cliente o ususario como principal.
-		public function asMainElementCtl($elementId, $tabla) {
+		static public function asMainElementCtl($elementId, $tabla) {
 			$respuesta = CRUD::asMainElementBD($elementId, $tabla);
 			return $respuesta;
 		}

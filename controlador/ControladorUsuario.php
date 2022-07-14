@@ -1,37 +1,37 @@
 <?php
 	class ControladorUsuario{
 		#Buscar usuario.
-		public function buscarUsuarioCtl($search) {
+		static public function buscarUsuarioCtl($search) {
 			$respuesta = CRUDUsuario::buscarUsuarioBD($search);
 			return $respuesta;
 		}
 
 		#Seleccionar los usuarios 
-		public function seleccionarUsuariosCtl(){
+		static public function seleccionarUsuariosCtl(){
 			$respuesta = CRUDUsuario::seleccionarUsuariosBD();
 			return $respuesta;
 		}
 
 		#Seleccionar estado de conexión de los usuarios activos.
-		public function seleccionarConexionUsuariosCtl(){
+		static public function seleccionarConexionUsuariosCtl(){
 			$respuesta = CRUDUsuario::seleccionarConexionUsuariosBD();
 			return $respuesta;
 		}
 
 		#Recuperar datos de usuario.
-		public function datosUsuarioCtl($usuarioId){
+		static public function datosUsuarioCtl($usuarioId){
 			$respuesta = CRUDUsuario::datosUsuarioBD($usuarioId);
 			return $respuesta;
 		}
 
 		#Seleccionar todos los usuarios de tipo médico.
-		public function medicosCtl() {
+		static public function medicosCtl() {
 			$respuesta = CRUDUsuario::medicosBD();
 			return $respuesta;
 		}
 
 		#Actualizar datos de usuario.
-		public function actualizarUsuarioCtl(){
+		static public function actualizarUsuarioCtl(){
 			if (
 				isset($_POST["usuarioId-edit"]) && 
 				isset($_POST["nombre-edit"]) && 
@@ -67,7 +67,7 @@
 		}
 		
 		#Actualizar contraseña de usuario.
-		public function actualizarPicCtl(){
+		static public function actualizarPicCtl(){
 			if (
 				isset($_POST["usuarioId"]) && 
 				isset($_POST["contrasena-old"]) && 
@@ -110,7 +110,7 @@
 		}
 
 		#Abrir la sesión de usuario.
-		public function iniciarSesionCtl(){
+		static public function iniciarSesionCtl(){
 			if (isset($_POST["usuario"]) && isset($_POST["contrasena"])) {
 				$pic = Pic::progPic($_POST["contrasena"]);
 				$respuesta = CRUDUsuario::iniciarSesionBD($_POST["usuario"], $pic);
@@ -146,13 +146,13 @@
 		}
 		
 		#Cerrar la sesión de usuario.
-		public function desconectarUsuarioCtl($usuario){
+		static public function desconectarUsuarioCtl($usuario){
 			$desconectar = CRUDUsuario::desconectarUsuarioBD($usuario);
 			return $desconectar;
 		}
 
 		#Crear cuenta de usuario.
-		public function crearCuentaCtl(){
+		static public function crearCuentaCtl(){
 			if (
 				isset($_POST["tipo-usuario-new"]) && 
 				isset($_POST["nombre-new"]) && 
@@ -195,7 +195,7 @@
 		}
 
 		#Deshabilitar uno o más usuarios.
-		public function eliminarUsuariosCtl($usuariosElegidosEliminar){
+		static public function eliminarUsuariosCtl($usuariosElegidosEliminar){
 			$respuestas = array();
 			$conclusion = true;
 			for ($i = 0; $i < sizeof($usuariosElegidosEliminar); $i++) {

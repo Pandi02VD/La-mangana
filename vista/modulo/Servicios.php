@@ -1,6 +1,6 @@
 <?php 
 	$arrayServicios = ControladorServicios::seleccionarServiciosCtl();
-	$size = 3;
+	$size = 4;
 	$init = 0;
 	$inicio = 0;
 	$modulo = '';
@@ -32,7 +32,7 @@
 			<a <?=$paginacion['onNext']?> href="<?=$paginacion['hrefNext']?>">&#62</a>
 		</div>
 	<?php endif ?>
-	<div>
+	<!-- <div>
 		<div class="C__Btn">
 			<input type="image" src="img/add_32px.png" alt="imágen de acción" id="btn-add-service">
 			<span class="tooltip">Agregar consulta</span>
@@ -49,13 +49,13 @@
 			<input class="inputs box" type="text" id="search-service" name="search-service" placeholder="Buscar">
 			<span class="iconSearch"><image src="img/search_20px.png"></image></span>
 		</div>
-	</div>
+	</div> -->
 
-	<div class="D-info">
+	<!-- <div class="D-info">
 		<p class="info">Haga clic en un servicio para ver más información 
 			<button class="tag__close" name="btn-close-info">x</button>
 		</p>
-	</div>
+	</div> -->
 
 	<table class="table" id="tbl-servicios">
 		<tr>

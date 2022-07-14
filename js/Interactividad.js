@@ -311,6 +311,16 @@ interactFormModal(
 	document.getElementById('close-form-HistoriaClinica'), 
 	document.getElementById('form-HistoriaClinica')
 );
+interactFormModal(
+	document.getElementById('btn-high-medical'), 
+	document.getElementById('btn-close-form-high-medical'), 
+	document.getElementById('form-high-medical')
+);
+interactFormModal(
+	document.getElementById('btn-high-hospital'), 
+	document.getElementById('btn-close-form-high-hospital'), 
+	document.getElementById('form-high-hospital')
+);
 
 function historiaClinica () {
 	let celdas = document.getElementsByName('check-pet');

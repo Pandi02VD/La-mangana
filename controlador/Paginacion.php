@@ -1,6 +1,6 @@
 <?php
 	class Paginacion {
-		public function pnt($modulo, $noItems, $pag, $size) {
+		static public function pnt($modulo, $noItems, $pag, $size) {
 			$paginas = 0;
 			$inicio = 0;
 			if($noItems > $size){

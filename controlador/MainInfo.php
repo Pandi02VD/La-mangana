@@ -1,6 +1,6 @@
 <?php
 	class MainInfo {
-		public function obtenerCorreoPrincipal($correos) {
+		static public function obtenerCorreoPrincipal($correos) {
 			$correoPrincipal = 'No se ha asignado';
 			if($correos == null) {
 				return 'No hay registros';
@@ -14,7 +14,7 @@
 			}
 		}
 		
-		public function obtenerTelefonoPrincipal($telefonos) {
+		static public function obtenerTelefonoPrincipal($telefonos) {
 			$telefonoPrincipal = 'No se ha asignado';
 			if($telefonos == null) {
 				return 'No hay registros';
@@ -28,7 +28,7 @@
 			}
 		}
 		
-		public function obtenerDomicilioPrincipal($domicilios) {
+		static public function obtenerDomicilioPrincipal($domicilios) {
 			$domicilioPrincipal = 'No se ha asignado';
 			$numcasaext = 's/n';
 			if($domicilios == null) {

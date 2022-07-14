@@ -6,8 +6,8 @@
 	$personas = ControladorServicios::personasConsultaCtl($hospital["idconsulta"]);
 	$mascota = ControladorMascota::infoMascotaCtl($personas["idmascota"]);
 	$salida = null;
-	$salida == null ? $salida = "Pendiente" : $salida = $salida;
-	// print_r($personas);
+	$hospital["salida"] == null ? $salida = "Pendiente" : $salida = $hospital["salida"];
+	// print_r($jaula);
 ?>
 
 <div class="title">
@@ -25,11 +25,12 @@
 			</div>
 		</div>
 
+		<div class="C__Btn">
+			<input type="image" src="img/heart_health_32px.png" alt="imágen de acción"  id="btn-high-hospital">
+			<span class="tooltip">Alta de Hospitalización</span>
+		</div>
+
 		<div class="Cards__main">
-			<!-- <div class="C__Btn">
-				<input type="image" src="img/heart_health_32px.png" alt="imágen de acción" id="btn-delete-service">
-				<span class="tooltip">Alta de servicio</span>
-			</div> -->
 			<h4 class="services">Datos de Hospitalización</h4>
 			<div>
 				<span>Hospitalizado en:</span>
@@ -89,4 +90,20 @@
 			</div>
 		</div>
 	</div>
+</div>
+
+<div class="C__f oculto" id="form-high-hospital">
+	<form method="post" class="f">
+		<input class="f__close" type="button" id="btn-close-form-high-hospital" value="x">
+		<h2 class="f__title">Alta de Hospitalización</h2>
+		<div class="line-top"></div>
+		<div class="i__group">
+			<label class="labels" for="tiempoAlta-hos">Fecha y Hora</label>
+			<input class="inputs" type="datetime-local" id="tiempoAlta-hos" name="tiempoAlta-hos" required>
+		</div>
+		<input type="hidden" name="hospitalId" id="hospitalId" value="<?=$hospitalId?>" required>
+		<input type="hidden" name="jaulaId" id="jaulaId" value="<?=$jaula["idjaula"]?>" required>
+		<input class="submit" type="submit" id="btn-C-high-hospital" value="Confirmar">
+		<?php ControladorServicios::altaHospitalCtl(); ?>
+	</form>
 </div>

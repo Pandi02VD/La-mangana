@@ -1,37 +1,37 @@
 <?php
 	class ControladorCliente{
 		#Buscar cliente.
-		public function buscarClienteCtl($search) {
+		static public function buscarClienteCtl($search) {
 			$respuesta = CRUDCliente::buscarClienteBD($search);
 			return $respuesta;
 		}
 		
 		#Seleccionar los clientes 
-		public function seleccionarClientesCtl(){
+		static public function seleccionarClientesCtl(){
 			$respuesta = CRUDCliente::seleccionarClientesBD();
 			return $respuesta;
 		}
 		
 		#Seleccionar un cliente
-		public function seleccionarClienteCtl($clienteId){
+		static public function seleccionarClienteCtl($clienteId){
 			$respuesta = CRUDCliente::seleccionarClienteBD($clienteId);
 			return $respuesta;
 		}
 
 		#Recuperar datos de cliente.
-		public function datosClienteCtl($clienteId){
+		static public function datosClienteCtl($clienteId){
 			$respuesta = CRUDCliente::datosClienteBD($clienteId);
 			return $respuesta;
 		}
 		
 		#Listas las mascotas del cliente.
-		public function misMascotasCtl($clienteId){
+		static public function misMascotasCtl($clienteId){
 			$respuesta = CRUDCliente::misMascotasBD($clienteId);
 			return $respuesta;
 		}
 
 		#Actualizar datos de cliente.
-		public function actualizarClienteCtl(){
+		static public function actualizarClienteCtl(){
 			if (isset($_POST["clienteId-edit"]) && isset($_POST["cliente-edit"])) {
 				if (Validacion::nombresPropios($_POST["cliente-edit"], 2, 50)) {
 					$datosCliente = array(
@@ -61,7 +61,7 @@
 		}
 
 		#Crear cliente.
-		public function crearClienteCtl(){
+		static public function crearClienteCtl(){
 			if (isset($_POST["cliente-new"])) {
 				if (Validacion::nombresPropios($_POST["cliente-new"], 2, 50)) {
 					$respuesta = CRUDCliente::crearClienteBD($_POST["cliente-new"]);
@@ -92,7 +92,7 @@
 		}
 
 		#Deshabilitar uno o más clientes.
-		public function eliminarClientesCtl($clientesElegidosEliminar){
+		static public function eliminarClientesCtl($clientesElegidosEliminar){
 			$respuestas = array();
 			$conclusion = true;
 			for ($i = 0; $i < sizeof($clientesElegidosEliminar); $i++) {
@@ -111,7 +111,7 @@
 		}
 
 		#Contar mascotas del cliente.
-		public function contarMascotasClienteCtl($clienteId){
+		static public function contarMascotasClienteCtl($clienteId){
 			$respuesta = CRUDCliente::contarMascotasClienteBD($clienteId);
 			return $respuesta;
 		}

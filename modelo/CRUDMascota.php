@@ -639,6 +639,20 @@
 			$sql = null;
 		}
 		
+		#Deshabilitar una o más consultas del sistema.
+		static public function eliminarConsultasBD($consultaId){
+			$sql = Conexion::conectar() -> prepare(
+				"UPDATE consulta SET status = 0 WHERE idconsulta = :idconsulta AND status = 1;"
+			);
+			$sql -> bindParam(":idconsulta", $consultaId, PDO::PARAM_INT);
+			if ($sql -> execute()) {
+				return $consultaId;
+			}else{
+				return false;
+			}
+			$sql = null;
+		}
+		
 		#Deshabilitar una o más mascotas del sistema.
 		static public function eliminarMascotasBD($mascotaId){
 			$sql = Conexion::conectar() -> prepare(

@@ -16,6 +16,7 @@
 		public $clientesElegidosEliminar;
 		public $usuariosElegidosEliminar;
 		public $mascotasElegidosEliminar;
+		public $consultasElegidosEliminar;
 		public $correosClienteEliminar;
 		public $telefonosClienteEliminar;
 		public $domiciliosClienteEliminar;
@@ -92,6 +93,13 @@
 		public function eliminarMascotasAjax(){
 			$datos = $this -> mascotasElegidosEliminar;
 			$respuesta = ControladorMascota::eliminarMascotasCtl($datos);
+			echo json_encode($respuesta);
+		}
+		
+		#Deshabilitar una o más consultas.
+		public function eliminarConsultasAjax(){
+			$datos = $this -> consultasElegidosEliminar;
+			$respuesta = ControladorMascota::eliminarConsultasCtl($datos);
 			echo json_encode($respuesta);
 		}
 		
@@ -244,6 +252,12 @@
 		$objIdEliminar = new Ajax();
 		$objIdEliminar -> mascotasElegidosEliminar = json_decode($_POST["petsToDelete"]);
 		$objIdEliminar -> eliminarMascotasAjax();
+	}
+
+	if (isset($_POST["servicesToDelete"])) {
+		$objIdEliminar = new Ajax();
+		$objIdEliminar -> consultasElegidosEliminar = json_decode($_POST["servicesToDelete"]);
+		$objIdEliminar -> eliminarConsultasAjax();
 	}
 	
 	if (isset($_POST["emailsClientToDelete"])) {

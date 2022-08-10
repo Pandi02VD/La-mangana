@@ -372,6 +372,25 @@
 			return $conclusion;
 		}
 		
+		#Deshabilitar una o más consultas.
+		static public function eliminarConsultasCtl($consultasEliminar){
+			$respuestas = array();
+			$conclusion = true;
+			for ($i = 0; $i < sizeof($consultasEliminar); $i++) {
+				$respuesta = CRUDMascota::eliminarConsultasBD($consultasEliminar[$i]);
+				if ($respuesta == false) {
+					$respuestas[$i] = false;
+				}
+			}
+			
+			for ($i = 0; $i < sizeof($respuestas); $i++) {
+				if ($respuestas[$i] == false) {
+					$conclusion = false;
+				}
+			}
+			return $conclusion;
+		}
+		
 		#Deshabilitar una o más mascotas.
 		static public function eliminarMascotasCtl($mascotasEliminar){
 			$respuestas = array();

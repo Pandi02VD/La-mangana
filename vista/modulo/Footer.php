@@ -36,7 +36,7 @@
 			<img src="img/Location_18px.png" alt="Ubicación">Av. Máximino Ávila Camacho 309 A, Centro, 93600 Martínez de la Torre, Ver.
 		</address>
 	</a>
-	<img id="mapa" src="https://maps.googleapis.com/maps/api/staticmap?center=20.062929172919276, -97.05318660540844&zoom=18&size=350x350&maptype=roadmap\&markers=size:mid%7Ccolor:red%7C20.062929172919276, -97.053186605408448&key=YOUR_API_KEY" alt="Mapa">
+	<img id="mapa" src="https://maps.googleapis.com/maps/api/staticmap?center=20.062929172919276, -97.05318660540844&zoom=18&size=350x350&maptype=roadmap\&markers=size:mid%7Ccolor:red%7C20.062929172919276, -97.053186605408448&key=" alt="Mapa">
 </div>
 
 <div class="contentNet">

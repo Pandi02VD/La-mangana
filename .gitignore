@@ -1,0 +1,4 @@
+*.code-workspace
+*.tmp
+~*
+/lib/PHPWord-master/

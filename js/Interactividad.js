@@ -1,3 +1,303 @@
+import JQueryAcciones from "./JQueryAcciones.js";
+
+export default class Interactividad {
+	static ajuste() {
+		document.querySelector('main').classList.add('ajuste');
+	}
+
+	static stepSlide(slider) {
+		let firstSlide = document.querySelectorAll('.slide')[0];
+		slider.style.marginLeft = '-200%';
+		slider.style.transition = 'all .5s';
+		setTimeout(() => {
+			slider.style.transition = 'none';
+			slider.insertAdjacentElement('beforeend', firstSlide);
+			slider.style.marginLeft = '-100%';
+		}, 500);
+	}
+
+	static sliderControls(prev, next, items, slider) {
+		let lastSlide = items[items.length - 1];
+		slider.insertAdjacentElement('afterbegin', lastSlide);
+		next.addEventListener('click', () => {Interactividad.stepSlide(slider)});
+		prev.addEventListener('click', () => {
+			let items = document.querySelectorAll('.slide');
+			let lastSlide = items[items.length - 1];
+			slider.style.marginLeft = '0%';
+			slider.style.transition = 'all .5s';
+			setTimeout(() => {
+				slider.style.transition = 'none';
+				slider.insertAdjacentElement('afterbegin', lastSlide);
+				slider.style.marginLeft = '-100%';
+			}, 500);
+		});
+	}
+	
+	static confirmarCita(nameRequest, btnC, callback) {
+		if (btnC) {
+			for (const i of btnC) {
+				i.addEventListener('click', () => {
+					JQueryAcciones.editFormModal(
+						i.parentElement.getAttribute('id'), 
+						nameRequest, 
+						(r) => {
+							callback(r);
+						}
+					);
+					// Crear la tabla expediente y normalizar.
+					// Para iniciar el expediente, llenar en forma física y digital el formato de Historia Medica ECO.docx
+				});
+			}
+		}
+	}
+
+	static itemsTable(items) {
+		items.forEach(i => {
+			i.addEventListener('click', (e) => {
+				let obj = i.parentElement.children;
+				// console.log(i.firstElementChild);
+				let td = i.firstElementChild;
+				let tdStatus = false;
+				if(td != null) {
+					td.getAttribute('type') == 'button' ? tdStatus = true : tdStatus = false;
+				}
+				if (!tdStatus) {
+					for (const key in obj) {
+						key > 2 ? obj[key].classList.toggle('block') : null ;
+					}
+				}
+			});
+		});
+	}
+	
+	static interactDiv (buttonShow, divs, div) {
+		if (buttonShow && divs && div) {
+			buttonShow.addEventListener('click', () => {
+				divs.forEach(element => {element.classList.add('none')});
+				div.classList.remove('none');
+			});
+		}
+	}
+	
+	static interactFormModal (buttonShow, buttonHide, form) {
+		if (buttonShow && form && buttonHide) {
+			buttonShow.addEventListener('click', () => {
+				form.classList.remove('oculto');
+				$('body, html').animate({scrollTop: '0px'}, 300);
+			});
+			buttonHide.addEventListener('click', () => {
+				form.classList.add('oculto');
+			});
+		}
+	}
+	
+	static interactFormModalSecret (buttonHide, form) {
+		if (form && buttonHide) {
+			buttonHide.addEventListener('click', () => {
+				form.classList.add('oculto');
+			});
+		}
+	}
+
+	static formModal (buttonsShow, buttonHide, form, callback) {
+		if (buttonsShow && buttonHide && form) {
+			buttonsShow.forEach( element => {
+				element.addEventListener('click', () => {
+					form.classList.remove('oculto');
+					$('body, html').animate({scrollTop: '0px'}, 300);
+					callback(
+						element.getAttribute('id'), 
+						element.getAttribute('name')
+					);
+				});
+			});
+			buttonHide.addEventListener('click', () => {
+				form.classList.add('oculto');
+			});
+		}
+	}
+	
+	static toggleCheck (elementCheck, elementsCheck, checkAll, btnsCheck, btnsCheckOnce) {
+		if (elementCheck.checked) {
+			elementCheck.checked = true;
+		} else {
+			elementCheck.checked = false;
+		}
+	
+		let counterCheck = 0;
+		for (let i = 0; i < elementsCheck.length; i++) {
+			if (elementsCheck[i].checked) {
+				counterCheck++;
+			}
+		}
+	
+		if (counterCheck > 1) {
+			counterCheck === elementsCheck.length ? checkAll.checked = true : checkAll.checked = false;
+			if (NodeList.prototype.isPrototypeOf(btnsCheck)) {
+				for (let i = 0; i < btnsCheck.length; i++) {
+					btnsCheck[i].disabled = false;
+				}
+			} else {
+				btnsCheck.disabled = false;
+			}
+	
+			if (NodeList.prototype.isPrototypeOf(btnsCheckOnce)) {
+				for (let i = 0; i < btnsCheckOnce.length; i++) {
+					btnsCheckOnce[i].disabled = true;
+				}
+			} else {
+				btnsCheckOnce.disabled = true;
+			}
+		} else if (counterCheck === 1) {
+			checkAll.checked = false;
+			if (NodeList.prototype.isPrototypeOf(btnsCheck)) {
+				for (let i = 0; i < btnsCheck.length; i++) {
+					btnsCheck[i].disabled = false;
+				}
+			} else {
+				btnsCheck.disabled = false;
+			}
+	
+			if (NodeList.prototype.isPrototypeOf(btnsCheckOnce)) {
+				for (let i = 0; i < btnsCheckOnce.length; i++) {
+					btnsCheckOnce[i].disabled = false;
+				}
+			} else {
+				btnsCheckOnce.disabled = false;
+			}
+		} else if (counterCheck === 0) {
+			checkAll.checked = false;
+			if (NodeList.prototype.isPrototypeOf(btnsCheck)) {
+				for (let i = 0; i < btnsCheck.length; i++) {
+					btnsCheck[i].disabled = true;
+				}
+			} else {
+				btnsCheck.disabled = true;
+			}
+	
+			if (NodeList.prototype.isPrototypeOf(btnsCheckOnce)) {
+				for (let i = 0; i < btnsCheckOnce.length; i++) {
+					btnsCheckOnce[i].disabled = true;
+				}
+			} else {
+				btnsCheckOnce.disabled = true;
+			}
+		}
+	}
+	
+	static toogleButtons (elementCheck, btnsCheck, btnsCheckOnce) {
+		if (NodeList.prototype.isPrototypeOf(btnsCheck)) {
+			for (let i = 0; i < btnsCheck.length; i++) {
+				elementCheck.checked ? btnsCheck[i].disabled = false : btnsCheck[i].disabled = true;
+			}
+		} else {
+			elementCheck.checked ? btnsCheck.disabled = false : btnsCheck.disabled = true;
+		}
+	
+		if (NodeList.prototype.isPrototypeOf(btnsCheckOnce)) {
+			for (let i = 0; i < btnsCheckOnce.length; i++) {
+				btnsCheckOnce[i].disabled = true;
+			}
+		} else {
+			btnsCheckOnce.disabled = true;
+		}
+	}
+	
+	static checkBox (checkTh, checkTd, btnsCheckOnce, btnsCheck) {
+		if (checkTh && checkTd && btnsCheckOnce && btnsCheck) {
+			checkTh.addEventListener ('click', () => {
+				Interactividad.toogleButtons(checkTh, btnsCheck, btnsCheckOnce);
+	
+				for (let i = 0; i < checkTd.length; i++) {
+					if (checkTh.checked) {
+						checkTd[i].checked = true;
+					} else if (! checkTh.checked) {
+						checkTd[i].checked = false;
+					}
+				}
+			});
+			
+			for (let i = 0; i < checkTd.length; i++) {
+				checkTd[i].addEventListener ('click', () => {
+					Interactividad.toggleCheck(checkTd[i], checkTd, checkTh, btnsCheck, btnsCheckOnce);
+				});
+			}
+		}
+	}
+	
+	static setAttr (element, attribute, value) {
+		if (element) {
+			element.setAttribute(attribute, value);
+		}
+	}
+	
+	static tableCellValues(tableCell, url) {
+		if (tableCell) {
+			for (let i = 0; i < tableCell.length; i++) {
+				tableCell[i].addEventListener('click', () => {
+					let idValueTable = tableCell[i].getAttribute('id');
+					window.location = url + idValueTable;
+				})
+			}
+		}
+	}
+	
+	static tags(textarea) {
+		if (textarea) {
+			textarea.addEventListener('keyup', () => {
+				let textInput = textarea.value;
+				let splitString = textInput.split(',');
+				if (splitString.length > 1) {
+					let inputHidden = document.creattdement('input');
+					let div = document.createElement('div');
+					let btn = document.createElement('div');
+					
+					inputHidden.setAttribute('type', 'hidden');
+					inputHidden.setAttribute('name', 'tags[]');
+					div.setAttribute('class', 'tag');
+					btn.setAttribute('name', 'btns-close-tag');
+					btn.setAttribute('class', 'tag__close');
+	
+					div.innerText = splitString[0];
+					inputHidden.value = splitString[0];
+					console.log(inputHidden.value);
+					btn.innerText = 'x';
+					Interactividad.closeTags(btn);
+					div.appendChild(btn);
+					div.appendChild(inputHidden);
+					textarea.parentNode.appendChild(div);
+					textarea.value = '';
+				}
+			})
+		}
+	}
+	
+	static closeTags(btn) {
+		if (btn) {
+			btn.addEventListener('click', () => {
+				btn.parentNode.remove();
+			});
+		}
+	}
+	
+	static callForm(checkbox, callback) {
+		if (checkbox) {
+			checkbox.addEventListener('click', () => {
+				callback();
+			});
+		}
+	}
+	
+	static momentoActual(element){
+		if (element) {
+			setInterval(() => {
+				let ahora = new Date();
+				element.innerText = "Registro: " + ahora.getDate() + " de " + ahora.toLocaleString('es-mx', { month: 'long' }) + " de " + ahora.getFullYear() + " - " + ahora.getHours() + ":" + ahora.getMinutes() + ":" + ahora.getSeconds()
+			}, 1000);
+		}
+	}
+}
+
 // if (document.getElementById('pet-anos-new')) {
 // 	let edadMascota = document.getElementById('pet-anos-new');
 // 	edadMascota.addEventListener('keyup', () => {
@@ -18,208 +318,9 @@
 // 	});
 // }
 
-function interactFormModal (buttonShow, buttonHide, form) {
-	if (buttonShow && form && buttonHide) {
-		buttonShow.addEventListener('click', () => {
-			form.classList.remove('oculto');
-			$('body, html').animate({scrollTop: '0px'}, 300);
-		});
-		buttonHide.addEventListener('click', () => {
-			form.classList.add('oculto');
-		});
-	}
-}
-
-function toogleCheck (elementCheck, elementsCheck, checkAll, btnsCheck, btnsCheckOnce) {
-	if (elementCheck.checked) {
-		elementCheck.checked = true;
-	} else {
-		elementCheck.checked = false;
-	}
-
-	let counterCheck = 0;
-	for (let i = 0; i < elementsCheck.length; i++) {
-		if (elementsCheck[i].checked) {
-			counterCheck++;
-		}
-	}
-
-	if (counterCheck > 1) {
-		counterCheck === elementsCheck.length ? checkAll.checked = true : checkAll.checked = false;
-		if (NodeList.prototype.isPrototypeOf(btnsCheck)) {
-			for (let i = 0; i < btnsCheck.length; i++) {
-				btnsCheck[i].disabled = false;
-			}
-		} else {
-			btnsCheck.disabled = false;
-		}
-
-		if (NodeList.prototype.isPrototypeOf(btnsCheckOnce)) {
-			for (let i = 0; i < btnsCheckOnce.length; i++) {
-				btnsCheckOnce[i].disabled = true;
-			}
-		} else {
-			btnsCheckOnce.disabled = true;
-		}
-	} else if (counterCheck === 1) {
-		checkAll.checked = false;
-		if (NodeList.prototype.isPrototypeOf(btnsCheck)) {
-			for (let i = 0; i < btnsCheck.length; i++) {
-				btnsCheck[i].disabled = false;
-			}
-		} else {
-			btnsCheck.disabled = false;
-		}
-
-		if (NodeList.prototype.isPrototypeOf(btnsCheckOnce)) {
-			for (let i = 0; i < btnsCheckOnce.length; i++) {
-				btnsCheckOnce[i].disabled = false;
-			}
-		} else {
-			btnsCheckOnce.disabled = false;
-		}
-	} else if (counterCheck === 0) {
-		checkAll.checked = false;
-		if (NodeList.prototype.isPrototypeOf(btnsCheck)) {
-			for (let i = 0; i < btnsCheck.length; i++) {
-				btnsCheck[i].disabled = true;
-			}
-		} else {
-			btnsCheck.disabled = true;
-		}
-
-		if (NodeList.prototype.isPrototypeOf(btnsCheckOnce)) {
-			for (let i = 0; i < btnsCheckOnce.length; i++) {
-				btnsCheckOnce[i].disabled = true;
-			}
-		} else {
-			btnsCheckOnce.disabled = true;
-		}
-	}
-}
-
-function toogleButtons (elementCheck, btnsCheck, btnsCheckOnce) {
-	if (NodeList.prototype.isPrototypeOf(btnsCheck)) {
-		for (let i = 0; i < btnsCheck.length; i++) {
-			elementCheck.checked ? btnsCheck[i].disabled = false : btnsCheck[i].disabled = true;
-		}
-	} else {
-		elementCheck.checked ? btnsCheck.disabled = false : btnsCheck.disabled = true;
-	}
-
-	if (NodeList.prototype.isPrototypeOf(btnsCheckOnce)) {
-		for (let i = 0; i < btnsCheckOnce.length; i++) {
-			btnsCheckOnce[i].disabled = true;
-		}
-	} else {
-		btnsCheckOnce.disabled = true;
-	}
-}
-
-function checkBox (checkTh, checkTd, btnsCheckOnce, btnsCheck) {
-	if (checkTh && checkTd && btnsCheckOnce && btnsCheck) {
-		checkTh.addEventListener ('click', () => {
-			toogleButtons(checkTh, btnsCheck, btnsCheckOnce);
-
-			for (let i = 0; i < checkTd.length; i++) {
-				if (checkTh.checked) {
-					checkTd[i].checked = true;
-				} else if (! checkTh.checked) {
-					checkTd[i].checked = false;
-				}
-			}
-		});
-		
-		for (let i = 0; i < checkTd.length; i++) {
-			checkTd[i].addEventListener ('click', () => {
-				toogleCheck(checkTd[i], checkTd, checkTh, btnsCheck, btnsCheckOnce);
-			});
-		}
-	}
-}
-
-function setAttr (element, attribute, value) {
-	if (element) {
-		element.setAttribute(attribute, value);
-	}
-}
-
-function tableCellValues(tableCell, url) {
-	if (tableCell) {
-		for (let i = 0; i < tableCell.length; i++) {
-			tableCell[i].addEventListener('click', () => {
-				let idValueTable = tableCell[i].getAttribute('id');
-				window.location = url + idValueTable;
-			})
-		}
-	}
-}
-
-function tags(textarea) {
-	if (textarea) {
-		textarea.addEventListener('keyup', () => {
-			let textInput = textarea.value;
-			let splitString = textInput.split(',');
-			if (splitString.length > 1) {
-				let inputHidden = document.createElement('input');
-				let div = document.createElement('div');
-				let btn = document.createElement('div');
-				
-				inputHidden.setAttribute('type', 'hidden');
-				inputHidden.setAttribute('name', 'tags[]');
-				div.setAttribute('class', 'tag');
-				btn.setAttribute('name', 'btns-close-tag');
-				btn.setAttribute('class', 'tag__close');
-
-				div.innerText = splitString[0];
-				inputHidden.value = splitString[0];
-				console.log(inputHidden.value);
-				btn.innerText = 'x';
-				closeTags(btn);
-				div.appendChild(btn);
-				div.appendChild(inputHidden);
-				textarea.parentNode.appendChild(div);
-				textarea.value = '';
-			}
-		})
-	}
-}
-
-function closeTags(btn) {
-	if (btn) {
-		btn.addEventListener('click', () => {
-			btn.parentNode.remove();
-		});
-	}
-}
-
-function callForm(checkbox, callback) {
-	if (checkbox) {
-		checkbox.addEventListener('click', () => {
-			callback();
-		});
-	}
-}
-
-function momentoActual(element){
-	if (element) {
-		setInterval(() => {
-			let ahora = new Date();
-			element.innerText = "Registro: " + ahora.getDate() + " de " + ahora.toLocaleString('es-mx', { month: 'long' }) + " de " + ahora.getFullYear() + " - " + ahora.getHours() + ":" + ahora.getMinutes() + ":" + ahora.getSeconds()
-		}, 1000);
-	}
-}
-
 // tableCellValues(USERS_TABLE, 'index.php?pagina=Usuario&uu=');
 // tableCellValues(CLIENTS_TABLE, 'index.php?pagina=Cliente&uc=');
 // tableCellValues(PETS_TABLE, 'index.php?pagina=Mascota&um=');
-
-checkBox(
-	document.querySelector('#checkCitas'), 
-	document.getElementsByName('checkCita'), 
-	document.querySelector('#posponerBtn-s'), 
-	document.querySelector('#cancelarBtn-s')
-);
 
 // setAttr(BTN_EDIT_CLIENT_EMAIL, 'name', 'btns-one-check-client-email');
 // setAttr(BTN_ASMAIN_EMAIL, 'name', 'btns-one-check-client-email');
@@ -265,11 +366,6 @@ checkBox(
 // checkBox(CHECK_ALL_JAULAS, CHECK_JAULA, BTN_EDIT_JAULA, BTN_DELETE_JAULA);
 // checkBox(CHECK_ALL_RAZAS, CHECK_RAZA, BTN_EDIT_RAZA, BTN_DELETE_RAZA);
 
-interactFormModal(
-	document.querySelector('#posponerBtn-s'), 
-	document.querySelector('#posponerBtn-x'), 
-	document.querySelector('#posponerForm')
-);
 // tags(document.getElementById('acs-consult-new'));
 
 // if (BTN_CLOSE_INFO) {
@@ -301,41 +397,41 @@ interactFormModal(
 // 	}
 // });
 
-function prescription(nombre, dosis, unidad, frecuencia, add) {
-	if (nombre && dosis && frecuencia && add) {
-		add.addEventListener('click', () => {
-			if (
-				nombre.value.length != 0 && 
-				dosis.value.length != 0 && 
-				frecuencia.value.length != 0
-			) {
-				let fragment = new DocumentFragment();
-				let template = document.getElementById('medic-template');
-				let list = document.getElementById('list');
+// function prescription(nombre, dosis, unidad, frecuencia, add) {
+// 	if (nombre && dosis && frecuencia && add) {
+// 		add.addEventListener('click', () => {
+// 			if (
+// 				nombre.value.length != 0 && 
+// 				dosis.value.length != 0 && 
+// 				frecuencia.value.length != 0
+// 			) {
+// 				let fragment = new DocumentFragment();
+// 				let template = document.getElementById('medic-template');
+// 				let list = document.getElementById('list');
 				
-				const clone = template.content.firstElementChild.cloneNode(true);
-				let textMedical = 
-					nombre.value + ', ' + 
-					dosis.value + ' ' +
-					unidad[unidad.selectedIndex].textContent + ' ' +
-					frecuencia.value;
-				clone.querySelector('[name="nombre"]').textContent = textMedical;
-				clone.querySelector('[name="medical-M-new[]"]').value = textMedical;
-				clone.querySelector('[name="drop"]').addEventListener('click', () => {
-					clone.remove();
-				});
-				fragment.appendChild(clone);
-				list.appendChild(fragment);
-				nombre.value = '';
-				dosis.value = '';
-				unidad.options[0].selected = true;
-				frecuencia.value = '';
-			} else {
-				nombre.focus();
-			}
-		});
-	}
-}
+// 				const clone = template.content.firstElementChild.cloneNode(true);
+// 				let textMedical = 
+// 					nombre.value + ', ' + 
+// 					dosis.value + ' ' +
+// 					unidad[unidad.selectedIndex].textContent + ' ' +
+// 					frecuencia.value;
+// 				clone.querySelector('[name="nombre"]').textContent = textMedical;
+// 				clone.querySelector('[name="medical-M-new[]"]').value = textMedical;
+// 				clone.querySelector('[name="drop"]').addEventListener('click', () => {
+// 					clone.remove();
+// 				});
+// 				fragment.appendChild(clone);
+// 				list.appendChild(fragment);
+// 				nombre.value = '';
+// 				dosis.value = '';
+// 				unidad.options[0].selected = true;
+// 				frecuencia.value = '';
+// 			} else {
+// 				nombre.focus();
+// 			}
+// 		});
+// 	}
+// }
 
 // prescription(
 // 	document.getElementById('nombre-M-new'), 

@@ -1,12 +1,12 @@
 <?php
 	class Controlador{
 		#Traer plantilla al index.
-		public function getPlantilla(){
+		static public function getPlantilla(){
 			include 'vista/Plantilla.php';
 		}
 		
 		#Traer las vistas.
-		public function getPaginaCtl(){
+		static public function getPaginaCtl(){
 			if (isset($_GET["pagina"])) {
 				$pagina = $_GET["pagina"];
 			}else{
@@ -16,181 +16,194 @@
 			include $respuesta;
 		}
 
-		#Seleccionar correo electrónico del cliente o usuario para editar.
-		public function seleccionarCorreoCtl($correoId){
-			$respuesta = CRUD::seleccionarCorreoBD($correoId);
+		#Seleccionar correo electrónico del paciente o usuario para editar.
+		static public function selCorreoCtl($idCorreo){
+			$respuesta = CRUD::selCorreoBD($idCorreo);
 			return $respuesta;
 		}
 		
-		#Seleccionar teléfono del cliente o usuario para editar.
-		public function seleccionarTelefonoCtl($telefonoId){
-			$respuesta = CRUD::seleccionarTelefonoBD($telefonoId);
+		#Seleccionar teléfono del paciente o usuario para editar.
+		static public function selTelefonoCtl($idTelefono){
+			$respuesta = CRUD::selTelefonoBD($idTelefono);
 			return $respuesta;
 		}
 
-		#Seleccionar domicili del cliente o usuario para editar.
-		public function seleccionarDomicilioCtl($domicilioId){
-			$respuesta = CRUD::seleccionarDomicilioBD($domicilioId);
+		#Seleccionar domicili del paciente o usuario para editar.
+		static public function selDomicilioCtl($idDomicilio){
+			$respuesta = CRUD::selDomicilioBD($idDomicilio);
 			return $respuesta;
 		}
 
-		#Seleccionar todos los correos electrónicos del cliente o usuario.
-		public function seleccionarCorreosCtl($clienteId){
-			$respuesta = CRUD::seleccionarCorreosBD($clienteId);
+		#Seleccionar todos los correos electrónicos del paciente o usuario.
+		static public function selCorreosCtl($idPersona){
+			$respuesta = CRUD::selCorreosBD($idPersona);
 			return $respuesta;
 		}
 		
-		#Seleccionar todos los teléfonos del cliente o usuario.
-		public function seleccionarTelefonosCtl($clienteId){
-			$respuesta = CRUD::seleccionarTelefonosBD($clienteId);
+		#Seleccionar todos los teléfonos del paciente o usuario.
+		static public function selTelefonosCtl($idPersona){
+			$respuesta = CRUD::selTelefonosBD($idPersona);
 			return $respuesta;
 		}
 		
-		#Seleccionar todos los domicilios del cliente o usuario.
-		public function seleccionarDomiciliosCtl($clienteId){
-			$respuesta = CRUD::seleccionarDomiciliosBD($clienteId);
+		#Seleccionar todos los domicilios del paciente o usuario.
+		static public function selDomiciliosCtl($idPersona){
+			$respuesta = CRUD::selDomiciliosBD($idPersona);
 			return $respuesta;
 		}
 		
 		#Agregar nuevo correo electrónico.
-		public function nuevoCorreoCtl(){
+		static public function nuevoCorreoCtl(){
 			if (
-				isset($_POST["correo-new"]) && 
-				isset($_POST["add-email-id"])
+				isset($_POST["correo-n"]) && 
+				isset($_POST["correoIdPersona-n"])
 			) {
-				if (Validacion::correosElectronicos($_POST["correo-new"], 30)) {
-					$datosCorreoCliente = array(
-						"personaId" => $_POST["add-email-id"], 
-						"correo" => $_POST["correo-new"]
+				if (Validacion::correosElectronicos($_POST["correo-n"], 30)) {
+					$datosCorreo = array(
+						"idPersona" => $_POST["correoIdPersona-n"], 
+						"correo" => $_POST["correo-n"]
 					);
-					$hayCorreos = CRUD::hayCorreosBD($datosCorreoCliente["personaId"]);
-					$hayCorreos["correos"] == 0 ? $status = 2 : $status = 1;
-					$respuesta = CRUD::nuevoCorreoBD($datosCorreoCliente, $status);
-					if ($respuesta == true) {
-						echo '<script>toast("Correo electrónico agregado correctamente!");</script>';
+					$hayCorreos = CRUD::hayCorreosBD($datosCorreo["idPersona"]);
+					$hayCorreos["correos"] == 0 ? $estado = 2 : $estado = 1;
+					if ($hayCorreos["correos"] < 2) {
+						$respuesta = CRUD::nuevoCorreoBD($datosCorreo, $estado);
+						if ($respuesta == true) {
+							echo '<script>toast("¡Correo electrónico guardado!");</script>';
+						} else {
+							echo '<script>toast("Ocurrió un error al guardar el correo electrónico.");</script>';
+						}
 					} else {
-						echo '<script>toast("Error al agregar el correo electrónico.");</script>';
+						echo '<script>toast("Solo es posible guardar 2 correos electrónicos.");</script>';
 					}
 				} else {
-					echo '<script>toast("No válido usa el formato nombre@ejemplo.com");</script>';
+					echo '<script>toast("Correo electrónico no válido, ejemplo: Alguien@ejemplo.com");</script>';
 				}
 			}
 		}
 		
 		#Agregar nuevo teléfono.
-		public function nuevoTelefonoCtl(){
+		static public function nuevoTelefonoCtl(){
 			if (
-				isset($_POST["telefono-new"]) && 
-				isset($_POST["add-phone-id"]) && 
-				isset($_POST["tipotelefono-new"])
+				isset($_POST["telNumero-n"]) && 
+				isset($_POST["telTipo-n"]) && 
+				isset($_POST["telIdPersona-n"])
 			) {
-				if (Validacion::enterosSinIntervalo($_POST["telefono-new"], 10)) {
-					$datosTelefonoCliente = array(
-						"personaId" => $_POST["add-phone-id"], 
-						"telefono" => $_POST["telefono-new"], 
-						"tipo" => $_POST["tipotelefono-new"]
+				if (Validacion::enterosSinIntervalo($_POST["telNumero-n"], 10)) {
+					$datosTelefono = array(
+						"idPersona" => $_POST["telIdPersona-n"], 
+						"telefono" => $_POST["telNumero-n"], 
+						"tipo" => $_POST["telTipo-n"]
 					);
-					$hayTelefonos = CRUD::hayTelefonosBD($datosTelefonoCliente["personaId"]);
+					$hayTelefonos = CRUD::hayTelefonosBD($datosTelefono["idPersona"]);
 					$hayTelefonos["telefonos"] == 0 ? $status = 2 : $status = 1;
-					$respuesta = CRUD::nuevoTelefonoBD($datosTelefonoCliente, $status);
-					if ($respuesta) {
-						echo '<script>toast("Telefono agregado correctamente!");</script>';
-					}else{
-						echo '<script>toast("Error al agregar el teléfono.");</script>';
+					if ($hayTelefonos["telefonos"] < 2) {
+						$respuesta = CRUD::nuevoTelefonoBD($datosTelefono, $status);
+						if ($respuesta) {
+							echo '<script>toast("¡Telefono guardado!");</script>';
+						}else{
+							echo '<script>toast("Ocurrió un error al guardar el teléfono.");</script>';
+						}
+					} else {
+						echo '<script>toast("Solo es posible guardar 2 teléfonos.");</script>';
 					}
+					
 				} else {
-					echo '<script>toast("Debe contener solo 10 digitos númericos");</script>';
+					echo '<script>toast("El teléfono debe contener 10 digitos");</script>';
 				}
 			}
 		}
 
 		#Agregar nuevo domicilio.
-		public function nuevoDomicilioCtl(){
+		static public function nuevoDomicilioCtl(){
 			if (
-				isset($_POST["domicilio-estado-new"]) && 
-				isset($_POST["domicilio-municipio-new"]) && 
-				isset($_POST["domicilio-colonia-new"]) && 
-				isset($_POST["domicilio-calle-new"]) && 
-				isset($_POST["domicilio-numero-e-new"]) && 
-				isset($_POST["domicilio-numero-i-new"]) && 
-				isset($_POST["domicilio-calle1-new"]) && 
-				isset($_POST["domicilio-calle2-new"]) && 
-				isset($_POST["domicilio-referencia-new"]) && 
-				isset($_POST["add-address-id"])
+				isset($_POST["domEstado-n"]) && 
+				isset($_POST["domMunicipio-n"]) && 
+				isset($_POST["domColonia-n"]) && 
+				isset($_POST["domCalle-n"]) && 
+				isset($_POST["domNumExt-n"]) && 
+				isset($_POST["domNumInt-n"]) && 
+				isset($_POST["domCalle1-n"]) && 
+				isset($_POST["domCalle2-n"]) && 
+				isset($_POST["domRef-n"]) && 
+				isset($_POST["domIdPersona-n"])
 			) {
 				if (
-					Validacion::nombresPropiosNumerados($_POST["domicilio-estado-new"], 2, 50) && 
-					Validacion::nombresPropiosNumerados($_POST["domicilio-municipio-new"], 2, 50) && 
-					Validacion::nombresPropiosNumerados($_POST["domicilio-colonia-new"], 2, 50) && 
-					Validacion::nombresPropiosNumerados($_POST["domicilio-calle-new"], 2, 50) && 
-					Validacion::nombresPropiosNumerados($_POST["domicilio-calle1-new"], 0, 25) && 
-					Validacion::nombresPropiosNumerados($_POST["domicilio-calle2-new"], 0, 25) && 
-					Validacion::enterosEnIntervalo($_POST["domicilio-numero-e-new"], 0, 5) && 
-					Validacion::enterosEnIntervalo($_POST["domicilio-numero-i-new"], 0, 5) && 
-					Validacion::descripciones($_POST["domicilio-referencia-new"], 2, 50)
+					Validacion::nombresPropiosNumerados($_POST["domEstado-n"], 2, 50) && 
+					Validacion::nombresPropiosNumerados($_POST["domMunicipio-n"], 2, 50) && 
+					Validacion::nombresPropiosNumerados($_POST["domColonia-n"], 2, 50) && 
+					Validacion::nombresPropiosNumerados($_POST["domCalle-n"], 2, 50) && 
+					Validacion::nombresPropiosNumerados($_POST["domCalle1-n"], 0, 25) && 
+					Validacion::nombresPropiosNumerados($_POST["domCalle2-n"], 0, 25) && 
+					Validacion::enterosEnIntervalo($_POST["domNumExt-n"], 0, 5) && 
+					Validacion::enterosEnIntervalo($_POST["domNumInt-n"], 0, 5) && 
+					Validacion::descripciones($_POST["domRef-n"], 2, 50)
 				) {
-					$datosDomicilioCliente = array(
-						"personaId" => $_POST["add-address-id"], 
-						"estado" => $_POST["domicilio-estado-new"], 
-						"municipio" => $_POST["domicilio-municipio-new"], 
-						"colonia" => $_POST["domicilio-colonia-new"], 
-						"calle" => $_POST["domicilio-calle-new"], 
-						"numeroE" => $_POST["domicilio-numero-e-new"], 
-						"numeroI" => $_POST["domicilio-numero-i-new"], 
-						"calle1" => $_POST["domicilio-calle1-new"], 
-						"calle2" => $_POST["domicilio-calle2-new"], 
-						"referencia" => $_POST["domicilio-referencia-new"], 
+					$idPersona = $_POST["domIdPersona-n"];
+					$datosDomicilio = array(
+						"estado" => $_POST["domEstado-n"], 
+						"municipio" => $_POST["domMunicipio-n"], 
+						"colonia" => $_POST["domColonia-n"], 
+						"calle" => $_POST["domCalle-n"], 
+						"numExt" => $_POST["domNumExt-n"], 
+						"numInt" => $_POST["domNumInt-n"], 
+						"calle1" => $_POST["domCalle1-n"], 
+						"calle2" => $_POST["domCalle2-n"], 
+						"referencia" => $_POST["domRef-n"]
 					);
-					$hayDomicilios = CRUD::hayDomiciliosBD($datosDomicilioCliente["personaId"]);
-					$hayDomicilios["domicilios"] == 0 ? $status = 2 : $status = 1;
-					$respuesta = CRUD::nuevoDomicilioBD($datosDomicilioCliente, $status);
-					if ($respuesta) {
-						echo '<script>toast("Domicilio agregado correctamente");</script>';
-					}else{
-						echo '<script>toast("Error al agregar el Domicilio");</script>';
+					$domicilioJSON = json_encode($datosDomicilio);
+					$hayDomicilios = CRUD::hayDomiciliosBD($idPersona);
+					if ($hayDomicilios["domicilios"] < 2) {
+						$hayDomicilios["domicilios"] == 0 ? $status = 2 : $status = 1;
+						$respuesta = CRUD::nuevoDomicilioBD($idPersona, $domicilioJSON, $status);
+						if ($respuesta) {
+							echo '<script>toast("¡Domicilio guardado!");</script>';
+						}else{
+							echo '<script>toast("Ocurrió un error al guardar el Domicilio");</script>';
+						}
+					} else {
+						echo '<script>toast("Solo es posible guardar 2 domicilios.");</script>';
 					}
 				} else {
-					echo '<script>toast("Debe llenar todos los campos correctamente.");</script>';
+					echo '<script>toast("Por favor, llene los campos con el formato solicitado.");</script>';
 				}
 			}
 		}
 
 		#Actualizar el correo electrónico.
-		public function actualizarCorreoCtl($userId){
-			if (isset($_POST["correo-edit"]) && isset($_POST["correo-id-edit"])) {
-				if (Validacion::correosElectronicos($_POST["correo-edit"], 30)) {
-					$datosCorreoCliente = array (
-						"correoId" => $_POST["correo-id-edit"], 
-						"correo" => $_POST["correo-edit"]
+		static public function actualizarCorreoCtl(){
+			if (isset($_POST["correo-a"]) && isset($_POST["correoId-a"])) {
+				if (Validacion::correosElectronicos($_POST["correo-a"], 30)) {
+					$datosCorreo = array (
+						"correoId" => $_POST["correoId-a"], 
+						"correo" => $_POST["correo-a"]
 					);
-	
-					$respuesta = CRUD::actualizarCorreoBD($datosCorreoCliente);
+					$respuesta = CRUD::actualizarCorreoBD($datosCorreo);
 					if ($respuesta) {
-						echo '<script>toast("Correo electrónico actualizado");</script>';
+						echo '<script>toast("¡Correo electrónico guardado!");</script>';
 					}else{
-						echo '<script>toast("No se pudo actualizar el correo electrónico, revise sus datos");</script>';
+						echo '<script>toast("Ocurrió un error al guardar el correo electrónico.");</script>';
 					}
 				} else {
-					echo '<script>toast("No válido usa el formato nombre@ejemplo.com");</script>';
+					echo '<script>toast("No válido usa el formato Alguien@ejemplo.com");</script>';
 				}
 			}
 		}
 
 		#Actualizar el teléfono.
-		public function actualizarTelefonoCtl($userId){
+		static public function actualizarTelefonoCtl(){
 			if (
-				isset($_POST["telefono-edit"]) && 
-				isset($_POST["tipotelefono-edit"]) && 
-				isset($_POST["phone-id-edit"])
+				isset($_POST["telNumero-a"]) && 
+				isset($_POST["telTipo-a"]) && 
+				isset($_POST["telId-a"])
 			) {
-				if (Validacion::enterosSinIntervalo($_POST["telefono-edit"], 10)) {
-					$datosTelefonoCliente = array (
-						"telefonoId" => $_POST["phone-id-edit"], 
-						"numero" => $_POST["telefono-edit"], 
-						"tipo" => $_POST["tipotelefono-edit"]
+				if (Validacion::enterosSinIntervalo($_POST["telNumero-a"], 10)) {
+					$datosTelefono = array (
+						"idTelefono" => $_POST["telId-a"], 
+						"numero" => $_POST["telNumero-a"], 
+						"tipo" => $_POST["telTipo-a"]
 					);
 	
-					$respuesta = CRUD::actualizarTelefonoBD($datosTelefonoCliente);
+					$respuesta = CRUD::actualizarTelefonoBD($datosTelefono);
 					if ($respuesta) {
 						echo '<script>toast("Teléfono actualizado");</script>';
 					}else{
@@ -203,44 +216,44 @@
 		}
 		
 		#Actualizar el domicilio.
-		public function actualizarDomicilioCtl($userId){
+		static public function actualizarDomicilioCtl(){
 			if (
-				isset($_POST["domicilio-estado-edit"]) && 
-				isset($_POST["domicilio-municipio-edit"]) && 
-				isset($_POST["domicilio-colonia-edit"]) && 
-				isset($_POST["domicilio-calle-edit"]) && 
-				isset($_POST["domicilio-numero-e-edit"]) && 
-				isset($_POST["domicilio-numero-i-edit"]) && 
-				isset($_POST["domicilio-calle1-edit"]) && 
-				isset($_POST["domicilio-calle2-edit"]) && 
-				isset($_POST["domicilio-referencia-edit"]) && 
-				isset($_POST["address-id-edit"])
+				isset($_POST["domEstado-a"]) && 
+				isset($_POST["domMunicipio-a"]) && 
+				isset($_POST["domColonia-a"]) && 
+				isset($_POST["domCalle-a"]) && 
+				isset($_POST["domNumExt-a"]) && 
+				isset($_POST["domNumInt-a"]) && 
+				isset($_POST["domCalle1-a"]) && 
+				isset($_POST["domCalle2-a"]) && 
+				isset($_POST["domRef-a"]) && 
+				isset($_POST["domId-a"])
 			) {
 				if (
-					Validacion::nombresPropiosNumerados($_POST["domicilio-estado-edit"], 2, 50) && 
-					Validacion::nombresPropiosNumerados($_POST["domicilio-municipio-edit"], 2, 50) && 
-					Validacion::nombresPropiosNumerados($_POST["domicilio-colonia-edit"], 2, 50) && 
-					Validacion::nombresPropiosNumerados($_POST["domicilio-calle-edit"], 2, 50) && 
-					Validacion::nombresPropiosNumerados($_POST["domicilio-calle1-edit"], 0, 25) && 
-					Validacion::nombresPropiosNumerados($_POST["domicilio-calle2-edit"], 0, 25) && 
-					Validacion::enterosEnIntervalo($_POST["domicilio-numero-e-edit"], 0, 5) && 
-					Validacion::enterosEnIntervalo($_POST["domicilio-numero-i-edit"], 0, 5) && 
-					Validacion::descripciones($_POST["domicilio-referencia-edit"], 2, 50)
+					Validacion::nombresPropiosNumerados($_POST["domEstado-a"], 2, 50) && 
+					Validacion::nombresPropiosNumerados($_POST["domMunicipio-a"], 2, 50) && 
+					Validacion::nombresPropiosNumerados($_POST["domColonia-a"], 2, 50) && 
+					Validacion::nombresPropiosNumerados($_POST["domCalle-a"], 2, 50) && 
+					Validacion::nombresPropiosNumerados($_POST["domCalle1-a"], 0, 25) && 
+					Validacion::nombresPropiosNumerados($_POST["domCalle2-a"], 0, 25) && 
+					Validacion::enterosEnIntervalo($_POST["domNumExt-a"], 0, 5) && 
+					Validacion::enterosEnIntervalo($_POST["domNumInt-a"], 0, 5) && 
+					Validacion::descripciones($_POST["domRef-a"], 2, 50)
 				) {
-					$datosDomicilioCliente = array(
-						"domicilioId" => $_POST["address-id-edit"], 
-						"estado" => $_POST["domicilio-estado-edit"], 
-						"municipio" => $_POST["domicilio-municipio-edit"], 
-						"colonia" => $_POST["domicilio-colonia-edit"], 
-						"calle" => $_POST["domicilio-calle-edit"], 
-						"numeroE" => $_POST["domicilio-numero-e-edit"], 
-						"numeroI" => $_POST["domicilio-numero-i-edit"], 
-						"calle1" => $_POST["domicilio-calle1-edit"], 
-						"calle2" => $_POST["domicilio-calle2-edit"], 
-						"referencia" => $_POST["domicilio-referencia-edit"], 
+					$idDomicilio = $_POST["domId-a"];
+					$datosDomicilio = array(
+						"estado" => $_POST["domEstado-a"], 
+						"municipio" => $_POST["domMunicipio-a"], 
+						"colonia" => $_POST["domColonia-a"], 
+						"calle" => $_POST["domCalle-a"], 
+						"numExt" => $_POST["domNumExt-a"], 
+						"numInt" => $_POST["domNumInt-a"], 
+						"calle1" => $_POST["domCalle1-a"], 
+						"calle2" => $_POST["domCalle2-a"], 
+						"referencia" => $_POST["domRef-a"]
 					);
-	
-					$respuesta = CRUD::actualizarDomicilioBD($datosDomicilioCliente);
+					$domicilioJSON = json_encode($datosDomicilio);
+					$respuesta = CRUD::actualizarDomicilioBD($idDomicilio, $domicilioJSON);
 					if ($respuesta) {
 						echo '<script>toast("Domicilio actualizado");</script>';
 					}else{
@@ -252,12 +265,51 @@
 			}
 		}
 		
+		#Deshabilitar un correo electrónico.
+		static public function eliminarCorreoCtl(){
+			if (isset($_POST["correoId-e"])) {
+				$idCorreo = $_POST["correoId-e"];
+				$respuesta = CRUD::eliminarCorreoBD($idCorreo);
+				if ($respuesta) {
+					echo '<script>toast("¡Correo electrónico eliminado!");</script>';
+				}else{
+					echo '<script>toast("Ocurrió un error al eliminar el correo electrónico.");</script>';
+				}
+			}
+		}
+		
+		#Deshabilitar un teléfono.
+		static public function eliminarTelefonoCtl(){
+			if (isset($_POST["telId-e"])) {
+				$idTelefono = $_POST["telId-e"];
+				$respuesta = CRUD::eliminarTelefonoBD($idTelefono);
+				if ($respuesta) {
+					echo '<script>toast("¡Teléfono eliminado!");</script>';
+				}else{
+					echo '<script>toast("Ocurrió un error al eliminar el teléfono.");</script>';
+				}
+			}
+		}
+
+		#Deshabilitar un domicilio.
+		static public function eliminarDomicilioCtl(){
+			if (isset($_POST["domId-e"])) {
+				$idDomicilio = $_POST["domId-e"];
+				$respuesta = CRUD::eliminarDomicilioBD($idDomicilio);
+				if ($respuesta) {
+					echo '<script>toast("¡Domicilio eliminado!");</script>';
+				}else{
+					echo '<script>toast("Ocurrió un error al eliminar el domicilio.");</script>';
+				}
+			}
+		}
+		
 		#Deshabilitar uno o más correos electrónicos de clientes o usuarios.
-		public function eliminarCorreosCtl($correosEliminar){
+		static public function eliminarCorreosCtl($correos){
 			$respuestas = array();
 			$conclusion = true;
-			for ($i = 0; $i < sizeof($correosEliminar); $i++) {
-				$respuesta = CRUD::eliminarCorreoBD($correosEliminar[$i]);
+			for ($i = 0; $i < sizeof($correos); $i++) {
+				$respuesta = CRUD::eliminarCorreoBD($correos[$i]);
 				if ($respuesta == false) {
 					$respuestas[$i] = false;
 				}
@@ -272,11 +324,11 @@
 		}
 		
 		#Deshabilitar uno o más teléfonos de clientes o usuarios.
-		public function eliminarTelefonosCtl($telefonosEliminar){
+		static public function eliminarTelefonosCtl($telefonos){
 			$respuestas = array();
 			$conclusion = true;
-			for ($i = 0; $i < sizeof($telefonosEliminar); $i++) {
-				$respuesta = CRUD::eliminarTelefonoBD($telefonosEliminar[$i]);
+			for ($i = 0; $i < sizeof($telefonos); $i++) {
+				$respuesta = CRUD::eliminarTelefonoBD($telefonos[$i]);
 				if ($respuesta == false) {
 					$respuestas[$i] = false;
 				}
@@ -291,11 +343,11 @@
 		}
 		
 		#Deshabilitar uno o más domicilios de clientes o usuarios.
-		public function eliminarDomiciliosCtl($domiciliosEliminar){
+		static public function eliminarDomiciliosCtl($domicilios){
 			$respuestas = array();
 			$conclusion = true;
-			for ($i = 0; $i < sizeof($domiciliosEliminar); $i++) {
-				$respuesta = CRUD::eliminarDomicilioBD($domiciliosEliminar[$i]);
+			for ($i = 0; $i < sizeof($domicilios); $i++) {
+				$respuesta = CRUD::eliminarDomicilioBD($domicilios[$i]);
 				if ($respuesta == false) {
 					$respuestas[$i] = false;
 				}
@@ -310,8 +362,8 @@
 		}
 
 		#Establecer información de contacto de cliente o ususario como principal.
-		public function asMainElementCtl($elementId, $tabla) {
-			$respuesta = CRUD::asMainElementBD($elementId, $tabla);
+		static public function asMainElementCtl($idElemento, $tabla) {
+			$respuesta = CRUD::asMainElementBD($idElemento, $tabla);
 			return $respuesta;
 		}
 	}

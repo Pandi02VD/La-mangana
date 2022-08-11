@@ -1,6 +1,10 @@
 <?php 
 	session_start();
 	date_default_timezone_set('America/Mexico_City');
+	$page = '';
+	if (isset($_GET["pagina"])) {
+		$page = $_GET["pagina"];
+	}
 ?>
 
 <!DOCTYPE html>
@@ -24,16 +28,21 @@
 		<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;500;600&family=Nunito+Sans:wght@300;400;700&family=Roboto:wght@100;400&display=swap" rel="stylesheet">
 		
 		<!-- Estilos -->
-		<link rel="stylesheet" href="css/morris.css">
-		<!-- <link rel="stylesheet" href="css/Estilo.css"> -->
-		<link rel="stylesheet" href="css/Estilos.css">
+		<?php if($page != "HistoriaMedica") : ?>
+			<link rel="stylesheet" href="css/Estilos.css">
+		<?php endif ?>
+
+		<!-- API Google Places -->
+		<script src="https://maps.googleapis.com/maps/api/js?key=&libraries=places"></script>
 
 		<!-- Notificaciones -->
 		<script src="js/Notificaciones.js"></script>
 	</head>
 	<body>
 		<header>
-			<?php include "vista/modulo/Navegacion.php"; ?>
+			<?php
+				$page != "HistoriaMedica" ? include "vista/modulo/Navegacion.php" : null ; 
+			?>
 		</header>
 		<main>
 			<?php $ctrl = new Controlador(); ?>
@@ -42,13 +51,5 @@
 		<footer></footer>
 	</body>
 	<!-- Scripts -->
-	<script src="js/Pagina.js"></script>
-	<script src="js/All.js"></script>
-	<!-- <script src="js/Datos.js"></script> -->
-	<!-- <script src="js/Graficas.js"></script> -->
-	<!-- <script src="js/ExcelExportar.js"></script> -->
-	<!-- <script src="js/JQueryAcciones.js"></script> -->
-	<script src="js/Validaciones.js"></script>
-	<script src="js/Interactividad.js"></script>
-	<!-- <script src="js/CronoAcciones.js"></script> -->
+	<script src="js/All.js" type="module"></script>
 </html>

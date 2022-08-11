@@ -13,7 +13,7 @@
 				<label class="labels" for="usuario">Nombre de usuario</label>
 			</div>
 			<div class="i__group">
-				<input class="textfield pwd" type="password" id="contrasena" name="contrasena">
+				<input class="textfield pwd" type="password" id="contrasena" name="contrasena" autocomplete="on">
 				<label class="labels" for="contrasena">Contraseña</label>
 			</div>
 			<div>

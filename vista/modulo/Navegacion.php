@@ -19,6 +19,9 @@
 			<?php if($login) { ?>
 				<a class="link-btn" id="Inicio" href="Inicio">Inicio</a>
 				<a class="link-btn" id="Agenda" href="Agenda">Agenda</a>
+				<a class="link-btn" id="Pacientes" href="Pacientes">Pacientes</a>
+				<a class="link-btn" id="Usuarios" href="Usuarios">Usuarios</a>
+				<a class="link-btn" id="Configuracion" href="Configuracion">Configuración</a>
 				<a class="link-btn" id="Salir" href="Salir">Salir</a>
 			<?php } else { ?>
 				<a class="link-btn" id="IniciarSesion" href="IniciarSesion">Iniciar Sesion</a>
